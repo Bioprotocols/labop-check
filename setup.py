@@ -1,18 +1,16 @@
-import subprocess
-
-from setuptools import setup, find_packages
-import sys
+"""
+Setup script
+"""
 import os
 
+from setuptools import setup, find_packages
 
-def pip_install(url):
-    subprocess.check_output([sys.executable, '-m', 'pip', 'install', url])
 
 def _post_install():
     print("Installing z3...")
     os.system("pysmt-install --z3 --confirm-agreement")
     os.system("export PYSMT_CYTHON=0")
-    #PYSMT_CYTHON = 0
+    # PYSMT_CYTHON = 0
 
 
 setup(name='paml_check',
@@ -23,7 +21,7 @@ setup(name='paml_check',
       author_email='dbryce@sift.net',
       license='MIT',
       packages=find_packages('src'),
-      package_dir={'':'src'},
+      package_dir={'': 'src'},
       install_requires=["pysmt",
                         "paml",
                         "sbol3"
