@@ -1,0 +1,9 @@
+/src/paml_check.egg-info/
+/env/
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/paml-check.iml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/vcs.xml
+/.idea/pylint.xml
