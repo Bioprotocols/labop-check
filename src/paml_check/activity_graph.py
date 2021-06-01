@@ -1,9 +1,16 @@
+import math
+
 import paml
+import sbol3
+import tyto
 
 from paml_check.constraints import \
     binary_temporal_constraint, \
     join_constraint, \
-    unary_temporal_constaint
+    unary_temporal_constaint, \
+    anytime_before, \
+    determine_time_constraint, \
+    duration_constraint
 import pysmt
 import pysmt.shortcuts
 
@@ -19,8 +26,10 @@ class ActivityGraph:
         Value = make_paml_uri("Value")
         PrimitiveExecutable = make_paml_uri("PrimitiveExecutable")
 
-    def __init__(self, doc):
+    def __init__(self, doc, epsilon=0.0001, infinity=10e10):
         self.doc = doc
+        self.epsilon = epsilon
+        self.infinity = infinity
         self.insert_func_map = {
             self.URI.Join: self._insert_join,
             self.URI.Fork: self._insert_fork,
@@ -36,12 +45,17 @@ class ActivityGraph:
         self.forks = {}
         self.joins = {}
         self.uri_to_node_uri_map = {}
+        self.protocols = {}
         self.edges = []
         self._process_doc()
+
+        ## Variables used to link solutions back to the doc
+        self.var_to_node = {} # SMT variable to graph node map
 
     def _process_doc(self):
         protocols = self.doc.find_all(lambda obj: isinstance(obj, paml.Protocol))
         for protocol in protocols:
+            self.protocols[protocol.identity] = protocol
             for activity in protocol.activities:
                 self.insert_activity(activity)
             for flow in protocol.flows:
@@ -77,7 +91,19 @@ class ActivityGraph:
         self.nodes[end] = activity
         self.uri_to_node_uri_map[end] = end
 
-        self.edges.append((start, end))
+        start_time = activity.start.value if hasattr(activity, "start") else None
+        end_time = activity.end.value if hasattr(activity, "end") else None
+        duration = activity.duration.value if hasattr(activity, "duration") else None
+
+        difference = [[self.epsilon, math.inf]]
+        if duration:
+            difference.append([duration.value, duration.value])
+        if start_time and end_time:
+            d = end_time.value - start_time.value
+            difference.append([d, d])
+        intersected_difference = ActivityGraph._intersect(difference)
+
+        self.edges.append((start, [intersected_difference], end))
 
         if not hasattr(activity, 'input'):
             raise Exception(f"_insert_primitive_executable failed. No input pins found on: {exec_id}")
@@ -88,11 +114,28 @@ class ActivityGraph:
         for output in activity.output:
             self.uri_to_node_uri_map[output.identity] = end
 
+    def _intersect(difference):
+        """
+        Compute the intersection of intervals appearing in the difference list
+        :return: interval
+        """
+        interval = None
+        for d in difference:
+            if not interval:
+                interval = d
+            else:
+                interval[0] = d[0] if interval[0] <= d[0] and d[0] <= interval[1] else interval[0]
+                interval[1] = d[1] if interval[0] <= d[1] and d[1] <= interval[1] else interval[1]
+        return interval
+
     def _make_exec_start(self, exec_id):
         return f"{exec_id}#start"
 
     def _make_exec_end(self, exec_id):
         return f"{exec_id}#end"
+
+    def _make_exec_duration(self, exec_id):
+        return f"{exec_id}#duration"
 
     def insert_activity(self, activity):
         type_uri = activity.type_uri
@@ -143,7 +186,20 @@ class ActivityGraph:
             sink_id = self._make_exec_start(sink_id)
         source = self._get_node_uri_for_uri(source_id)
         sink = self._get_node_uri_for_uri(sink_id)
-        self.edges.append((source, sink))
+
+        ## This constraint assumes that it connects a source's end time to a sink's start time
+        source_node = self.nodes[source]
+        sink_node = self.nodes[sink]
+        source_time = source_node.end.value if hasattr(source_node, "end") and hasattr(source_node.end, "value") else None
+        sink_time = sink_node.start.value if hasattr(sink_node, "start") and hasattr(sink_node.start, "value") else None
+
+        difference = [[0.0, math.inf]]
+        if source_time and sink_time:
+            d = end_time.value - start_time.value
+            difference.append([d, d])
+        intersected_difference = ActivityGraph._intersect(difference)
+
+        self.edges.append((source, [intersected_difference], sink))
 
     def find_fork_groups(self):
         fork_groups = {f: [] for f in self.forks}
@@ -155,10 +211,9 @@ class ActivityGraph:
 
     def find_join_groups(self):
         join_groups = {j: [] for j in self.joins}
-        for pair in self.edges:
-            sink = pair[1]
+        for (source, _, sink) in self.edges:
             if sink in join_groups:
-                join_groups[sink].append(pair[0])
+                join_groups[sink].append(source)
         return join_groups
 
     def print_debug(self):
@@ -198,34 +253,43 @@ class ActivityGraph:
             print(f"  {pair[0]} ---> {pair[1]}")
         print("----------------")
 
+    def _substitute_infinity(self, interval_list):
+        for interval in interval_list:
+            interval[0] = self.infinity if interval[0] == math.inf else interval[0]
+            interval[1] = self.infinity if interval[1] == math.inf else interval[1]
+        return interval_list
+
     # TODO this is a partially implemented pass at constraint generation. It needs a bit of work still
     # but it should at least provide some hints as to where to final relevant information in this class
     def generate_constraints(self):
         # treat each node identity (uri) as a timepoint
         timepoints = list(self.nodes.keys())
-        t_inf = 10000.0
-        t_epsilon = 0.0001
+        duration_vars = {a : pysmt.shortcuts.Symbol(self._make_exec_duration(a),
+                                                    pysmt.shortcuts.REAL)
+                         for a in list(self.execs.keys())}
 
         timepoint_vars = {t: pysmt.shortcuts.Symbol(t, pysmt.shortcuts.REAL)
                           for t in timepoints}
 
+        self.var_to_node = { v: k for k, v in timepoint_vars.items() }
+
+        protocol_constraints = self._make_protocol_constraints(timepoint_vars)
+
         timepoint_var_domains = [pysmt.shortcuts.And(pysmt.shortcuts.GE(t, pysmt.shortcuts.Real(0.0)),
-                                                     pysmt.shortcuts.LE(t, pysmt.shortcuts.Real(t_inf)))
+                                                     pysmt.shortcuts.LE(t, pysmt.shortcuts.Real(self.infinity)))
                                  for _, t in timepoint_vars.items()]
 
-        # HACK put something here as a placeholder until I know where/how to source this info
-        def hack_time(t1, t2):
-            return [[0,t_inf]]
+        time_constraints = [binary_temporal_constraint(timepoint_vars[source],
+                                                       self._substitute_infinity(disjunctive_distance),
+                                                       timepoint_vars[sink])
+                            for (source, disjunctive_distance, sink) in self.edges]
 
-        # FIXME I am not certain where this information was expected to be sourced from
-        def determine_time_constraint(source_uri, sink_uri):
-            t1 = timepoint_vars[source_uri]
-            t2 = timepoint_vars[sink_uri]
-            # TODO determine dd
-            dd = hack_time(t1, t2)
-            return binary_temporal_constraint(t1, dd, t2)
-        time_constraints = [determine_time_constraint(edge[0], edge[1])
-                            for edge in self.edges]
+        duration_constraints = [
+            duration_constraint(timepoint_vars[self._make_exec_start(a)],
+                                timepoint_vars[self._make_exec_end(a)],
+                                v)
+            for a, v in duration_vars.items()
+        ]
 
         join_constraints = []                     
         join_groups = self.find_join_groups()
@@ -247,39 +311,85 @@ class ActivityGraph:
         #         )
         #     )
 
-        # HACK put something here as a placeholder until I know where/how to source this info
-        def hack_duration(start, end):
-            t_P1_s = "https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1#start"
-            t_P2_s = "https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2#start"
-            t_P3_s = "https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3#start"
-            if start == t_P1_s:
-                return [[3,3]]
-            if start == t_P2_s:
-                return [[3,3]]
-            if start == t_P3_s:
-                return [[10,10]]
-            return [[0,100]]
-
-
-        def determine_duration_constraint(exec_id):
-            start = self._make_exec_start(exec_id)
-            end = self._make_exec_end(exec_id)
-            t1 = timepoint_vars[start]
-            t2 = timepoint_vars[end]
-            # TODO determine dd
-            dd = hack_duration(start, end)
-            return binary_temporal_constraint(t1, dd, t2)
-        durations = [determine_duration_constraint(exec_id)
-                     for exec_id in self.execs]
-
         # TODO
         events = []
 
-        given_constraints = pysmt.shortcuts.And(timepoint_var_domains + time_constraints + join_constraints)
-        hand_coded_constraints = pysmt.shortcuts.And(durations + events)
-        formula = pysmt.shortcuts.And(
-            given_constraints,
-            hand_coded_constraints,
-        #    happening_timepoint_mappings
-        )
-        return formula
+        given_constraints = pysmt.shortcuts.And(timepoint_var_domains + \
+                                                time_constraints + \
+                                                join_constraints + \
+                                                protocol_constraints
+                                                #duration_constraints
+                                                )
+
+        return given_constraints
+
+    def _make_protocol_constraints(self, timepoint_vars):
+        """
+        Add constraints that:
+         - link initial to protocol start
+         - link final to protocol end
+         - link duration to end - start
+        :return:
+        """
+        protocol_start_constraints = []
+        protocol_end_constraints = []
+        protocol_duration_constraints = []
+
+        for protocol_id, protocol in self.protocols.items():
+            protocol_start_id = self._make_exec_start(protocol_id)
+            protocol_end_id = self._make_exec_end(protocol_id)
+            protocol_duration_id = self._make_exec_duration(protocol_id)
+
+            protocol_start_var = pysmt.shortcuts.Symbol(protocol_start_id,
+                                                        pysmt.shortcuts.REAL)
+            protocol_end_var = pysmt.shortcuts.Symbol(protocol_end_id,
+                                                      pysmt.shortcuts.REAL)
+            protocol_duration_var = pysmt.shortcuts.Symbol(protocol_duration_id,
+                                                           pysmt.shortcuts.REAL)
+
+            self.var_to_node[protocol_start_var] = protocol_start_id
+            self.var_to_node[protocol_end_var] = protocol_end_id
+            self.var_to_node[protocol_duration_var] = protocol_duration_id
+
+            protocol_duration_constraints.append(
+                duration_constraint(protocol_start_var,
+                                    protocol_end_var,
+                                    protocol_duration_var))
+
+
+            initial_node = protocol.initial()
+            start_constraint = pysmt.shortcuts.Equals(protocol_start_var,
+                                                      timepoint_vars[initial_node.identity])
+            protocol_start_constraints.append(start_constraint)
+
+            final_node = protocol.final()
+            end_constraint = pysmt.shortcuts.Equals(protocol_end_var,
+                                                      timepoint_vars[final_node.identity])
+            protocol_end_constraints.append(end_constraint)
+
+        return  protocol_start_constraints + protocol_end_constraints # + protocol_duration_constraints
+
+
+    def add_result(self, doc, result):
+        if result:
+            for var, value in result:
+                v = float(value.constant_value())
+                graph_node = self.var_to_node[var]
+                is_start = graph_node.endswith("#start")
+                is_end = graph_node.endswith("#end")
+                is_duration = graph_node.endswith("#duration")
+
+                doc_node = self.nodes[graph_node]
+                if is_start:
+                    doc_node.start.value = sbol3.Measure(v, tyto.OM.time)
+                elif is_end:
+                    doc_node.end.value = sbol3.Measure(v, tyto.OM.time)
+                elif is_duration:
+                    doc_node.duration.value = sbol3.Measure(v, tyto.OM.time)
+                else:
+                    doc_node.start.value = sbol3.Measure(v, tyto.OM.time)
+                    doc_node.end.value = sbol3.Measure(v, tyto.OM.time)
+                    doc_node.duration.value = sbol3.Measure(0.0, tyto.OM.time)
+
+        return doc
+
