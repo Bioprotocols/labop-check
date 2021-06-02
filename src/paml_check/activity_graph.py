@@ -250,9 +250,6 @@ class ActivityGraph:
     def generate_constraints(self):
         # treat each node identity (uri) as a timepoint
         timepoints = list(self.nodes.keys())
-        duration_vars = {a : pysmt.shortcuts.Symbol(self._make_exec_duration(a),
-                                                    pysmt.shortcuts.REAL)
-                         for a in list(self.execs.keys())}
 
         timepoint_vars = {t: pysmt.shortcuts.Symbol(t, pysmt.shortcuts.REAL)
                           for t in timepoints}
@@ -269,13 +266,6 @@ class ActivityGraph:
                                                        Interval.substitute_infinity(self.infinity, disjunctive_distance),
                                                        timepoint_vars[end.identity])
                             for (start, disjunctive_distance, end) in self.edges]
-
-        duration_constraints = [
-            duration_constraint(timepoint_vars[self._make_exec_start(a)],
-                                timepoint_vars[self._make_exec_end(a)],
-                                v)
-            for a, v in duration_vars.items()
-        ]
 
         join_constraints = []                     
         join_groups = self.find_join_groups()
@@ -301,8 +291,7 @@ class ActivityGraph:
                                                 time_constraints + \
                                                 join_constraints + \
                                                 protocol_constraints
-                                                #duration_constraints
-                                                )
+            )
 
         return given_constraints
 
@@ -311,33 +300,22 @@ class ActivityGraph:
         Add constraints that:
          - link initial to protocol start
          - link final to protocol end
-         - link duration to end - start
         :return:
         """
         protocol_start_constraints = []
         protocol_end_constraints = []
-        protocol_duration_constraints = []
 
         for _, protocol in self.protocols.items():
             protocol_start_id = protocol.start.identity
             protocol_end_id = protocol.end.identity
-            protocol_duration_id = protocol.duration.identity
 
             protocol_start_var = pysmt.shortcuts.Symbol(protocol_start_id,
                                                         pysmt.shortcuts.REAL)
             protocol_end_var = pysmt.shortcuts.Symbol(protocol_end_id,
                                                       pysmt.shortcuts.REAL)
-            protocol_duration_var = pysmt.shortcuts.Symbol(protocol_duration_id,
-                                                           pysmt.shortcuts.REAL)
 
             self.var_to_node[protocol_start_var] = protocol_start_id
             self.var_to_node[protocol_end_var] = protocol_end_id
-            self.var_to_node[protocol_duration_var] = protocol_duration_id
-
-            protocol_duration_constraints.append(
-                duration_constraint(protocol_start_var,
-                                    protocol_end_var,
-                                    protocol_duration_var))
 
 
             initial_node = protocol.initial()
@@ -352,7 +330,7 @@ class ActivityGraph:
                                                       timepoint_vars[final_end.identity])
             protocol_end_constraints.append(end_constraint)
 
-        return  protocol_start_constraints + protocol_end_constraints # + protocol_duration_constraints
+        return  protocol_start_constraints + protocol_end_constraints
 
 
     def add_result(self, doc, result):
