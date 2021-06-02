@@ -338,21 +338,34 @@ class ActivityGraph:
             for var, value in result:
                 v = float(value.constant_value())
                 graph_node = self.var_to_node[var]
-                is_start = graph_node.endswith("#start")
-                is_end = graph_node.endswith("#end")
-                is_duration = graph_node.endswith("#duration")
-
-                doc_node = self.nodes[graph_node]
-                if is_start:
-                    doc_node.start.value = sbol3.Measure(v, tyto.OM.time)
-                elif is_end:
-                    doc_node.end.value = sbol3.Measure(v, tyto.OM.time)
-                elif is_duration:
-                    doc_node.duration.value = sbol3.Measure(v, tyto.OM.time)
-                else:
-                    doc_node.start.value = sbol3.Measure(v, tyto.OM.time)
-                    doc_node.end.value = sbol3.Measure(v, tyto.OM.time)
-                    doc_node.duration.value = sbol3.Measure(0.0, tyto.OM.time)
+                doc_node = doc.find(graph_node) # FIXME use the self.uri_to_node, but fix it to include all the nodes
+                doc_node.value = sbol3.Measure(v, tyto.OM.time)
 
         return doc
 
+    def compute_durations(self, doc):
+        """
+        Use start and end times on activities to compute their durations,
+        including the overall protocol duration.
+        :param doc:
+        :return: doc
+        """
+
+        def calculate_duration(elt):
+            return sbol3.Measure(elt.end.value.value - elt.start.value.value,
+                                 tyto.OM.time)
+
+        for protocol_id, protocol in self.protocols.items():
+            # set protocol start and end times
+            protocol.start.value = sbol3.Measure(protocol.initial().start.value.value, tyto.OM.time)
+            protocol.end.value = sbol3.Measure(protocol.final().end.value.value, tyto.OM.time)
+            protocol.duration.value = calculate_duration(protocol)
+
+        for _, activity in self.uri_to_activity.items():
+            if hasattr(activity, "duration") and \
+               hasattr(activity, "start") and \
+               hasattr(activity.start, "value") and \
+               hasattr(activity, "end") and \
+               hasattr(activity.end, "value"):
+                activity.duration.value = calculate_duration(activity)
+        return doc

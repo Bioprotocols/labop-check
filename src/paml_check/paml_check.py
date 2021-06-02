@@ -16,8 +16,9 @@ def check_doc(doc):
 
     formula = graph.generate_constraints()
     result = check(formula)
-    doc_result = graph.add_result(doc, result)
-    return doc_result
+    doc = graph.add_result(doc, result)
+    doc = graph.compute_durations(doc)
+    return doc
 
 def check(formula):
     """
