@@ -247,6 +247,22 @@ class ActivityGraph:
             print(f"  {pair[0]} ---> {pair[1]}")
         print("----------------")
 
+        print("Durations")
+        handled = []
+        for _, activity in self.uri_to_activity.items():
+            id = activity.identity
+            if hasattr(activity, "duration") and \
+               hasattr(activity, "start") and \
+               hasattr(activity.start, "value") and \
+               hasattr(activity, "end") and \
+               hasattr(activity.end, "value"):
+                    if id not in handled:
+                        handled.append(id)
+                        print(f"  {id} : {activity.duration.value.value}")
+            else:
+                print(f"  {id} : N/A")
+        print("----------------")
+
     def generate_constraints(self):
         # treat each node identity (uri) as a timepoint
         timepoints = list(self.nodes.keys())
@@ -355,7 +371,7 @@ class ActivityGraph:
             return sbol3.Measure(elt.end.value.value - elt.start.value.value,
                                  tyto.OM.time)
 
-        for protocol_id, protocol in self.protocols.items():
+        for _, protocol in self.protocols.items():
             # set protocol start and end times
             protocol.start.value = sbol3.Measure(protocol.initial().start.value.value, tyto.OM.time)
             protocol.end.value = sbol3.Measure(protocol.final().end.value.value, tyto.OM.time)

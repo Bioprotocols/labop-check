@@ -8,19 +8,20 @@ import paml_check.paml_check as pc
 
 paml_spec = "https://raw.githubusercontent.com/SD2E/paml/time/paml/paml.ttl"
         
-# junk code to print out the results in a slightly easier to read output
-def make_entry(variable, activity, uri, value, prefix = ""):
-    v = value
-    if activity.start.identity == variable.identity:
-        s = f"{prefix}START {activity.identity} : {value}"
-    elif activity.end.identity == variable.identity:
-        s = f"{prefix}END {activity.identity} : {value}"
-    else:
-        s = f"{prefix}ERROR {uri} : {value}"
-    return (v, s)
 
 # junk code to print out the results in a slightly easier to read output
 def print_debug(result, graph):
+    def make_entry(variable, activity, uri, value, prefix = ""):
+        v = value
+        if activity.start.identity == variable.identity:
+            s = f"{prefix}S {activity.identity} : {value}"
+        elif activity.end.identity == variable.identity:
+            s = f"{prefix}E {activity.identity} : {value}"
+        elif activity.duration.identity == variable.identity:
+            s = f"{prefix}D {uri} : {value}"
+        else:
+            s = f"{prefix}ERR {uri} : {value}"
+        return (v, s)
     nodes = []
     protcols = []
     for (node, value) in result:
@@ -47,11 +48,13 @@ def generate_and_test_constraints(paml_file):
     doc = sbol3.Document()
     doc.read(paml_file, 'ttl')
     graph = ActivityGraph(doc)
-    graph.print_debug()
 
     formula = graph.generate_constraints()
     result = pc.check(formula)
     if result:
+        graph.add_result(doc, result)
+        graph.compute_durations(doc)
+        graph.print_debug()
         print_debug(result, graph)
         print("SAT")
     else:
