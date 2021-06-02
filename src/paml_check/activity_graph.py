@@ -11,8 +11,12 @@ from paml_check.constraints import \
     anytime_before, \
     determine_time_constraint, \
     duration_constraint
+from paml_check.utils import Interval
 import pysmt
 import pysmt.shortcuts
+
+def assert_type(obj, type):
+    assert isinstance(obj, type), f"{obj.identity} must be of type {type.__name__}"
 
 class ActivityGraph:
     class URI:
@@ -44,7 +48,8 @@ class ActivityGraph:
         self.execs = {}
         self.forks = {}
         self.joins = {}
-        self.uri_to_node_uri_map = {}
+        self.uri_to_node = {}
+        self.uri_to_activity = {}
         self.protocols = {}
         self.edges = []
         self._process_doc()
@@ -61,165 +66,154 @@ class ActivityGraph:
             for flow in protocol.flows:
                 self.insert_flow(flow)
 
-    def _get_node_uri_for_uri(self, uri):
-        if uri not in self.uri_to_node_uri_map:
-            raise Exception(f"get_activity_for_node failed. No node uri found for uri: {uri}")
-        return self.uri_to_node_uri_map[uri]
-
-    def get_node_for_uri(self, uri):
-        uri = self._get_node_uri_for_uri(uri)
-        if uri not in self.nodes:
-            raise Exception(f"get_activity_for_node failed. No node found for node uri: {uri}")
-        return self.nodes[uri]
-
-    def _insert_basic_node(self, activity):
-        node_id = activity.identity
-        # this holds a mapping of node uri to node object
-        self.nodes[node_id] = activity
-        # this holds a mappings of node associated uris to node uris
-        self.uri_to_node_uri_map[node_id] = node_id
-
-    def _insert_exec_node(self, activity):
-        exec_id = activity.identity
-        self.execs[exec_id] = activity
-
-        start = self._make_exec_start(exec_id)
-        self.nodes[start] = activity
-        self.uri_to_node_uri_map[start] = start
-
-        end = self._make_exec_end(exec_id)
-        self.nodes[end] = activity
-        self.uri_to_node_uri_map[end] = end
-
-        start_time = activity.start.value if hasattr(activity, "start") else None
-        end_time = activity.end.value if hasattr(activity, "end") else None
-        duration = activity.duration.value if hasattr(activity, "duration") else None
-
-        difference = [[self.epsilon, math.inf]]
-        if duration:
-            difference.append([duration.value, duration.value])
-        if start_time and end_time:
-            d = end_time.value - start_time.value
-            difference.append([d, d])
-        intersected_difference = ActivityGraph._intersect(difference)
-
-        self.edges.append((start, [intersected_difference], end))
-
-        if not hasattr(activity, 'input'):
-            raise Exception(f"_insert_primitive_executable failed. No input pins found on: {exec_id}")
-        if not hasattr(activity, 'output'):
-            raise Exception(f"_insert_primitive_executable failed. No output pins found on: {exec_id}")
-        for input in activity.input:
-            self.uri_to_node_uri_map[input.identity] = start
-        for output in activity.output:
-            self.uri_to_node_uri_map[output.identity] = end
-
-    def _intersect(difference):
-        """
-        Compute the intersection of intervals appearing in the difference list
-        :return: interval
-        """
-        interval = None
-        for d in difference:
-            if not interval:
-                interval = d
-            else:
-                interval[0] = d[0] if interval[0] <= d[0] and d[0] <= interval[1] else interval[0]
-                interval[1] = d[1] if interval[0] <= d[1] and d[1] <= interval[1] else interval[1]
-        return interval
-
-    def _make_exec_start(self, exec_id):
-        return f"{exec_id}#start"
-
-    def _make_exec_end(self, exec_id):
-        return f"{exec_id}#end"
-
-    def _make_exec_duration(self, exec_id):
-        return f"{exec_id}#duration"
-
     def insert_activity(self, activity):
+        """
+        Inserts the activity into the graph based on the value of its type_uri
+        """
         type_uri = activity.type_uri
         if type_uri not in self.insert_func_map:
             raise Exception(f"insert_activity failed due to unknown activity type: {type_uri}")
+        self.uri_to_activity[activity.identity] = activity
         return self.insert_func_map[type_uri](activity)
 
+    def insert_flow(self, flow):
+        # we could find the original objects through self.doc.find
+        # but it is probably faster to just use the dictionary lookup
+        # in self.nodes for the uri of both source and sink.
+        source_id = str(flow.source)
+        sink_id = str(flow.sink)
+        source = self.uri_to_activity[source_id]
+        sink = self.uri_to_activity[sink_id]
+
+        force_instantaneous = False
+
+        if isinstance(source.end, paml.TimeVariable):
+            start = source.end
+        else:
+            print(f"ERROR: {source.identity} is not a TimeVariable")
+            start = source
+            force_instantaneous = True
+
+        if isinstance(sink.start, paml.TimeVariable):
+            end = sink.start
+        else:
+            print(f"ERROR: {sink.identity} is not a TimeVariable")
+            end = sink
+            force_instantaneous = True
+
+        if force_instantaneous:
+            intersected_difference = [0.0, 0.0]
+        else:
+            # TimeVariable to Measure
+            start_measure = start.value
+            end_measure = end.value
+            # This constraint assumes that it connects a source's end time to a sink's start time
+            difference = [[0.0, math.inf]]
+            if start_measure and end_measure:
+                d = end_measure.value - start_measure.value
+                difference.append([d, d])
+            intersected_difference = Interval.intersect(difference)
+
+        # store the TimeVariables and the intersected difference as an edge
+        self.edges.append((start, [intersected_difference], end))
+
+
+    def _insert_variable(self, variable, type = None):
+        if type is not None:
+            assert_type(variable, paml.TimeVariable)
+        uri = variable.identity
+        self.nodes[uri] = variable
+        self.uri_to_node[uri] = variable
+        return variable
+
+    def _insert_time_range(self, activity, min_d):
+        # collect start, end, and duration variables
+        start = self._insert_variable(activity.start, paml.TimeVariable)
+        end = self._insert_variable(activity.end, paml.TimeVariable)
+        # duration = self._insert_variable(activity.duration, paml.TimeVariable)
+        duration = activity.duration
+        # the values of each TimeVariable are a Measure
+        start_measure = start.value
+        end_measure = end.value
+        duration_measure = duration.value
+        # determine the intersected interval
+        difference = [[min_d, math.inf]]
+        if duration_measure:
+            difference.append([duration_measure.value, duration_measure.value])
+        if start_measure and end_measure:
+            d = end_measure.value - start_measure.value
+            difference.append([d, d])
+        intersected_difference = Interval.intersect(difference)
+        # store the TimeVariables and the intersected difference as an edge
+        self.edges.append((start, [intersected_difference], end))
+        return start, end, duration
+
+    def _insert_executable(self, activity):
+        start, end, _ = self._insert_time_range(activity, self.epsilon)
+        assert hasattr(activity, 'input'), f"_insert_exec_node failed. No input pins found on: {activity.identity}"
+        assert hasattr(activity, 'output'), f"_insert_exec_node failed. No output pins found on: {activity.identity}"
+        for input in activity.input:
+            self.uri_to_node[input.identity] = start
+            self.uri_to_activity[input.identity] = activity
+        for output in activity.output:
+            self.uri_to_node[output.identity] = end
+            self.uri_to_activity[output.identity] = activity
+
     def _insert_join(self, activity):
-        self._insert_basic_node(activity)
-        self.joins[activity.identity] = activity
+        start, end, _ = self._insert_time_range(activity, 0)
+        self.joins[start.identity] = activity
+        return start, end
 
     def _insert_fork(self, activity):
-        self._insert_basic_node(activity)
-        self.forks[activity.identity] = activity
-
-    def _insert_final(self, activity):
-        self._insert_basic_node(activity)
-        # Final is a specialized join
-        self.joins[activity.identity] = activity
-        # FIXME is this a true limitation?
-        if self.final is not None:
-            raise Exception("Cannot support multiple Final nodes in graph")
-        self.final = activity
+        start, end, _ = self._insert_time_range(activity, 0)
+        self.forks[end.identity] = activity
+        return start, end
 
     def _insert_initial(self, activity):
-        self._insert_basic_node(activity)
         # Initial is a specialized fork
-        self.forks[activity.identity] = activity
+        start, _ = self._insert_fork(activity)
         # FIXME is this a true limitation?
         if self.initial is not None:
             raise Exception("Cannot support multiple Initial nodes in graph")
-        self.initial = activity
+        self.initial = start
+
+    def _insert_final(self, activity):
+        # Final is a specialized join
+        _, end = self._insert_join(activity)
+        # FIXME is this a true limitation?
+        if self.final is not None:
+            raise Exception("Cannot support multiple Final nodes in graph")
+        self.final = end
 
     def _insert_value(self, activity):
-        self._insert_basic_node(activity)
+        # TODO Value does not current have time values associated with it so
+        # treat it as a simple variable
+        self._insert_variable(activity)
 
     def _insert_primitive_executable(self, activity):
-        self._insert_exec_node(activity)
+        self._insert_executable(activity)
 
-    def insert_flow(self, flow):
-        source_id = str(flow.source)
-        sink_id = str(flow.sink)
-        # sources should pull from the end stage of an activity
-        if source_id in self.execs:
-            source_id = self._make_exec_end(source_id)
-        # sinks should pull from the start stage of an activity
-        if sink_id in self.execs:
-            sink_id = self._make_exec_start(sink_id)
-        source = self._get_node_uri_for_uri(source_id)
-        sink = self._get_node_uri_for_uri(sink_id)
-
-        ## This constraint assumes that it connects a source's end time to a sink's start time
-        source_node = self.nodes[source]
-        sink_node = self.nodes[sink]
-        source_time = source_node.end.value if hasattr(source_node, "end") and hasattr(source_node.end, "value") else None
-        sink_time = sink_node.start.value if hasattr(sink_node, "start") and hasattr(sink_node.start, "value") else None
-
-        difference = [[0.0, math.inf]]
-        if source_time and sink_time:
-            d = end_time.value - start_time.value
-            difference.append([d, d])
-        intersected_difference = ActivityGraph._intersect(difference)
-
-        self.edges.append((source, [intersected_difference], sink))
 
     def find_fork_groups(self):
         fork_groups = {f: [] for f in self.forks}
-        for pair in self.edges:
-            source = pair[0]
-            if source in fork_groups:
-                fork_groups[source].append(pair[1])
+        for (start, _, end) in self.edges:
+            start_id = start.identity
+            if start_id in fork_groups:
+                fork_groups[start_id].append(end)
         return fork_groups
 
     def find_join_groups(self):
         join_groups = {j: [] for j in self.joins}
-        for (source, _, sink) in self.edges:
-            if sink in join_groups:
-                join_groups[sink].append(source)
+        for (start, _, end) in self.edges:
+            end_id = end.identity
+            if end_id in join_groups:
+                join_groups[end_id].append(start)
         return join_groups
 
     def print_debug(self):
         print("URI to node map")
-        for uri in self.uri_to_node_uri_map:
-            print(f"  {uri} : {self.uri_to_node_uri_map[uri]}")
+        for uri in self.uri_to_node:
+            print(f"  {uri} : {self.uri_to_node[uri]}")
         print("----------------")
 
         print("Executable activities")
@@ -237,7 +231,7 @@ class ActivityGraph:
         for j in join_groups:
             print(f"  {j}")
             for join in join_groups[j]:
-                print(f"    - {join}")
+                print(f"    - {join.identity}")
         print("----------------")
 
         print("Forks")
@@ -245,7 +239,7 @@ class ActivityGraph:
         for f in fork_groups:
             print(f"  {f}")
             for fork in fork_groups[f]:
-                print(f"    - {fork}")
+                print(f"    - {fork.identity}")
         print("----------------")
 
         print("Edges")
@@ -253,14 +247,6 @@ class ActivityGraph:
             print(f"  {pair[0]} ---> {pair[1]}")
         print("----------------")
 
-    def _substitute_infinity(self, interval_list):
-        for interval in interval_list:
-            interval[0] = self.infinity if interval[0] == math.inf else interval[0]
-            interval[1] = self.infinity if interval[1] == math.inf else interval[1]
-        return interval_list
-
-    # TODO this is a partially implemented pass at constraint generation. It needs a bit of work still
-    # but it should at least provide some hints as to where to final relevant information in this class
     def generate_constraints(self):
         # treat each node identity (uri) as a timepoint
         timepoints = list(self.nodes.keys())
@@ -279,10 +265,10 @@ class ActivityGraph:
                                                      pysmt.shortcuts.LE(t, pysmt.shortcuts.Real(self.infinity)))
                                  for _, t in timepoint_vars.items()]
 
-        time_constraints = [binary_temporal_constraint(timepoint_vars[source],
-                                                       self._substitute_infinity(disjunctive_distance),
-                                                       timepoint_vars[sink])
-                            for (source, disjunctive_distance, sink) in self.edges]
+        time_constraints = [binary_temporal_constraint(timepoint_vars[start.identity],
+                                                       Interval.substitute_infinity(self.infinity, disjunctive_distance),
+                                                       timepoint_vars[end.identity])
+                            for (start, disjunctive_distance, end) in self.edges]
 
         duration_constraints = [
             duration_constraint(timepoint_vars[self._make_exec_start(a)],
@@ -293,11 +279,11 @@ class ActivityGraph:
 
         join_constraints = []                     
         join_groups = self.find_join_groups()
-        for j in join_groups:
+        for id, grp in join_groups.items():
             join_constraints.append(
                 join_constraint(
-                    timepoint_vars[j],
-                    [timepoint_vars[uri] for uri in join_groups[j]]
+                    timepoint_vars[id],
+                    [timepoint_vars[tp.identity] for tp in grp]
                 )
             )
 
@@ -310,9 +296,6 @@ class ActivityGraph:
         #             [timepoint_vars[uri] for uri in fork_groups[j]]
         #         )
         #     )
-
-        # TODO
-        events = []
 
         given_constraints = pysmt.shortcuts.And(timepoint_var_domains + \
                                                 time_constraints + \
@@ -335,10 +318,10 @@ class ActivityGraph:
         protocol_end_constraints = []
         protocol_duration_constraints = []
 
-        for protocol_id, protocol in self.protocols.items():
-            protocol_start_id = self._make_exec_start(protocol_id)
-            protocol_end_id = self._make_exec_end(protocol_id)
-            protocol_duration_id = self._make_exec_duration(protocol_id)
+        for _, protocol in self.protocols.items():
+            protocol_start_id = protocol.start.identity
+            protocol_end_id = protocol.end.identity
+            protocol_duration_id = protocol.duration.identity
 
             protocol_start_var = pysmt.shortcuts.Symbol(protocol_start_id,
                                                         pysmt.shortcuts.REAL)
@@ -358,13 +341,15 @@ class ActivityGraph:
 
 
             initial_node = protocol.initial()
+            initial_start = initial_node.start
             start_constraint = pysmt.shortcuts.Equals(protocol_start_var,
-                                                      timepoint_vars[initial_node.identity])
+                                                      timepoint_vars[initial_start.identity])
             protocol_start_constraints.append(start_constraint)
 
             final_node = protocol.final()
+            final_end = final_node.end
             end_constraint = pysmt.shortcuts.Equals(protocol_end_var,
-                                                      timepoint_vars[final_node.identity])
+                                                      timepoint_vars[final_end.identity])
             protocol_end_constraints.append(end_constraint)
 
         return  protocol_start_constraints + protocol_end_constraints # + protocol_duration_constraints

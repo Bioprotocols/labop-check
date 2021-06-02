@@ -1,11 +1,47 @@
 import os
 import sbol3
 import paml
+import operator
 
 from paml_check.activity_graph import ActivityGraph
 import paml_check.paml_check as pc
 
 paml_spec = "https://raw.githubusercontent.com/SD2E/paml/time/paml/paml.ttl"
+        
+# junk code to print out the results in a slightly easier to read output
+def make_entry(variable, activity, uri, value, prefix = ""):
+    v = value
+    if activity.start.identity == variable.identity:
+        s = f"{prefix}START {activity.identity} : {value}"
+    elif activity.end.identity == variable.identity:
+        s = f"{prefix}END {activity.identity} : {value}"
+    else:
+        s = f"{prefix}ERROR {uri} : {value}"
+    return (v, s)
+
+# junk code to print out the results in a slightly easier to read output
+def print_debug(result, graph):
+    nodes = []
+    protcols = []
+    for (node, value) in result:
+        uri = node.symbol_name()
+        v = (float)(value.constant_value())
+        if uri in graph.nodes:
+            variable = graph.nodes[uri]
+            activity = variable.get_parent()
+            nodes.append(make_entry(variable, activity, uri, v))
+        else:
+            variable = graph.doc.find(uri)
+            activity = variable.get_parent()
+            protcols.append(make_entry(variable, activity, uri, v, "PROTOCOL "))
+
+    print("--- Nodes ---")
+    for k in sorted(nodes, key=operator.itemgetter(0)):
+        print(k[1])
+    print("--- Protocol ---")
+    for k in sorted(protcols, key=operator.itemgetter(0)):
+        print(k[1])
+
 
 def generate_and_test_constraints(paml_file):
     doc = sbol3.Document()
@@ -16,7 +52,7 @@ def generate_and_test_constraints(paml_file):
     formula = graph.generate_constraints()
     result = pc.check(formula)
     if result:
-        print(result)
+        print_debug(result, graph)
         print("SAT")
     else:
         print("UNSAT")
