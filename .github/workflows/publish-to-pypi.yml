@@ -7,8 +7,8 @@ jobs:
   build-and-publish:
     name: Build and publish Python distributions to PyPI
     runs-on: ubuntu-20.04
-  steps:
-    - name: Dump GitHub context
+    steps:
+      - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
