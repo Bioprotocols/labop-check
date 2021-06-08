@@ -4,33 +4,31 @@ on:
       - 'releases/**'
 
 jobs:
-  build-and-publish:
-    name: Build and publish Python distributions to PyPI
+  one:
     runs-on: ubuntu-20.04
     steps:
       - name: Dump GitHub context
         env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
         run: echo "$GITHUB_CONTEXT"
-    # - name: Checkout repository
-    #   uses: actions/checkout@v2
-    #   with: 
-    #     ref: ${{ github.event.push.head.sha }}
-    # - name: Set up Python 3.9
-    #   uses: actions/setup-python@v2
-    #   with:
-    #     python-version: 3.9
-    # - name: Install pypa/build
-    #   run: >-
-    #     python -m
-    #     pip install
-    #     build
-    #     --user
-    # - name: Build a binary wheel and a source tarball
-    #   run: >-
-    #     python -m
-    #     build
-    #     --sdist
-    #     --wheel
-    #     --outdir dist/
-    #     .
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJSON(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJSON(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJSON(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+
