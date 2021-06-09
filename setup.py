@@ -15,7 +15,7 @@ def _post_install():
 
 
 setup(name='paml_check',
-      version='0.1',
+      version='0.1.1',
       description='PAML Checker',
       long_description=long_description,
       long_description_content_type='text/markdown',
