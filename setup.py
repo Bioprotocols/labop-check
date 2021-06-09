@@ -7,6 +7,7 @@ from setuptools import setup, find_packages
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+# TODO remove this?
 def _post_install():
     print("Installing z3...")
     os.system("pysmt-install --z3 --confirm-agreement")
@@ -15,7 +16,7 @@ def _post_install():
 
 
 setup(name='paml_check',
-      version='0.1.1',
+      version='0.1.2',
       description='PAML Checker',
       long_description=long_description,
       long_description_content_type='text/markdown',
@@ -28,7 +29,8 @@ setup(name='paml_check',
       install_requires=[
           # "paml" This requires that paml have a valid package name
           "pysmt",
-          "sbol3"
+          "sbol3",
+          "z3-solver"
       ],
       tests_require=["pytest"],
       zip_safe=False
