@@ -7,3 +7,6 @@
 /.idea/inspectionProfiles/Project_Default.xml
 /.idea/vcs.xml
 /.idea/pylint.xml
+
+/build/
+/dist/

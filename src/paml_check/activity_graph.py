@@ -211,57 +211,58 @@ class ActivityGraph:
         return join_groups
 
     def print_debug(self):
-        print("URI to node map")
-        for uri in self.uri_to_node:
-            print(f"  {uri} : {self.uri_to_node[uri]}")
-        print("----------------")
+        try:
+            print("URI to node map")
+            for uri in self.uri_to_node:
+                print(f"  {uri} : {self.uri_to_node[uri]}")
+            print("----------------")
 
-        print("Executable activities")
-        for exec in self.execs:
-            print(f"  {exec}")
-        print("----------------")
+            print("Executable activities")
+            for exec in self.execs:
+                print(f"  {exec}")
+            print("----------------")
 
-        print("Nodes")
-        for node in self.nodes:
-            print(f"  {node}")
-        print("----------------")
+            print("Nodes")
+            for node in self.nodes:
+                print(f"  {node}")
+            print("----------------")
 
-        print("Joins")
-        join_groups = self.find_join_groups()
-        for j in join_groups:
-            print(f"  {j}")
-            for join in join_groups[j]:
-                print(f"    - {join.identity}")
-        print("----------------")
+            print("Joins")
+            join_groups = self.find_join_groups()
+            for j in join_groups:
+                print(f"  {j}")
+                for join in join_groups[j]:
+                    print(f"    - {join.identity}")
+            print("----------------")
 
-        print("Forks")
-        fork_groups = self.find_fork_groups()
-        for f in fork_groups:
-            print(f"  {f}")
-            for fork in fork_groups[f]:
-                print(f"    - {fork.identity}")
-        print("----------------")
+            print("Forks")
+            fork_groups = self.find_fork_groups()
+            for f in fork_groups:
+                print(f"  {f}")
+                for fork in fork_groups[f]:
+                    print(f"    - {fork.identity}")
+            print("----------------")
 
-        print("Edges")
-        for pair in self.edges:
-            print(f"  {pair[0]} ---> {pair[1]}")
-        print("----------------")
+            print("Edges")
+            for pair in self.edges:
+                print(f"  {pair[0]} ---> {pair[1]}")
+            print("----------------")
 
-        print("Durations")
-        handled = []
-        for _, activity in self.uri_to_activity.items():
-            id = activity.identity
-            if hasattr(activity, "duration") and \
-               hasattr(activity, "start") and \
-               hasattr(activity.start, "value") and \
-               hasattr(activity, "end") and \
-               hasattr(activity.end, "value"):
-                    if id not in handled:
-                        handled.append(id)
-                        print(f"  {id} : {activity.duration.value.value}")
-            else:
-                print(f"  {id} : N/A")
-        print("----------------")
+            print("Durations")
+            handled = []
+            for _, activity in self.uri_to_activity.items():
+                id = activity.identity
+                if hasattr(activity, "duration") and \
+                hasattr(activity.duration, "value") and \
+                hasattr(activity.duration.value, "value"):
+                        if id not in handled:
+                            handled.append(id)
+                            print(f"  {id} : {activity.duration.value.value}")
+                else:
+                    print(f"  {id} : N/A")
+            print("----------------")
+        except Exception as e:
+            print("Error during print_debug: " + e)
 
     def generate_constraints(self):
         # treat each node identity (uri) as a timepoint
