@@ -1,9 +1,7 @@
 import os
 import sbol3
-import paml
 import operator
 
-from paml_check.activity_graph import ActivityGraph
 import paml_check.paml_check as pc
 
 paml_spec = "https://raw.githubusercontent.com/SD2E/paml/time/paml/paml.ttl"
@@ -43,30 +41,25 @@ def print_debug(result, graph):
     for k in sorted(protcols, key=operator.itemgetter(0)):
         print(k[1])
 
-
-def generate_and_test_constraints(paml_file):
+def get_doc_from_file(paml_file):
     doc = sbol3.Document()
     doc.read(paml_file, 'ttl')
-    graph = ActivityGraph(doc)
+    return doc
 
-    formula = graph.generate_constraints()
-    result = pc.check(formula)
-    if result:
-        graph.add_result(doc, result)
-        graph.compute_durations(doc)
-        graph.print_debug()
-        print_debug(result, graph)
-        print("SAT")
-    else:
-        print("UNSAT")
-    assert result
+
+def test_minimize_duration():
+    paml_file = os.path.join(os.getcwd(), 'resources/paml', 'igem_ludox_time_draft.ttl')
+    duration = pc.get_minimum_duration(get_doc_from_file(paml_file))
+    assert duration
 
 
 def test_generate_timed_constraints():
     paml_file = os.path.join(os.getcwd(), 'resources/paml', 'igem_ludox_time_draft.ttl')
-    generate_and_test_constraints(paml_file)
+    result = pc.check_doc(get_doc_from_file(paml_file))
+    assert result
 
 
 def test_generate_untimed_constraints():
     paml_file = os.path.join(os.getcwd(), 'resources/paml', 'igem_ludox_draft.ttl')
-    generate_and_test_constraints(paml_file)
+    result = pc.check_doc(get_doc_from_file(paml_file))
+    assert result

@@ -16,9 +16,19 @@ def check_doc(doc):
 
     formula = graph.generate_constraints()
     result = check(formula)
-    doc = graph.add_result(doc, result)
-    doc = graph.compute_durations(doc)
-    return doc
+    # doc = graph.add_result(doc, result)
+    # doc = graph.compute_durations(doc)
+    return result is not None
+
+def get_minimum_duration(doc):
+    """
+    Get minimum duration for each protocol in doc
+    :param doc:
+    :return: minimum duration dict, indexed by protocol id
+    """
+    graph = ActivityGraph(doc)
+    duration = graph.get_minimum_duration()
+    return duration
 
 def check(formula):
     """

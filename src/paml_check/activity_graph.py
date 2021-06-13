@@ -12,6 +12,8 @@ from paml_check.constraints import \
     determine_time_constraint, \
     duration_constraint
 from paml_check.utils import Interval
+from paml_check.minimize_duration import MinimizeDuration
+
 import pysmt
 import pysmt.shortcuts
 
@@ -56,6 +58,7 @@ class ActivityGraph:
 
         ## Variables used to link solutions back to the doc
         self.var_to_node = {} # SMT variable to graph node map
+        self.node_to_var = {} # Node to SMT variable
 
     def _process_doc(self):
         protocols = self.doc.find_all(lambda obj: isinstance(obj, paml.Protocol))
@@ -272,6 +275,7 @@ class ActivityGraph:
                           for t in timepoints}
 
         self.var_to_node = { v: k for k, v in timepoint_vars.items() }
+        self.node_to_var = {k: v for k, v in timepoint_vars.items()}
 
         protocol_constraints = self._make_protocol_constraints(timepoint_vars)
 
@@ -360,6 +364,22 @@ class ActivityGraph:
 
         return doc
 
+    def get_end_time_var(self, protocol):
+        return self.node_to_var[self.protocols[protocol].final().end.identity]
+
+    def get_duration(self, model, protocol):
+        """
+        Get the duration of protocol represented by model
+        :param model:
+        :return: value
+        """
+        duration = None
+        if model:
+            final_node_end_var = self.get_end_time_var(protocol)
+            duration = float(model[final_node_end_var].constant_value())
+        return duration
+
+
     def compute_durations(self, doc):
         """
         Use start and end times on activities to compute their durations,
@@ -386,3 +406,20 @@ class ActivityGraph:
                hasattr(activity.end, "value"):
                 activity.duration.value = calculate_duration(activity)
         return doc
+
+    def get_minimum_duration(self):
+        """
+        Find the minimum duration for the protocol.
+        Solver is SMT, so do a binary search on the duration bound.
+        :return: minimum duration
+        """
+
+        base_formula = self.generate_constraints()
+        result = pysmt.shortcuts.get_model(base_formula)
+        min_duration = {protocol: None for protocol in self.protocols}
+        if result:
+            for protocol in self.protocols:
+                supremum_duration = self.get_duration(result, protocol)
+                min_duration[protocol] = MinimizeDuration(base_formula, self, protocol).minimize(supremum_duration)
+
+        return min_duration
