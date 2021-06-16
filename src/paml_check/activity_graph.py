@@ -1,5 +1,4 @@
 import math
-
 import paml
 import sbol3
 import tyto
@@ -11,11 +10,17 @@ from paml_check.constraints import \
     anytime_before, \
     determine_time_constraint, \
     duration_constraint
+from paml_check.units import om_convert
 from paml_check.utils import Interval
 from paml_check.minimize_duration import MinimizeDuration
 
 import pysmt
 import pysmt.shortcuts
+
+# TODO move this to a more correct location
+ACTIVITY_DURATION = 'activityDuration'
+ACTIVITY_STARTED_AT_TIME = 'startedAtTime'
+ACTIVITY_ENDED_AT_TIME = 'endedAtTime'
 
 def assert_type(obj, type):
     assert isinstance(obj, type), f"{obj.identity} must be of type {type.__name__}"
@@ -32,8 +37,16 @@ class ActivityGraph:
         Value = make_paml_uri("Value")
         PrimitiveExecutable = make_paml_uri("PrimitiveExecutable")
 
-    def __init__(self, doc, epsilon=0.0001, infinity=10e10):
-        self.doc = doc
+    def __init__(self, doc: sbol3.Document, epsilon=0.0001, infinity=10e10, destructive=False):
+
+        if destructive:
+            self.doc = doc
+        else:
+            # TODO there may be a more efficient way to clone a sbol3 Document
+            # write the original doc to a string and then read it in as a new doc
+            self.doc = sbol3.Document()
+            self.doc.read_string(doc.write_string('ttl'), 'ttl')
+
         self.epsilon = epsilon
         self.infinity = infinity
         self.insert_func_map = {
@@ -54,6 +67,7 @@ class ActivityGraph:
         self.uri_to_activity = {}
         self.protocols = {}
         self.edges = []
+        self.time_constraints = {}
         self._process_doc()
 
         ## Variables used to link solutions back to the doc
@@ -61,18 +75,65 @@ class ActivityGraph:
         self.node_to_var = {} # Node to SMT variable
 
     def _process_doc(self):
+        sbol3.set_namespace('https://bbn.com/scratch/')
         protocols = self.doc.find_all(lambda obj: isinstance(obj, paml.Protocol))
+        # collect time constraints
+        for protocol in protocols:
+            for tc_ref in protocol.time_constraints:
+                tc = self.doc.find(tc_ref)
+                self.insert_time_constraint(tc)
+        # process graph
         for protocol in protocols:
             self.protocols[protocol.identity] = protocol
+            self.add_timing_properties(protocol)
             for activity in protocol.activities:
                 self.insert_activity(activity)
             for flow in protocol.flows:
                 self.insert_flow(flow)
 
+    def add_timing_properties(self, variable):
+        variable.start = paml.TimeVariable(
+            f"{variable.identity}/{ACTIVITY_STARTED_AT_TIME}",
+            time_of=variable,
+            time_property=sbol3.provenance.PROV_STARTED_AT_TIME,
+            value=None
+        )
+        variable.end = paml.TimeVariable(
+            f"{variable.identity}/{ACTIVITY_ENDED_AT_TIME}",
+            time_of=variable,
+            time_property=sbol3.provenance.PROV_ENDED_AT_TIME,
+            value=None
+        )
+        variable.duration = paml.Duration(
+            f"{variable.identity}/{ACTIVITY_DURATION}",
+            time_of=variable,
+            value=None
+        )
+        self.doc.add(variable.start)
+        self.doc.add(variable.end)
+        self.doc.add(variable.duration)
+
+        if variable.identity in self.time_constraints:
+            tc = self.time_constraints[variable.identity]
+            if ACTIVITY_STARTED_AT_TIME in tc:
+                variable.start.value = sbol3.Measure(tc[ACTIVITY_STARTED_AT_TIME], tyto.OM.second)
+            if ACTIVITY_ENDED_AT_TIME in tc:
+                variable.end.value = sbol3.Measure(tc[ACTIVITY_ENDED_AT_TIME], tyto.OM.second)
+            if ACTIVITY_DURATION in tc:
+                variable.duration.value = sbol3.Measure(tc[ACTIVITY_DURATION], tyto.OM.second)
+
+        if isinstance(variable, paml.PrimitiveExecutable):
+            pass
+        elif isinstance(variable, paml.Protocol):
+            pass
+        else:
+            variable.duration.value = sbol3.Measure(0.0, tyto.OM.second)
+
     def insert_activity(self, activity):
         """
         Inserts the activity into the graph based on the value of its type_uri
         """
+        self.add_timing_properties(activity)
         type_uri = activity.type_uri
         if type_uri not in self.insert_func_map:
             raise Exception(f"insert_activity failed due to unknown activity type: {type_uri}")
@@ -87,39 +148,35 @@ class ActivityGraph:
         sink_id = str(flow.sink)
         source = self.uri_to_activity[source_id]
         sink = self.uri_to_activity[sink_id]
-
-        force_instantaneous = False
-
-        if isinstance(source.end, paml.TimeVariable):
-            start = source.end
-        else:
-            print(f"ERROR: {source.identity} is not a TimeVariable")
-            start = source
-            force_instantaneous = True
-
-        if isinstance(sink.start, paml.TimeVariable):
-            end = sink.start
-        else:
-            print(f"ERROR: {sink.identity} is not a TimeVariable")
-            end = sink
-            force_instantaneous = True
-
-        if force_instantaneous:
-            intersected_difference = [0.0, 0.0]
-        else:
-            # TimeVariable to Measure
-            start_measure = start.value
-            end_measure = end.value
-            # This constraint assumes that it connects a source's end time to a sink's start time
-            difference = [[0.0, math.inf]]
-            if start_measure and end_measure:
-                d = end_measure.value - start_measure.value
-                difference.append([d, d])
-            intersected_difference = Interval.intersect(difference)
+        start = source.end
+        end = sink.start
+        # TimeVariable to Measure
+        start_measure = start.value
+        end_measure = end.value
+        # This constraint assumes that it connects a source's end time to a sink's start time
+        difference = [[0.0, math.inf]]
+        if start_measure and end_measure:
+            d = end_measure.value - start_measure.value
+            difference.append([d, d])
+        intersected_difference = Interval.intersect(difference)
 
         # store the TimeVariables and the intersected difference as an edge
         self.edges.append((start, [intersected_difference], end))
 
+    def insert_time_constraint(self, constraint):
+        def measure_to_time(meas):
+            return om_convert(meas.value, meas.unit, tyto.OM.second)
+
+        timeOf = str(constraint.time_of.identity)
+        if timeOf not in self.time_constraints:
+            self.time_constraints[timeOf] = {}
+
+        if isinstance(constraint, paml.TimeVariable):
+            self.time_constraints[timeOf][constraint.time_property] = measure_to_time(constraint.value)
+            return
+        if isinstance(constraint, paml.Duration):
+            self.time_constraints[timeOf][ACTIVITY_DURATION] = measure_to_time(constraint.value)
+            return
 
     def _insert_variable(self, variable, type = None):
         if type is not None:
@@ -131,8 +188,8 @@ class ActivityGraph:
 
     def _insert_time_range(self, activity, min_d):
         # collect start, end, and duration variables
-        start = self._insert_variable(activity.start, paml.TimeVariable)
-        end = self._insert_variable(activity.end, paml.TimeVariable)
+        start = self._insert_variable(activity.start)
+        end = self._insert_variable(activity.end)
         # duration = self._insert_variable(activity.duration, paml.TimeVariable)
         duration = activity.duration
         # the values of each TimeVariable are a Measure
@@ -189,9 +246,7 @@ class ActivityGraph:
         self.final = end
 
     def _insert_value(self, activity):
-        # TODO Value does not current have time values associated with it so
-        # treat it as a simple variable
-        self._insert_variable(activity)
+        self._insert_time_range(activity, 0)
 
     def _insert_primitive_executable(self, activity):
         self._insert_executable(activity)
@@ -248,7 +303,7 @@ class ActivityGraph:
 
             print("Edges")
             for pair in self.edges:
-                print(f"  {pair[0]} ---> {pair[1]}")
+                print(f"  {pair[0].identity} ---> {pair[2].identity}")
             print("----------------")
 
             print("Durations")

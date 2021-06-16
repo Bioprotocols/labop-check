@@ -4,6 +4,7 @@ Check a protocol for various properties, such as consistency
 import pysmt.shortcuts
 
 from paml_check.activity_graph import ActivityGraph
+from paml_check.utils import print_debug
 
 def check_doc(doc):
     """

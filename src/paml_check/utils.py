@@ -1,5 +1,6 @@
 import math
 from typing import List
+import operator
 
 class Interval:
     @staticmethod
@@ -24,3 +25,38 @@ class Interval:
             interval[0] = infinity if interval[0] == math.inf else interval[0]
             interval[1] = infinity if interval[1] == math.inf else interval[1]
         return interval_list
+      
+
+# junk code to print out the results in a slightly easier to read output
+def print_debug(result, graph):
+    def make_entry(variable, activity, uri, value, prefix = ""):
+        v = value
+        if activity.start.identity == variable.identity:
+            s = f"{prefix}S {activity.identity} : {value}"
+        elif activity.end.identity == variable.identity:
+            s = f"{prefix}E {activity.identity} : {value}"
+        elif activity.duration.identity == variable.identity:
+            s = f"{prefix}D {uri} : {value}"
+        else:
+            s = f"{prefix}ERR {uri} : {value}"
+        return (v, s)
+    nodes = []
+    protcols = []
+    for (node, value) in result:
+        uri = node.symbol_name()
+        v = (float)(value.constant_value())
+        if uri in graph.nodes:
+            variable = graph.nodes[uri]
+            activity = variable.get_parent()
+            nodes.append(make_entry(variable, activity, uri, v))
+        else:
+            variable = graph.doc.find(uri)
+            activity = variable.get_parent()
+            protcols.append(make_entry(variable, activity, uri, v, "PROTOCOL "))
+
+    print("--- Nodes ---")
+    for k in sorted(nodes, key=operator.itemgetter(0)):
+        print(k[1])
+    print("--- Protocol ---")
+    for k in sorted(protcols, key=operator.itemgetter(0)):
+        print(k[1])
