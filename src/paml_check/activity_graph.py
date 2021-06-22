@@ -35,6 +35,22 @@ class ActivityGraph:
         Final = make_paml_uri("Final")
         Initial = make_paml_uri("Initial")
         Value = make_paml_uri("Value")
+        AndConstraint = make_paml_uri("AndConstraint")
+        OrConstraint = make_paml_uri("OrConstraint")
+        XorConstraint = make_paml_uri("XorConstraint")
+        NotConstraint = make_paml_uri("NotConstraint")
+        Duration = make_paml_uri("Duration")
+        EqualsComparison = make_paml_uri("EqualsComparison")
+        LessThanComparison = make_paml_uri("LessThanComparison")
+        LessThanEqualComparison = make_paml_uri("LessThanEqualComparison")
+        GreaterThanComparison = make_paml_uri("GreaterThanComparison")
+        GreaterThanEqualComparison = make_paml_uri("GreaterThanEqualComparison")
+        Sum = make_paml_uri("SumExpression")
+        Difference = make_paml_uri("DifferenceExpression")
+        Product = make_paml_uri("ProductExpression")
+        Constant = make_paml_uri("ConstantExpression")
+        VariableExpression = make_paml_uri("VariableExpression")
+        Variable = make_paml_uri("TimeVariable")
         PrimitiveExecutable = make_paml_uri("PrimitiveExecutable")
 
     def __init__(self, doc: sbol3.Document, epsilon=0.0001, infinity=10e10, destructive=False):
@@ -57,6 +73,26 @@ class ActivityGraph:
             self.URI.Value: self._insert_value,
             self.URI.PrimitiveExecutable: self._insert_primitive_executable,
         }
+        self.constraint_func_map = {
+            self.URI.AndConstraint: self._convert_and_constraint,
+            self.URI.OrConstraint: self._convert_or_constraint,
+            self.URI.XorConstraint: self._convert_xor_constraint,
+            self.URI.NotConstraint: self._convert_not_constraint,
+            self.URI.Duration: self._convert_duration_constraint,
+            self.URI.EqualsComparison: self._convert_equals_constraint,
+            self.URI.LessThanEqualComparison: self._convert_less_than_equals_constraint,
+            self.URI.LessThanComparison: self._convert_less_than_constraint,
+            self.URI.GreaterThanEqualComparison: self._convert_greater_than_equals_constraint,
+            self.URI.GreaterThanComparison: self._convert_greater_than_constraint
+        }
+        self.expression_func_map = {
+            self.URI.Sum:  self._convert_sum,
+            self.URI.Difference: self._convert_difference,
+            self.URI.Product: self._convert_product,
+            self.URI.Constant: self._convert_constant,
+            self.URI.VariableExpression: self._convert_variable_expression,
+            self.URI.Variable: self._convert_variable
+        }
         self.initial = None
         self.final = None
         self.nodes = {}
@@ -77,11 +113,6 @@ class ActivityGraph:
     def _process_doc(self):
         sbol3.set_namespace('https://bbn.com/scratch/')
         protocols = self.doc.find_all(lambda obj: isinstance(obj, paml.Protocol))
-        # collect time constraints
-        for protocol in protocols:
-            for tc_ref in protocol.time_constraints:
-                tc = self.doc.find(tc_ref)
-                self.insert_time_constraint(tc)
         # process graph
         for protocol in protocols:
             self.protocols[protocol.identity] = protocol
@@ -90,6 +121,11 @@ class ActivityGraph:
                 self.insert_activity(activity)
             for flow in protocol.flows:
                 self.insert_flow(flow)
+        # collect time constraints
+        for protocol in protocols:
+            tc_ref = protocol.time_constraints
+            tc = self.doc.find(tc_ref)
+            self.time_constraints[protocol] = self.convert_time_constraint(tc)
 
     def add_timing_properties(self, variable):
         variable.start = paml.TimeVariable(
@@ -112,15 +148,6 @@ class ActivityGraph:
         self.doc.add(variable.start)
         self.doc.add(variable.end)
         self.doc.add(variable.duration)
-
-        if variable.identity in self.time_constraints:
-            tc = self.time_constraints[variable.identity]
-            if ACTIVITY_STARTED_AT_TIME in tc:
-                variable.start.value = sbol3.Measure(tc[ACTIVITY_STARTED_AT_TIME], tyto.OM.second)
-            if ACTIVITY_ENDED_AT_TIME in tc:
-                variable.end.value = sbol3.Measure(tc[ACTIVITY_ENDED_AT_TIME], tyto.OM.second)
-            if ACTIVITY_DURATION in tc:
-                variable.duration.value = sbol3.Measure(tc[ACTIVITY_DURATION], tyto.OM.second)
 
         if isinstance(variable, paml.PrimitiveExecutable):
             pass
@@ -163,20 +190,120 @@ class ActivityGraph:
         # store the TimeVariables and the intersected difference as an edge
         self.edges.append((start, [intersected_difference], end))
 
-    def insert_time_constraint(self, constraint):
-        def measure_to_time(meas):
-            return om_convert(meas.value, meas.unit, tyto.OM.second)
+    def _measure_to_time(self, meas):
+        return om_convert(meas.value, meas.unit, tyto.OM.second)
 
-        timeOf = str(constraint.time_of.identity)
-        if timeOf not in self.time_constraints:
-            self.time_constraints[timeOf] = {}
+    def convert_time_constraint(self, constraint):
+        """
+        Convert a paml specification of a constraint into a formula.
+        :param constraint:
+        :return: pysmt formula
+        """
+        type_uri = constraint.type_uri
+        if type_uri not in self.constraint_func_map:
+            raise Exception(f"convert_time_constraint failed due to unknown constraint type: {type_uri}")
+        return self.constraint_func_map[type_uri](constraint)
 
-        if isinstance(constraint, paml.TimeVariable):
-            self.time_constraints[timeOf][constraint.time_property] = measure_to_time(constraint.value)
-            return
-        if isinstance(constraint, paml.Duration):
-            self.time_constraints[timeOf][ACTIVITY_DURATION] = measure_to_time(constraint.value)
-            return
+    def _convert_and_constraint(self, constraint):
+        clauses = [ self.convert_time_constraint(clause)
+                    for clause in constraint.clause ]
+        return pysmt.shortcuts.And(clauses)
+
+    def _convert_or_constraint(self, constraint):
+        clauses = [ self.convert_time_constraint(clause)
+                    for clause in constraint.clause ]
+        return pysmt.shortcuts.Or(clauses)
+
+    def _convert_xor_constraint(self, constraint):
+        clauses = [ self.convert_time_constraint(clause)
+                    for clause in constraint.clause ]
+        return pysmt.shortcuts.ExactlyOne(clauses)
+
+    def _convert_not_constraint(self, constraint):
+        clause = self.convert_time_constraint(constraint.clause)
+        return pysmt.shortcuts.Not(clause)
+
+    def _convert_duration_constraint(self, constraint):
+        activity = self.uri_to_activity[constraint.time_of.identity]
+        duration = self._measure_to_time(constraint.value)
+        clause = binary_temporal_constraint(
+            pysmt.shortcuts.Symbol(activity.start.identity, pysmt.shortcuts.REAL),
+            [[duration, duration]],
+            pysmt.shortcuts.Symbol(activity.end.identity, pysmt.shortcuts.REAL))
+        return clause
+
+    def _convert_equals_constraint(self, constraint):
+        term1 = self._convert_expression(self.doc.find(constraint.term1))
+        term2 = self._convert_expression(self.doc.find(constraint.term2))
+        clause = pysmt.shortcuts.Equals(term1, term2)
+        return clause
+
+    def _convert_less_than_equals_constraint(self, constraint):
+        term1 = self._convert_expression(self.doc.find(constraint.term1))
+        term2 = self._convert_expression(self.doc.find(constraint.term2))
+        clause = pysmt.shortcuts.LE(term1, term2)
+        return clause
+
+    def _convert_less_than_constraint(self, constraint):
+        term1 = self._convert_expression(self.doc.find(constraint.term1))
+        term2 = self._convert_expression(self.doc.find(constraint.term2))
+        clause = pysmt.shortcuts.LT(term1, term2)
+        return clause
+
+    def _convert_greater_than_equals_constraint(self, constraint):
+        term1 = self._convert_expression(self.doc.find(constraint.term1))
+        term2 = self._convert_expression(self.doc.find(constraint.term2))
+        clause = pysmt.shortcuts.GE(term1, term2)
+        return clause
+
+    def _convert_greater_than_constraint(self, constraint):
+        term1 = self._convert_expression(self.doc.find(constraint.term1))
+        term2 = self._convert_expression(self.doc.find(constraint.term2))
+        clause = pysmt.shortcuts.GT(term1, term2)
+        return clause
+
+
+    def _convert_expression(self, expression):
+        type_uri = expression.type_uri
+        if type_uri not in self.expression_func_map:
+            raise Exception(f"convert_expression failed due to unknown expression type: {type_uri}")
+        return self.expression_func_map[type_uri](expression)
+
+    def _convert_sum(self, expression):
+        term1 = self._convert_expression(self.doc.find(expression.term1))
+        term2 = self._convert_expression(self.doc.find(expression.term2))
+        clause = pysmt.shortcuts.Plus(term1, term2)
+        return clause
+
+    def _convert_difference(self, expression):
+        term1 = self._convert_expression(self.doc.find(expression.term1))
+        term2 = self._convert_expression(self.doc.find(expression.term2))
+        clause = pysmt.shortcuts.Minus(term1, term2)
+        return clause
+
+    def _convert_product(self, expression):
+        term1 = self._convert_expression(self.doc.find(expression.term1))
+        term2 = self._convert_expression(self.doc.find(expression.term2))
+        clause = pysmt.shortcuts.Times(term1, term2)
+        return clause
+
+    def _convert_constant(self, expression):
+        term = pysmt.shortcuts.Real(self._measure_to_time(expression.term))
+        return term
+
+    def _convert_variable(self, variable):
+        activity = variable.time_of
+        if ACTIVITY_ENDED_AT_TIME in variable.time_property:
+            var = activity.end
+        elif ACTIVITY_STARTED_AT_TIME in variable.time_property:
+            var = activity.start
+
+        clause = pysmt.shortcuts.Symbol(var.identity, pysmt.shortcuts.REAL)
+        return clause
+
+    def _convert_variable_expression(self, expression):
+        clause = self._convert_expression(self.doc.find(expression.term))
+        return clause
 
     def _insert_variable(self, variable, type = None):
         if type is not None:
@@ -366,7 +493,8 @@ class ActivityGraph:
         given_constraints = pysmt.shortcuts.And(timepoint_var_domains + \
                                                 time_constraints + \
                                                 join_constraints + \
-                                                protocol_constraints
+                                                protocol_constraints + \
+                                                list(self.time_constraints.values())
             )
 
         return given_constraints

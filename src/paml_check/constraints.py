@@ -86,3 +86,5 @@ def determine_time_constraint(source_uri, disjunctive_distance, sink_uri):
     t1 = timepoint_vars[source_uri]
     t2 = timepoint_vars[sink_uri]
     return binary_temporal_constraint(t1, disjunctive_distance, t2)
+
+
