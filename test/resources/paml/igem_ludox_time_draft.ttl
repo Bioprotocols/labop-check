@@ -4,49 +4,21 @@
 @prefix sbol: <http://sbols.org/v3#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision> a <http://bioprotocols.org/paml#Primitive>,
-        sbol:TopLevel ;
-    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1>,
-        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2>,
-        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter3>,
-        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter4>,
-        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter5> ;
-    sbol:description "Place a measured amount (mass or volume) of a specified component into a location, where it may then be used in executing the protocol." ;
-    sbol:displayId "Provision" ;
-    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/liquid_handling> .
-
-<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer> a <http://bioprotocols.org/paml#Primitive>,
-        sbol:TopLevel ;
-    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1>,
-        <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter2> ;
-    sbol:description "Allocate a sample array with size and type based on an empty container" ;
-    sbol:displayId "EmptyContainer" ;
-    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/sample_arrays> .
-
-<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> a <http://bioprotocols.org/paml#Primitive>,
-        sbol:TopLevel ;
-    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1>,
-        <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter2>,
-        <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter3> ;
-    sbol:description "Select only the samples with specified row/column combination from a sample collection" ;
-    sbol:displayId "PlateCoordinates" ;
-    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/sample_arrays> .
-
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance> a <http://bioprotocols.org/paml#Primitive>,
-        sbol:TopLevel ;
-    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1>,
-        <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter2>,
-        <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter3>,
-        <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4> ;
-    sbol:description "Measure absorbance at a given wavelength from a set of samples" ;
-    sbol:displayId "MeasureAbsorbance" ;
-    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/spectrophotometry> .
-
 <https://bbn.com/scratch/LUDOX> a sbol:Component ;
     sbol:displayId "LUDOX" ;
     sbol:hasNamespace <https://bbn.com/scratch/> ;
     sbol:name "LUDOX(R) CL-X colloidal silica, 45 wt. % suspension in H2O" ;
     sbol:type <https://identifiers.org/pubchem.substance:24866361> .
+
+<https://bbn.com/scratch/and> a ns2:AndConstraint,
+        sbol:TopLevel ;
+    ns1:constrainedElement <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start> ;
+    sbol:displayId "and" ;
+    sbol:hasNamespace <https://bbn.com/scratch/> .
 
 <https://bbn.com/scratch/ddH2O> a sbol:Component ;
     sbol:displayId "ddH2O" ;
@@ -54,192 +26,9 @@
     sbol:name "Water, sterile-filtered, BioReagent, suitable for cell culture" ;
     sbol:type <https://identifiers.org/pubchem.substance:24901740> .
 
-<https://bbn.com/scratch/duration_execute_measurement> a ns1:DurationConstraint,
-        sbol:TopLevel ;
-    ns1:constrainedElement <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7> ;
-    ns1:durationSpecification <https://bbn.com/scratch/duration_execute_measurement/DurationInterval1> ;
-    sbol:displayId "duration_execute_measurement" ;
-    sbol:hasNamespace <https://bbn.com/scratch/> .
-
-<https://bbn.com/scratch/duration_execute_measurement/DurationInterval1> a ns1:DurationInterval,
-        sbol:Identified ;
-    ns1:maxDurationValue <https://bbn.com/scratch/duration_execute_measurement/DurationInterval1/Duration1> ;
-    ns1:minDurationValue <https://bbn.com/scratch/duration_execute_measurement/DurationInterval1/Duration2> ;
-    sbol:displayId "DurationInterval1" .
-
-<https://bbn.com/scratch/duration_execute_measurement/DurationInterval1/Duration1> a ns1:Duration,
-        sbol:Identified ;
-    ns1:exprValue <https://bbn.com/scratch/duration_execute_measurement/DurationInterval1/Duration1/TimeMeasure1> ;
-    sbol:displayId "Duration1" .
-
-<https://bbn.com/scratch/duration_execute_measurement/DurationInterval1/Duration1/TimeMeasure1> a ns2:TimeMeasure,
-        sbol:Identified ;
-    ns2:measureValue <https://bbn.com/scratch/duration_execute_measurement/DurationInterval1/Duration1/TimeMeasure1/Measure1> ;
-    sbol:displayId "TimeMeasure1" .
-
-<https://bbn.com/scratch/duration_execute_measurement/DurationInterval1/Duration1/TimeMeasure1/Measure1> a sbol:Identified,
-        om:Measure ;
-    sbol:displayId "Measure1" ;
-    om:hasNumericalValue 6e+01 ;
-    om:hasUnit om:minute-Time .
-
-<https://bbn.com/scratch/duration_execute_measurement/DurationInterval1/Duration2> a ns1:Duration,
-        sbol:Identified ;
-    ns1:exprValue <https://bbn.com/scratch/duration_execute_measurement/DurationInterval1/Duration2/TimeMeasure1> ;
-    sbol:displayId "Duration2" .
-
-<https://bbn.com/scratch/duration_execute_measurement/DurationInterval1/Duration2/TimeMeasure1> a ns2:TimeMeasure,
-        sbol:Identified ;
-    ns2:measureValue <https://bbn.com/scratch/duration_execute_measurement/DurationInterval1/Duration2/TimeMeasure1/Measure1> ;
-    sbol:displayId "TimeMeasure1" .
-
-<https://bbn.com/scratch/duration_execute_measurement/DurationInterval1/Duration2/TimeMeasure1/Measure1> a sbol:Identified,
-        om:Measure ;
-    sbol:displayId "Measure1" ;
-    om:hasNumericalValue 6e+01 ;
-    om:hasUnit om:minute-Time .
-
-<https://bbn.com/scratch/duration_providion_ludox> a ns1:DurationConstraint,
-        sbol:TopLevel ;
-    ns1:constrainedElement <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3> ;
-    ns1:durationSpecification <https://bbn.com/scratch/duration_providion_ludox/DurationInterval1> ;
-    sbol:displayId "duration_providion_ludox" ;
-    sbol:hasNamespace <https://bbn.com/scratch/> .
-
-<https://bbn.com/scratch/duration_providion_ludox/DurationInterval1> a ns1:DurationInterval,
-        sbol:Identified ;
-    ns1:maxDurationValue <https://bbn.com/scratch/duration_providion_ludox/DurationInterval1/Duration1> ;
-    ns1:minDurationValue <https://bbn.com/scratch/duration_providion_ludox/DurationInterval1/Duration2> ;
-    sbol:displayId "DurationInterval1" .
-
-<https://bbn.com/scratch/duration_providion_ludox/DurationInterval1/Duration1> a ns1:Duration,
-        sbol:Identified ;
-    ns1:exprValue <https://bbn.com/scratch/duration_providion_ludox/DurationInterval1/Duration1/TimeMeasure1> ;
-    sbol:displayId "Duration1" .
-
-<https://bbn.com/scratch/duration_providion_ludox/DurationInterval1/Duration1/TimeMeasure1> a ns2:TimeMeasure,
-        sbol:Identified ;
-    ns2:measureValue <https://bbn.com/scratch/duration_providion_ludox/DurationInterval1/Duration1/TimeMeasure1/Measure1> ;
-    sbol:displayId "TimeMeasure1" .
-
-<https://bbn.com/scratch/duration_providion_ludox/DurationInterval1/Duration1/TimeMeasure1/Measure1> a sbol:Identified,
-        om:Measure ;
-    sbol:displayId "Measure1" ;
-    om:hasNumericalValue 6e+01 ;
-    om:hasUnit om:second-Time .
-
-<https://bbn.com/scratch/duration_providion_ludox/DurationInterval1/Duration2> a ns1:Duration,
-        sbol:Identified ;
-    ns1:exprValue <https://bbn.com/scratch/duration_providion_ludox/DurationInterval1/Duration2/TimeMeasure1> ;
-    sbol:displayId "Duration2" .
-
-<https://bbn.com/scratch/duration_providion_ludox/DurationInterval1/Duration2/TimeMeasure1> a ns2:TimeMeasure,
-        sbol:Identified ;
-    ns2:measureValue <https://bbn.com/scratch/duration_providion_ludox/DurationInterval1/Duration2/TimeMeasure1/Measure1> ;
-    sbol:displayId "TimeMeasure1" .
-
-<https://bbn.com/scratch/duration_providion_ludox/DurationInterval1/Duration2/TimeMeasure1/Measure1> a sbol:Identified,
-        om:Measure ;
-    sbol:displayId "Measure1" ;
-    om:hasNumericalValue 6e+01 ;
-    om:hasUnit om:second-Time .
-
-<https://bbn.com/scratch/duration_provision_ddh2o> a ns1:DurationConstraint,
-        sbol:TopLevel ;
-    ns1:constrainedElement <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5> ;
-    ns1:durationSpecification <https://bbn.com/scratch/duration_provision_ddh2o/DurationInterval1> ;
-    sbol:displayId "duration_provision_ddh2o" ;
-    sbol:hasNamespace <https://bbn.com/scratch/> .
-
-<https://bbn.com/scratch/duration_provision_ddh2o/DurationInterval1> a ns1:DurationInterval,
-        sbol:Identified ;
-    ns1:maxDurationValue <https://bbn.com/scratch/duration_provision_ddh2o/DurationInterval1/Duration1> ;
-    ns1:minDurationValue <https://bbn.com/scratch/duration_provision_ddh2o/DurationInterval1/Duration2> ;
-    sbol:displayId "DurationInterval1" .
-
-<https://bbn.com/scratch/duration_provision_ddh2o/DurationInterval1/Duration1> a ns1:Duration,
-        sbol:Identified ;
-    ns1:exprValue <https://bbn.com/scratch/duration_provision_ddh2o/DurationInterval1/Duration1/TimeMeasure1> ;
-    sbol:displayId "Duration1" .
-
-<https://bbn.com/scratch/duration_provision_ddh2o/DurationInterval1/Duration1/TimeMeasure1> a ns2:TimeMeasure,
-        sbol:Identified ;
-    ns2:measureValue <https://bbn.com/scratch/duration_provision_ddh2o/DurationInterval1/Duration1/TimeMeasure1/Measure1> ;
-    sbol:displayId "TimeMeasure1" .
-
-<https://bbn.com/scratch/duration_provision_ddh2o/DurationInterval1/Duration1/TimeMeasure1/Measure1> a sbol:Identified,
-        om:Measure ;
-    sbol:displayId "Measure1" ;
-    om:hasNumericalValue 6e+01 ;
-    om:hasUnit om:second-Time .
-
-<https://bbn.com/scratch/duration_provision_ddh2o/DurationInterval1/Duration2> a ns1:Duration,
-        sbol:Identified ;
-    ns1:exprValue <https://bbn.com/scratch/duration_provision_ddh2o/DurationInterval1/Duration2/TimeMeasure1> ;
-    sbol:displayId "Duration2" .
-
-<https://bbn.com/scratch/duration_provision_ddh2o/DurationInterval1/Duration2/TimeMeasure1> a ns2:TimeMeasure,
-        sbol:Identified ;
-    ns2:measureValue <https://bbn.com/scratch/duration_provision_ddh2o/DurationInterval1/Duration2/TimeMeasure1/Measure1> ;
-    sbol:displayId "TimeMeasure1" .
-
-<https://bbn.com/scratch/duration_provision_ddh2o/DurationInterval1/Duration2/TimeMeasure1/Measure1> a sbol:Identified,
-        om:Measure ;
-    sbol:displayId "Measure1" ;
-    om:hasNumericalValue 6e+01 ;
-    om:hasUnit om:second-Time .
-
-<https://bbn.com/scratch/follows_constraint> a ns1:DurationConstraint,
-        sbol:TopLevel ;
-    ns1:constrainedElement <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5> ;
-    ns1:durationSpecification <https://bbn.com/scratch/follows_constraint/DurationInterval1> ;
-    ns1:firstEventValue false,
-        true ;
-    sbol:displayId "follows_constraint" ;
-    sbol:hasNamespace <https://bbn.com/scratch/> .
-
-<https://bbn.com/scratch/follows_constraint/DurationInterval1> a ns1:DurationInterval,
-        sbol:Identified ;
-    ns1:maxDurationValue <https://bbn.com/scratch/follows_constraint/DurationInterval1/Duration1> ;
-    ns1:minDurationValue <https://bbn.com/scratch/follows_constraint/DurationInterval1/Duration2> ;
-    sbol:displayId "DurationInterval1" .
-
-<https://bbn.com/scratch/follows_constraint/DurationInterval1/Duration1> a ns1:Duration,
-        sbol:Identified ;
-    ns1:exprValue <https://bbn.com/scratch/follows_constraint/DurationInterval1/Duration1/TimeMeasure1> ;
-    sbol:displayId "Duration1" .
-
-<https://bbn.com/scratch/follows_constraint/DurationInterval1/Duration1/TimeMeasure1> a ns2:TimeMeasure,
-        sbol:Identified ;
-    ns2:measureValue <https://bbn.com/scratch/follows_constraint/DurationInterval1/Duration1/TimeMeasure1/Measure1> ;
-    sbol:displayId "TimeMeasure1" .
-
-<https://bbn.com/scratch/follows_constraint/DurationInterval1/Duration1/TimeMeasure1/Measure1> a sbol:Identified,
-        om:Measure ;
-    sbol:displayId "Measure1" ;
-    om:hasNumericalValue 1.5e+01 ;
-    om:hasUnit om:hour .
-
-<https://bbn.com/scratch/follows_constraint/DurationInterval1/Duration2> a ns1:Duration,
-        sbol:Identified ;
-    ns1:exprValue <https://bbn.com/scratch/follows_constraint/DurationInterval1/Duration2/TimeMeasure1> ;
-    sbol:displayId "Duration2" .
-
-<https://bbn.com/scratch/follows_constraint/DurationInterval1/Duration2/TimeMeasure1> a ns2:TimeMeasure,
-        sbol:Identified ;
-    ns2:measureValue <https://bbn.com/scratch/follows_constraint/DurationInterval1/Duration2/TimeMeasure1/Measure1> ;
-    sbol:displayId "TimeMeasure1" .
-
-<https://bbn.com/scratch/follows_constraint/DurationInterval1/Duration2/TimeMeasure1/Measure1> a sbol:Identified,
-        om:Measure ;
-    sbol:displayId "Measure1" ;
-    om:hasNumericalValue 1e+01 ;
-    om:hasUnit om:hour .
-
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018> a <http://bioprotocols.org/paml#Protocol>,
         sbol:TopLevel ;
-    ns2:timeConstraints <https://bbn.com/scratch/tcs> ;
+    ns2:timeConstraints <https://bbn.com/scratch/and> ;
     ns1:edge <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow2>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow3>,
@@ -252,14 +41,18 @@
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow3>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow4>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow5>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow6> ;
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow6>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow7>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow8> ;
     ns1:node <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7> ;
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode2> ;
     ns1:ownedParameter <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Parameter1> ;
     sbol:description """
         With this protocol you will use LUDOX CL-X (a 45% colloidal silica suspension) as a single point reference to
@@ -316,13 +109,6 @@
     sbol:displayId "InputPin2" ;
     sbol:name "dispenseVelocity" .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/OutputPin1> a ns1:OutputPin,
-        sbol:Identified ;
-    ns1:isOrdered true ;
-    ns1:isUnique true ;
-    sbol:displayId "OutputPin1" ;
-    sbol:name "samples" .
-
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/ValuePin1> a ns1:ValuePin,
         sbol:Identified ;
     ns1:isOrdered true ;
@@ -355,6 +141,99 @@
     om:hasNumericalValue 1e+02 ;
     om:hasUnit om:microlitre .
 
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration> a ns1:DurationConstraint,
+        sbol:TopLevel ;
+    ns1:constrainedElement <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3> ;
+    ns1:durationSpecification <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1> ;
+    sbol:displayId "CallBehaviorAction3_duration" ;
+    sbol:hasNamespace <https://bbn.com/scratch/> .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1> a ns1:DurationInterval,
+        sbol:Identified ;
+    ns1:maxDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression1> ;
+    ns1:minDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression2> ;
+    sbol:displayId "DurationInterval1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression1> a ns1:TimeExpression,
+        sbol:Identified ;
+    ns1:exprValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression1/TimeMeasure1> ;
+    sbol:displayId "TimeExpression1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression1/TimeMeasure1> a ns2:TimeMeasure,
+        sbol:Identified ;
+    ns2:measureValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression1/TimeMeasure1/Measure1> ;
+    sbol:displayId "TimeMeasure1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression1/TimeMeasure1/Measure1> a sbol:Identified,
+        om:Measure ;
+    sbol:displayId "Measure1" ;
+    om:hasNumericalValue 6e+01 ;
+    om:hasUnit om:second-Time .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression2> a ns1:TimeExpression,
+        sbol:Identified ;
+    ns1:exprValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression2/TimeMeasure1> ;
+    sbol:displayId "TimeExpression2" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression2/TimeMeasure1> a ns2:TimeMeasure,
+        sbol:Identified ;
+    ns2:measureValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression2/TimeMeasure1/Measure1> ;
+    sbol:displayId "TimeMeasure1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression2/TimeMeasure1/Measure1> a sbol:Identified,
+        om:Measure ;
+    sbol:displayId "Measure1" ;
+    om:hasNumericalValue 6e+01 ;
+    om:hasUnit om:second-Time .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start> a ns1:DurationConstraint,
+        sbol:TopLevel ;
+    ns1:constrainedElement <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5> ;
+    ns1:durationSpecification <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1> ;
+    ns1:firstEventValue false,
+        true ;
+    sbol:displayId "CallBehaviorAction5_start" ;
+    sbol:hasNamespace <https://bbn.com/scratch/> .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1> a ns1:DurationInterval,
+        sbol:Identified ;
+    ns1:maxDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression1> ;
+    ns1:minDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression2> ;
+    sbol:displayId "DurationInterval1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression1> a ns1:TimeExpression,
+        sbol:Identified ;
+    ns1:exprValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression1/TimeMeasure1> ;
+    sbol:displayId "TimeExpression1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression1/TimeMeasure1> a ns2:TimeMeasure,
+        sbol:Identified ;
+    ns2:measureValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression1/TimeMeasure1/Measure1> ;
+    sbol:displayId "TimeMeasure1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression1/TimeMeasure1/Measure1> a sbol:Identified,
+        om:Measure ;
+    sbol:displayId "Measure1" ;
+    om:hasNumericalValue 1e+01 ;
+    om:hasUnit om:hour .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression2> a ns1:TimeExpression,
+        sbol:Identified ;
+    ns1:exprValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression2/TimeMeasure1> ;
+    sbol:displayId "TimeExpression2" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression2/TimeMeasure1> a ns2:TimeMeasure,
+        sbol:Identified ;
+    ns2:measureValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression2/TimeMeasure1/Measure1> ;
+    sbol:displayId "TimeMeasure1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression2/TimeMeasure1/Measure1> a sbol:Identified,
+        om:Measure ;
+    sbol:displayId "Measure1" ;
+    om:hasNumericalValue 1e+01 ;
+    om:hasUnit om:hour .
+
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/ValuePin1> a ns1:ValuePin,
         sbol:Identified ;
     ns1:isOrdered true ;
@@ -374,13 +253,6 @@
     ns1:isUnique true ;
     sbol:displayId "InputPin2" ;
     sbol:name "dispenseVelocity" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/OutputPin1> a ns1:OutputPin,
-        sbol:Identified ;
-    ns1:isOrdered true ;
-    ns1:isUnique true ;
-    sbol:displayId "OutputPin1" ;
-    sbol:name "samples" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin1> a ns1:ValuePin,
         sbol:Identified ;
@@ -413,6 +285,51 @@
     sbol:displayId "Measure1" ;
     om:hasNumericalValue 1e+02 ;
     om:hasUnit om:microlitre .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration> a ns1:DurationConstraint,
+        sbol:TopLevel ;
+    ns1:constrainedElement <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5> ;
+    ns1:durationSpecification <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1> ;
+    sbol:displayId "CallBehaviorAction5_duration" ;
+    sbol:hasNamespace <https://bbn.com/scratch/> .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1> a ns1:DurationInterval,
+        sbol:Identified ;
+    ns1:maxDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression1> ;
+    ns1:minDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression2> ;
+    sbol:displayId "DurationInterval1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression1> a ns1:TimeExpression,
+        sbol:Identified ;
+    ns1:exprValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression1/TimeMeasure1> ;
+    sbol:displayId "TimeExpression1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression1/TimeMeasure1> a ns2:TimeMeasure,
+        sbol:Identified ;
+    ns2:measureValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression1/TimeMeasure1/Measure1> ;
+    sbol:displayId "TimeMeasure1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression1/TimeMeasure1/Measure1> a sbol:Identified,
+        om:Measure ;
+    sbol:displayId "Measure1" ;
+    om:hasNumericalValue 6e+01 ;
+    om:hasUnit om:second-Time .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression2> a ns1:TimeExpression,
+        sbol:Identified ;
+    ns1:exprValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression2/TimeMeasure1> ;
+    sbol:displayId "TimeExpression2" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression2/TimeMeasure1> a ns2:TimeMeasure,
+        sbol:Identified ;
+    ns2:measureValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression2/TimeMeasure1/Measure1> ;
+    sbol:displayId "TimeMeasure1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression2/TimeMeasure1/Measure1> a sbol:Identified,
+        om:Measure ;
+    sbol:displayId "Measure1" ;
+    om:hasNumericalValue 6e+01 ;
+    om:hasUnit om:second-Time .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/OutputPin1> a ns1:OutputPin,
         sbol:Identified ;
@@ -467,15 +384,60 @@
     om:hasNumericalValue 6e+02 ;
     om:hasUnit om:nanometre .
 
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration> a ns1:DurationConstraint,
+        sbol:TopLevel ;
+    ns1:constrainedElement <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7> ;
+    ns1:durationSpecification <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1> ;
+    sbol:displayId "CallBehaviorAction7_duration" ;
+    sbol:hasNamespace <https://bbn.com/scratch/> .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1> a ns1:DurationInterval,
+        sbol:Identified ;
+    ns1:maxDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression1> ;
+    ns1:minDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression2> ;
+    sbol:displayId "DurationInterval1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression1> a ns1:TimeExpression,
+        sbol:Identified ;
+    ns1:exprValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression1/TimeMeasure1> ;
+    sbol:displayId "TimeExpression1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression1/TimeMeasure1> a ns2:TimeMeasure,
+        sbol:Identified ;
+    ns2:measureValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression1/TimeMeasure1/Measure1> ;
+    sbol:displayId "TimeMeasure1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression1/TimeMeasure1/Measure1> a sbol:Identified,
+        om:Measure ;
+    sbol:displayId "Measure1" ;
+    om:hasNumericalValue 6e+01 ;
+    om:hasUnit om:minute-Time .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression2> a ns1:TimeExpression,
+        sbol:Identified ;
+    ns1:exprValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression2/TimeMeasure1> ;
+    sbol:displayId "TimeExpression2" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression2/TimeMeasure1> a ns2:TimeMeasure,
+        sbol:Identified ;
+    ns2:measureValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression2/TimeMeasure1/Measure1> ;
+    sbol:displayId "TimeMeasure1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression2/TimeMeasure1/Measure1> a sbol:Identified,
+        om:Measure ;
+    sbol:displayId "Measure1" ;
+    om:hasNumericalValue 6e+01 ;
+    om:hasUnit om:minute-Time .
+
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow1> a ns1:ControlFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
     ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1> ;
     sbol:displayId "ControlFlow1" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow2> a ns1:ControlFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
     ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2> ;
     sbol:displayId "ControlFlow2" .
 
@@ -499,51 +461,63 @@
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow6> a ns1:ControlFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode2> ;
     ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6> ;
     sbol:displayId "ControlFlow6" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow7> a ns1:ControlFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode2> ;
     ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7> ;
     sbol:displayId "ControlFlow7" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow1> a ns1:ObjectFlow,
         sbol:Identified ;
     ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1> ;
-    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/InputPin1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
     sbol:displayId "ObjectFlow1" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow2> a ns1:ObjectFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/OutputPin1> ;
-    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/InputPin1> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/InputPin1> ;
     sbol:displayId "ObjectFlow2" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow3> a ns1:ObjectFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1> ;
-    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/InputPin1> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/OutputPin1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/InputPin1> ;
     sbol:displayId "ObjectFlow3" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow4> a ns1:ObjectFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/OutputPin1> ;
-    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/InputPin1> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/InputPin1> ;
     sbol:displayId "ObjectFlow4" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow5> a ns1:ObjectFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1> ;
-    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/InputPin1> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/OutputPin1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/InputPin1> ;
     sbol:displayId "ObjectFlow5" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow6> a ns1:ObjectFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6> ;
-    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin1> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/InputPin1> ;
     sbol:displayId "ObjectFlow6" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow7> a ns1:ObjectFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode2> ;
+    sbol:displayId "ObjectFlow7" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow8> a ns1:ObjectFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode2> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin1> ;
+    sbol:displayId "ObjectFlow8" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Parameter1> a ns1:Parameter,
         sbol:Identified ;
@@ -565,61 +539,51 @@
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bbn.com/scratch/start> a ns1:TimeConstraint,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start> a ns1:TimeConstraint,
         sbol:TopLevel ;
     ns1:constrainedElement <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018> ;
     ns1:firstEventValue true ;
-    ns1:timeSpecification <https://bbn.com/scratch/start/TimeInterval1> ;
-    sbol:displayId "start" ;
+    ns1:timeSpecification <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1> ;
+    sbol:displayId "iGEM_LUDOX_OD_calibration_2018_start" ;
     sbol:hasNamespace <https://bbn.com/scratch/> .
 
-<https://bbn.com/scratch/start/TimeInterval1> a ns1:TimeInterval,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1> a ns1:TimeInterval,
         sbol:Identified ;
-    ns1:maxTimeValue <https://bbn.com/scratch/start/TimeInterval1/TimeExpression1> ;
-    ns1:minTimeValue <https://bbn.com/scratch/start/TimeInterval1/TimeExpression2> ;
+    ns1:maxTimeValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression1> ;
+    ns1:minTimeValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression2> ;
     sbol:displayId "TimeInterval1" .
 
-<https://bbn.com/scratch/start/TimeInterval1/TimeExpression1> a ns1:TimeExpression,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression1> a ns1:TimeExpression,
         sbol:Identified ;
-    ns1:exprValue <https://bbn.com/scratch/start/TimeInterval1/TimeExpression1/TimeMeasure1> ;
+    ns1:exprValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression1/TimeMeasure1> ;
     sbol:displayId "TimeExpression1" .
 
-<https://bbn.com/scratch/start/TimeInterval1/TimeExpression1/TimeMeasure1> a ns2:TimeMeasure,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression1/TimeMeasure1> a ns2:TimeMeasure,
         sbol:Identified ;
-    ns2:measureValue <https://bbn.com/scratch/start/TimeInterval1/TimeExpression1/TimeMeasure1/Measure1> ;
+    ns2:measureValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression1/TimeMeasure1/Measure1> ;
     sbol:displayId "TimeMeasure1" .
 
-<https://bbn.com/scratch/start/TimeInterval1/TimeExpression1/TimeMeasure1/Measure1> a sbol:Identified,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression1/TimeMeasure1/Measure1> a sbol:Identified,
         om:Measure ;
     sbol:displayId "Measure1" ;
     om:hasNumericalValue 0e+00 ;
     om:hasUnit om:hour .
 
-<https://bbn.com/scratch/start/TimeInterval1/TimeExpression2> a ns1:TimeExpression,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression2> a ns1:TimeExpression,
         sbol:Identified ;
-    ns1:exprValue <https://bbn.com/scratch/start/TimeInterval1/TimeExpression2/TimeMeasure1> ;
+    ns1:exprValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression2/TimeMeasure1> ;
     sbol:displayId "TimeExpression2" .
 
-<https://bbn.com/scratch/start/TimeInterval1/TimeExpression2/TimeMeasure1> a ns2:TimeMeasure,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression2/TimeMeasure1> a ns2:TimeMeasure,
         sbol:Identified ;
-    ns2:measureValue <https://bbn.com/scratch/start/TimeInterval1/TimeExpression2/TimeMeasure1/Measure1> ;
+    ns2:measureValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression2/TimeMeasure1/Measure1> ;
     sbol:displayId "TimeMeasure1" .
 
-<https://bbn.com/scratch/start/TimeInterval1/TimeExpression2/TimeMeasure1/Measure1> a sbol:Identified,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression2/TimeMeasure1/Measure1> a sbol:Identified,
         om:Measure ;
     sbol:displayId "Measure1" ;
     om:hasNumericalValue 0e+00 ;
     om:hasUnit om:hour .
-
-<https://bbn.com/scratch/tcs> a ns2:And,
-        sbol:TopLevel ;
-    ns1:constrainedElement <https://bbn.com/scratch/duration_execute_measurement>,
-        <https://bbn.com/scratch/duration_providion_ludox>,
-        <https://bbn.com/scratch/duration_provision_ddh2o>,
-        <https://bbn.com/scratch/follows_constraint>,
-        <https://bbn.com/scratch/start> ;
-    sbol:displayId "tcs" ;
-    sbol:hasNamespace <https://bbn.com/scratch/> .
 
 <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1> a ns1:Parameter,
         sbol:Identified ;
@@ -648,7 +612,7 @@
     ns1:isOrdered true ;
     ns1:isUnique true ;
     ns1:lowerValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2/LiteralInteger2> ;
-    ns1:type <http://bioprotocols.org/paml#Location> ;
+    ns1:type <http://bioprotocols.org/paml#SampleCollection> ;
     ns1:upperValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2/LiteralInteger1> ;
     sbol:displayId "Parameter2" ;
     sbol:name "destination" .
@@ -705,26 +669,13 @@
     ns1:integerValue 0 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter5> a ns1:Parameter,
-        sbol:Identified ;
-    ns1:direction ns1:out ;
-    ns1:isOrdered true ;
-    ns1:isUnique true ;
-    ns1:lowerValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter5/LiteralInteger2> ;
-    ns1:type <http://bioprotocols.org/paml#LocatedSamples> ;
-    ns1:upperValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter5/LiteralInteger1> ;
-    sbol:displayId "Parameter5" ;
-    sbol:name "samples" .
-
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter5/LiteralInteger1> a ns1:LiteralInteger,
-        sbol:Identified ;
-    ns1:integerValue 1 ;
-    sbol:displayId "LiteralInteger1" .
-
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter5/LiteralInteger2> a ns1:LiteralInteger,
-        sbol:Identified ;
-    ns1:integerValue 1 ;
-    sbol:displayId "LiteralInteger2" .
+<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer> a <http://bioprotocols.org/paml#Primitive>,
+        sbol:TopLevel ;
+    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1>,
+        <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter2> ;
+    sbol:description "Allocate a sample array with size and type based on an empty container" ;
+    sbol:displayId "EmptyContainer" ;
+    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/sample_arrays> .
 
 <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1> a ns1:Parameter,
         sbol:Identified ;
@@ -831,13 +782,23 @@
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
 
+<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance> a <http://bioprotocols.org/paml#Primitive>,
+        sbol:TopLevel ;
+    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1>,
+        <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter2>,
+        <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter3>,
+        <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4> ;
+    sbol:description "Measure absorbance at a given wavelength from a set of samples" ;
+    sbol:displayId "MeasureAbsorbance" ;
+    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/spectrophotometry> .
+
 <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1> a ns1:Parameter,
         sbol:Identified ;
     ns1:direction ns1:in ;
     ns1:isOrdered true ;
     ns1:isUnique true ;
     ns1:lowerValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1/LiteralInteger2> ;
-    ns1:type <http://bioprotocols.org/paml#LocatedSamples> ;
+    ns1:type <http://bioprotocols.org/paml#SampleCollection> ;
     ns1:upperValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1/LiteralInteger1> ;
     sbol:displayId "Parameter1" ;
     sbol:name "samples" .
@@ -900,7 +861,7 @@
     ns1:isOrdered true ;
     ns1:isUnique true ;
     ns1:lowerValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4/LiteralInteger2> ;
-    ns1:type <http://bioprotocols.org/paml#LocatedData> ;
+    ns1:type <http://bioprotocols.org/paml#SampleData> ;
     ns1:upperValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4/LiteralInteger1> ;
     sbol:displayId "Parameter4" ;
     sbol:name "measurements" .
@@ -914,6 +875,14 @@
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2> a ns1:CallBehaviorAction,
+        sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
+    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/InputPin1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/ValuePin1> ;
+    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/OutputPin1> ;
+    sbol:displayId "CallBehaviorAction2" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/InputPin1> a ns1:InputPin,
         sbol:Identified ;
@@ -971,15 +940,26 @@
     sbol:displayId "InputPin1" ;
     sbol:name "samples" .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2> a ns1:CallBehaviorAction,
+<https://bioprotocols.org/paml/primitives/liquid_handling/Provision> a <http://bioprotocols.org/paml#Primitive>,
+        sbol:TopLevel ;
+    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1>,
+        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2>,
+        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter3>,
+        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter4> ;
+    sbol:description "Place a measured amount (mass or volume) of a specified component into a location, where it may then be used in executing the protocol." ;
+    sbol:displayId "Provision" ;
+    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/liquid_handling> .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/InputPin1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/ValuePin1> ;
-    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/OutputPin1> ;
-    sbol:displayId "CallBehaviorAction2" .
+    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer> ;
+    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/ValuePin1> ;
+    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/OutputPin1> ;
+    sbol:displayId "CallBehaviorAction1" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4> a ns1:CallBehaviorAction,
         sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/ValuePin1> ;
     ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/OutputPin1> ;
@@ -987,6 +967,7 @@
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6> a ns1:CallBehaviorAction,
         sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/ValuePin1> ;
     ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/OutputPin1> ;
@@ -994,33 +975,45 @@
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7> a ns1:CallBehaviorAction,
         sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin2>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/ValuePin1> ;
     ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/OutputPin1> ;
     sbol:displayId "CallBehaviorAction7" .
 
+<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> a <http://bioprotocols.org/paml#Primitive>,
+        sbol:TopLevel ;
+    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1>,
+        <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter2>,
+        <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter3> ;
+    sbol:description "Select only the samples with specified row/column combination from a sample collection" ;
+    sbol:displayId "PlateCoordinates" ;
+    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/sample_arrays> .
+
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3> a ns1:CallBehaviorAction,
         sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/liquid_handling/Provision> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/InputPin2>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/ValuePin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/ValuePin2> ;
-    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/OutputPin1> ;
     sbol:displayId "CallBehaviorAction3" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5> a ns1:CallBehaviorAction,
         sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/liquid_handling/Provision> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/InputPin2>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin2> ;
-    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/OutputPin1> ;
     sbol:displayId "CallBehaviorAction5" .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1> a ns1:CallBehaviorAction,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode2> a ns1:ForkNode,
         sbol:Identified ;
-    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/ValuePin1> ;
-    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/OutputPin1> ;
-    sbol:displayId "CallBehaviorAction1" .
+    sbol:displayId "ForkNode2" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> a ns1:ForkNode,
+        sbol:Identified ;
+    sbol:displayId "ForkNode1" .
 
