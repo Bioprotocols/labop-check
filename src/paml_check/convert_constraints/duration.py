@@ -1,5 +1,7 @@
 import paml_check.convert_constraints as pcc
 from paml_check.constraints import binary_temporal_constraint
+from paml_check.solver_variable import get_solver_variables
+from paml_check.solver_variable import SolverVariableConstants as svc
 import pysmt
 import pysmt.shortcuts
 import uml
@@ -39,9 +41,9 @@ def convert_duration_constraint(converter: 'pcc.ConstraintConverter',
     max_duration = converter.time_measure_to_seconds(get_max_duration(duration_interval))
 
     clause = binary_temporal_constraint(
-        pysmt.shortcuts.Symbol(start.identity, pysmt.shortcuts.REAL),
+        pysmt.shortcuts.Symbol(start.name, pysmt.shortcuts.REAL),
         [[min_duration, max_duration]],
-        pysmt.shortcuts.Symbol(end.identity, pysmt.shortcuts.REAL))
+        pysmt.shortcuts.Symbol(end.name, pysmt.shortcuts.REAL))
     return clause
 
 def get_min_duration(duration_interval: uml.DurationInterval):
@@ -72,6 +74,9 @@ def get_start_and_end(constraint: uml.DurationConstraint):
     # FIXME at the time of writing this there is no guarentee these are in the correct order
     first = ce[0]
     second = ce[0] if num_elements == 1 else ce[1]
+
+    first_vars = get_solver_variables(first)
+    second_vars = get_solver_variables(second)
     
     # defaults
     start_of_first = True
@@ -92,6 +97,6 @@ def get_start_and_end(constraint: uml.DurationConstraint):
         else:
             raise DurationConstraintException("Expected a firstEvent count of 0 or 1 or 2")
 
-    start = first.start if start_of_first else first.end
-    end = second.start if start_of_second else second.end
+    start = first_vars[svc.START_TIME_VARIABLE] if start_of_first else first_vars[svc.END_TIME_VARIABLE]
+    end = second_vars[svc.START_TIME_VARIABLE] if start_of_second else second_vars[svc.END_TIME_VARIABLE]
     return start, end
