@@ -22,7 +22,8 @@ from . import \
     time
 
 class ConstraintConverter:
-    def __init__(self):
+    def __init__(self, protocol):
+        self.protocol = protocol
         self.constraint_func_map = {
             pamlt.AndConstraint: logic.convert_and_constraint,
             pamlt.OrConstraint: logic.convert_or_constraint,

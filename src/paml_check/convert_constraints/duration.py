@@ -1,7 +1,5 @@
 import paml_check.convert_constraints as pcc
 from paml_check.constraints import binary_temporal_constraint
-from paml_check.solver_variable import get_solver_variables
-from paml_check.solver_variable import SolverVariableConstants as svc
 import pysmt
 import pysmt.shortcuts
 import uml
@@ -33,7 +31,7 @@ def convert_duration_constraint(converter: 'pcc.ConstraintConverter',
             event to the {start|end} of the second element (consuming
             the firstEventValues in index order)
     """
-    start, end = get_start_and_end(constraint)
+    start, end = get_start_and_end(converter, constraint)
 
     # collect min and max duration
     duration_interval = constraint.specification
@@ -64,7 +62,7 @@ def get_max_duration(duration_interval: uml.DurationInterval):
     except Exception as e:
         raise DurationConstraintException(f"Failed to read max duration from {duration_interval.identity}: {e}")
 
-def get_start_and_end(constraint: uml.DurationConstraint):
+def get_start_and_end(converter: 'pcc.ConstraintConverter', constraint: uml.DurationConstraint):
     ce = constraint.constrained_elements
     num_elements = len(ce)
     if not 1 <= num_elements <= 2:
@@ -75,8 +73,8 @@ def get_start_and_end(constraint: uml.DurationConstraint):
     first = ce[0]
     second = ce[0] if num_elements == 1 else ce[1]
 
-    first_vars = get_solver_variables(first)
-    second_vars = get_solver_variables(second)
+    first_vars = converter.protocol.identity_to_time_variables(first.identity)
+    second_vars = converter.protocol.identity_to_time_variables(second.identity)
     
     # defaults
     start_of_first = True
@@ -97,6 +95,6 @@ def get_start_and_end(constraint: uml.DurationConstraint):
         else:
             raise DurationConstraintException("Expected a firstEvent count of 0 or 1 or 2")
 
-    start = first_vars[svc.START_TIME_VARIABLE] if start_of_first else first_vars[svc.END_TIME_VARIABLE]
-    end = second_vars[svc.START_TIME_VARIABLE] if start_of_second else second_vars[svc.END_TIME_VARIABLE]
+    start = first_vars.start if start_of_first else first_vars.end
+    end = second_vars.start if start_of_second else second_vars.end
     return start, end

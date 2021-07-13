@@ -42,8 +42,7 @@
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow4>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow5>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow6>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow7>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow8> ;
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow7> ;
     ns1:node <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3>,
@@ -51,8 +50,7 @@
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode2> ;
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
     ns1:ownedParameter <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Parameter1> ;
     sbol:description """
         With this protocol you will use LUDOX CL-X (a 45% colloidal silica suspension) as a single point reference to
@@ -68,13 +66,6 @@
     sbol:displayId "iGEM_LUDOX_OD_calibration_2018" ;
     sbol:hasNamespace <https://bbn.com/scratch/> ;
     sbol:name "iGEM 2018 LUDOX OD calibration protocol" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/OutputPin1> a ns1:OutputPin,
-        sbol:Identified ;
-    ns1:isOrdered true ;
-    ns1:isUnique true ;
-    sbol:displayId "OutputPin1" ;
-    sbol:name "samples" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/ValuePin1> a ns1:ValuePin,
         sbol:Identified ;
@@ -331,13 +322,6 @@
     om:hasNumericalValue 6e+01 ;
     om:hasUnit om:second-Time .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/OutputPin1> a ns1:OutputPin,
-        sbol:Identified ;
-    ns1:isOrdered true ;
-    ns1:isUnique true ;
-    sbol:displayId "OutputPin1" ;
-    sbol:name "samples" .
-
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/ValuePin1> a ns1:ValuePin,
         sbol:Identified ;
     ns1:isOrdered true ;
@@ -431,13 +415,13 @@
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow1> a ns1:ControlFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1> ;
     ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1> ;
     sbol:displayId "ControlFlow1" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow2> a ns1:ControlFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2> ;
     ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2> ;
     sbol:displayId "ControlFlow2" .
 
@@ -449,7 +433,7 @@
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow4> a ns1:ControlFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
     ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4> ;
     sbol:displayId "ControlFlow4" .
 
@@ -461,32 +445,32 @@
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow6> a ns1:ControlFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode2> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6> ;
     ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6> ;
     sbol:displayId "ControlFlow6" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow7> a ns1:ControlFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode2> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7> ;
     ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7> ;
     sbol:displayId "ControlFlow7" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow1> a ns1:ObjectFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1> ;
-    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/InputPin1> ;
     sbol:displayId "ObjectFlow1" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow2> a ns1:ObjectFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
-    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/InputPin1> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/OutputPin1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/InputPin1> ;
     sbol:displayId "ObjectFlow2" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow3> a ns1:ObjectFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/OutputPin1> ;
-    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/InputPin1> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/OutputPin1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
     sbol:displayId "ObjectFlow3" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow4> a ns1:ObjectFlow,
@@ -509,15 +493,9 @@
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow7> a ns1:ObjectFlow,
         sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6> ;
-    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode2> ;
-    sbol:displayId "ObjectFlow7" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow8> a ns1:ObjectFlow,
-        sbol:Identified ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode2> ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/OutputPin1> ;
     ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin1> ;
-    sbol:displayId "ObjectFlow8" .
+    sbol:displayId "ObjectFlow7" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Parameter1> a ns1:Parameter,
         sbol:Identified ;
@@ -876,13 +854,12 @@
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2> a ns1:CallBehaviorAction,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/OutputPin1> a ns1:OutputPin,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
-    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/InputPin1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/ValuePin1> ;
-    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/OutputPin1> ;
-    sbol:displayId "CallBehaviorAction2" .
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "OutputPin1" ;
+    sbol:name "samples" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/InputPin1> a ns1:InputPin,
         sbol:Identified ;
@@ -904,6 +881,14 @@
     ns1:isUnique true ;
     sbol:displayId "InputPin1" ;
     sbol:name "destination" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4> a ns1:CallBehaviorAction,
+        sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
+    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/InputPin1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/ValuePin1> ;
+    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/OutputPin1> ;
+    sbol:displayId "CallBehaviorAction4" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/InputPin1> a ns1:InputPin,
         sbol:Identified ;
@@ -933,6 +918,13 @@
     sbol:displayId "InputPin1" ;
     sbol:name "source" .
 
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/OutputPin1> a ns1:OutputPin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "OutputPin1" ;
+    sbol:name "samples" .
+
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin1> a ns1:InputPin,
         sbol:Identified ;
     ns1:isOrdered true ;
@@ -957,13 +949,13 @@
     ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/OutputPin1> ;
     sbol:displayId "CallBehaviorAction1" .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4> a ns1:CallBehaviorAction,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2> a ns1:CallBehaviorAction,
         sbol:Identified ;
     ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
-    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/InputPin1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/ValuePin1> ;
-    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/OutputPin1> ;
-    sbol:displayId "CallBehaviorAction4" .
+    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/InputPin1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/ValuePin1> ;
+    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/OutputPin1> ;
+    sbol:displayId "CallBehaviorAction2" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6> a ns1:CallBehaviorAction,
         sbol:Identified ;
@@ -973,15 +965,6 @@
     ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/OutputPin1> ;
     sbol:displayId "CallBehaviorAction6" .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7> a ns1:CallBehaviorAction,
-        sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance> ;
-    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin2>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/ValuePin1> ;
-    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/OutputPin1> ;
-    sbol:displayId "CallBehaviorAction7" .
-
 <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> a <http://bioprotocols.org/paml#Primitive>,
         sbol:TopLevel ;
     ns1:ownedParameter <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1>,
@@ -990,6 +973,15 @@
     sbol:description "Select only the samples with specified row/column combination from a sample collection" ;
     sbol:displayId "PlateCoordinates" ;
     sbol:hasNamespace <https://bioprotocols.org/paml/primitives/sample_arrays> .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7> a ns1:CallBehaviorAction,
+        sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance> ;
+    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin2>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/ValuePin1> ;
+    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/OutputPin1> ;
+    sbol:displayId "CallBehaviorAction7" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3> a ns1:CallBehaviorAction,
         sbol:Identified ;
@@ -1008,10 +1000,6 @@
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin2> ;
     sbol:displayId "CallBehaviorAction5" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode2> a ns1:ForkNode,
-        sbol:Identified ;
-    sbol:displayId "ForkNode2" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> a ns1:ForkNode,
         sbol:Identified ;

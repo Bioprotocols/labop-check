@@ -50,6 +50,20 @@ def join_constraint(t_join, joined_times):
     ])
     return constraint
 
+# TODO review this
+def fork_constraint(t_fork, forked_times):
+    """
+    A fork step must be equal to all of the preceding timepoints
+    :param t_fork:
+    :param forked_times:
+    :return:
+    """
+    constraint = pysmt.shortcuts.And([
+        pysmt.shortcuts.Equals(t_fork, t_f)
+        for t_f in forked_times
+    ])
+    return constraint
+
 
 def time_points_happen_once_constraint(timepoint_vars, happenings):
     """
