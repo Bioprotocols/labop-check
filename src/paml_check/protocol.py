@@ -76,7 +76,7 @@ class Protocol:
             uml.ForkNode: self._insert_fork,
             uml.FlowFinalNode: self._insert_final,
             uml.InitialNode: self._insert_initial,
-            # uml.CallBehaviorAction: self._insert_call_behavior_action
+            uml.CallBehaviorAction: self._insert_call_behavior_action
         }
         self.edge_func_map = {
             uml.ControlFlow: self._insert_control_flow,
@@ -205,6 +205,9 @@ class Protocol:
 
     def _insert_final(self, node):
         self._insert_join(node)
+
+    def _insert_call_behavior_action(self, node):
+        pass # We currently don't use these for anything type specific
         
     def find_fork_groups(self):
         fork_groups = {f: [] for f in self.forks}
