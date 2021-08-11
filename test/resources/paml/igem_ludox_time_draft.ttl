@@ -152,8 +152,8 @@
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1> a ns1:DurationInterval,
         sbol:Identified ;
-    ns1:maxDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression2> ;
-    ns1:minDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression1> ;
+    ns1:maxDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression1> ;
+    ns1:minDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression2> ;
     sbol:displayId "DurationInterval1" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_duration/DurationInterval1/TimeExpression1> a ns1:TimeExpression,
@@ -199,8 +199,8 @@
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1> a ns1:DurationInterval,
         sbol:Identified ;
-    ns1:maxDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression2> ;
-    ns1:minDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression1> ;
+    ns1:maxDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression1> ;
+    ns1:minDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression2> ;
     sbol:displayId "DurationInterval1" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3_end_https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_start/DurationInterval1/TimeExpression1> a ns1:TimeExpression,
@@ -295,8 +295,8 @@
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1> a ns1:DurationInterval,
         sbol:Identified ;
-    ns1:maxDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression2> ;
-    ns1:minDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression1> ;
+    ns1:maxDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression1> ;
+    ns1:minDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression2> ;
     sbol:displayId "DurationInterval1" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5_duration/DurationInterval1/TimeExpression1> a ns1:TimeExpression,
@@ -392,8 +392,8 @@
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1> a ns1:DurationInterval,
         sbol:Identified ;
-    ns1:maxDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression2> ;
-    ns1:minDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression1> ;
+    ns1:maxDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression1> ;
+    ns1:minDurationValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression2> ;
     sbol:displayId "DurationInterval1" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7_duration/DurationInterval1/TimeExpression1> a ns1:TimeExpression,
@@ -547,8 +547,8 @@
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1> a ns1:TimeInterval,
         sbol:Identified ;
-    ns1:maxTimeValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression1> ;
-    ns1:minTimeValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression2> ;
+    ns1:maxTimeValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression2> ;
+    ns1:minTimeValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression1> ;
     sbol:displayId "TimeInterval1" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_start/TimeInterval1/TimeExpression1> a ns1:TimeExpression,
