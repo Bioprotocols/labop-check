@@ -13,24 +13,24 @@ def get_doc_from_file(paml_file):
 
 
 def test_minimize_duration():
-    paml_file = os.path.join(os.getcwd(), 'resources/paml', 'igem_ludox_time_draft.ttl')
+    paml_file = os.path.join(os.getcwd(), 'test/resources/paml', 'igem_ludox_time_draft.ttl')
     duration = pc.get_minimum_duration(get_doc_from_file(paml_file))
     assert duration
 
 
 def test_generate_timed_constraints():
-    paml_file = os.path.join(os.getcwd(), 'resources/paml', 'igem_ludox_time_draft.ttl')
+    paml_file = os.path.join(os.getcwd(), 'test/resources/paml', 'igem_ludox_time_draft.ttl')
     result = pc.check_doc(get_doc_from_file(paml_file))
     assert result
 
 
 def test_generate_untimed_constraints():
-    paml_file = os.path.join(os.getcwd(), 'resources/paml', 'igem_ludox_draft.ttl')
+    paml_file = os.path.join(os.getcwd(), 'test/resources/paml', 'igem_ludox_draft.ttl')
     result = pc.check_doc(get_doc_from_file(paml_file))
     assert result
 
 def test_activity_graph():
-    paml_file = os.path.join(os.getcwd(), 'resources/paml', 'igem_ludox_time_draft.ttl')
+    paml_file = os.path.join(os.getcwd(), 'test/resources/paml', 'igem_ludox_time_draft.ttl')
     doc = get_doc_from_file(paml_file)
     graph = ActivityGraph(doc)
     formula = graph.generate_constraints()

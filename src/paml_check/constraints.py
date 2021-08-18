@@ -91,14 +91,4 @@ def duration_constraint(start, end, duration):
 
     return constraint
 
-def anytime_before(t1, t2):
-    return [[0,t_inf]]
-
-
-
-def determine_time_constraint(source_uri, disjunctive_distance, sink_uri):
-    t1 = timepoint_vars[source_uri]
-    t2 = timepoint_vars[sink_uri]
-    return binary_temporal_constraint(t1, disjunctive_distance, t2)
-
 
