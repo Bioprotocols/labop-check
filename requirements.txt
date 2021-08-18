@@ -1,1 +1,2 @@
 git+git://github.com/SD2E/paml@time#egg=paml
+pysmt
