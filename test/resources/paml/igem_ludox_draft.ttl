@@ -1,30 +1,34 @@
-@prefix ns1: <http://bioprotocols.org/paml#> .
+@prefix ns1: <http://bioprotocols.org/uml#> .
 @prefix om: <http://www.ontology-of-units-of-measure.org/resource/om-2/> .
 @prefix sbol: <http://sbols.org/v3#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018> a ns1:Protocol,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018> a <http://bioprotocols.org/paml#Protocol>,
         sbol:TopLevel ;
-    ns1:hasActivity <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Final1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Initial1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Join1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Value1> ;
-    ns1:hasFlow <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Flow1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Flow2>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Flow3>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Flow4>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Flow5>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Flow6>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Flow7> ;
-    ns1:hasLocation <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Container1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ContainerCoordinates1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ContainerCoordinates2> ;
-    ns1:hasOutput <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ProtocolPinSpecification1> ;
-    ns1:material <https://bbn.com/scratch/LUDOX>,
-        <https://bbn.com/scratch/ddH2O> ;
+    ns1:edge <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow2>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow3>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow4>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow5>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow6>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow7>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow2>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow3>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow4>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow5>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow6>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow7> ;
+    ns1:node <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/InitialNode1> ;
+    ns1:ownedParameter <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/OrderedPropertyValue1> ;
     sbol:description """
 With this protocol you will use LUDOX CL-X (a 45% colloidal silica suspension) as a single point reference to
 obtain a conversion factor to transform absorbance (OD600) data from your plate reader into a comparable
@@ -37,319 +41,737 @@ at 600 nm, the basic output of most instruments) into comparable OD600 measureme
 is only weakly scattering and so will give a low absorbance value.
         """ ;
     sbol:displayId "iGEM_LUDOX_OD_calibration_2018" ;
+    sbol:hasNamespace <https://bbn.com/scratch/> ;
     sbol:name "iGEM 2018 LUDOX OD calibration protocol" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Flow1> a ns1:Flow,
-        sbol:Identified ;
-    ns1:sink <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1> ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Initial1> ;
-    sbol:displayId "Flow1" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Flow2> a ns1:Flow,
-        sbol:Identified ;
-    ns1:sink <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2> ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Initial1> ;
-    sbol:displayId "Flow2" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Flow3> a ns1:Flow,
-        sbol:Identified ;
-    ns1:sink <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Join1> ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1/Pin2> ;
-    sbol:displayId "Flow3" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Flow4> a ns1:Flow,
-        sbol:Identified ;
-    ns1:sink <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Join1> ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2/Pin2> ;
-    sbol:displayId "Flow4" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Flow5> a ns1:Flow,
-        sbol:Identified ;
-    ns1:sink <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3/Pin1> ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Join1> ;
-    sbol:displayId "Flow5" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Flow6> a ns1:Flow,
-        sbol:Identified ;
-    ns1:sink <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Value1> ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3/Pin3> ;
-    sbol:displayId "Flow6" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Flow7> a ns1:Flow,
-        sbol:Identified ;
-    ns1:sink <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Final1> ;
-    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Value1> ;
-    sbol:displayId "Flow7" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1/LocalValuePin1> a ns1:LocalValuePin,
-        sbol:Identified ;
-    ns1:activityType om:Measure ;
-    ns1:instanceOfPinSpecification <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification3> ;
-    ns1:localValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1/LocalValuePin1/Measure1> ;
-    sbol:displayId "LocalValuePin1" ;
-    sbol:name "amount" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1/LocalValuePin1/Measure1> a sbol:Identified,
-        om:Measure ;
-    sbol:displayId "Measure1" ;
-    om:hasNumericalValue 1e+02 ;
-    om:hasUnit om:microlitre .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1/Pin1> a ns1:Pin,
-        sbol:Identified ;
-    ns1:activityType om:Measure ;
-    ns1:instanceOfPinSpecification <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification4> ;
-    sbol:displayId "Pin1" ;
-    sbol:name "dispenseVelocity" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1/ReferenceValuePin1> a ns1:ReferenceValuePin,
-        sbol:Identified ;
-    ns1:activityType ns1:Location ;
-    ns1:instanceOfPinSpecification <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification2> ;
-    ns1:referenceValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ContainerCoordinates1> ;
-    sbol:displayId "ReferenceValuePin1" ;
-    sbol:name "destination" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1/ReferenceValuePin2> a ns1:ReferenceValuePin,
-        sbol:Identified ;
-    ns1:activityType sbol:Component ;
-    ns1:instanceOfPinSpecification <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification1> ;
-    ns1:referenceValue <https://bbn.com/scratch/LUDOX> ;
-    sbol:displayId "ReferenceValuePin2" ;
-    sbol:name "resource" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2/LocalValuePin1> a ns1:LocalValuePin,
-        sbol:Identified ;
-    ns1:activityType om:Measure ;
-    ns1:instanceOfPinSpecification <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification3> ;
-    ns1:localValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2/LocalValuePin1/Measure1> ;
-    sbol:displayId "LocalValuePin1" ;
-    sbol:name "amount" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2/LocalValuePin1/Measure1> a sbol:Identified,
-        om:Measure ;
-    sbol:displayId "Measure1" ;
-    om:hasNumericalValue 1e+02 ;
-    om:hasUnit om:microlitre .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2/Pin1> a ns1:Pin,
-        sbol:Identified ;
-    ns1:activityType om:Measure ;
-    ns1:instanceOfPinSpecification <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification4> ;
-    sbol:displayId "Pin1" ;
-    sbol:name "dispenseVelocity" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2/ReferenceValuePin1> a ns1:ReferenceValuePin,
-        sbol:Identified ;
-    ns1:activityType ns1:Location ;
-    ns1:instanceOfPinSpecification <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification2> ;
-    ns1:referenceValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ContainerCoordinates2> ;
-    sbol:displayId "ReferenceValuePin1" ;
-    sbol:name "destination" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2/ReferenceValuePin2> a ns1:ReferenceValuePin,
-        sbol:Identified ;
-    ns1:activityType sbol:Component ;
-    ns1:instanceOfPinSpecification <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification1> ;
-    ns1:referenceValue <https://bbn.com/scratch/ddH2O> ;
-    sbol:displayId "ReferenceValuePin2" ;
-    sbol:name "resource" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3> a ns1:PrimitiveExecutable,
-        sbol:Identified ;
-    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3/LocalValuePin1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3/Pin1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3/Pin2> ;
-    ns1:instanceOfPrimitive <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance> ;
-    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3/Pin3> ;
-    sbol:displayId "PrimitiveExecutable3" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3/LocalValuePin1> a ns1:LocalValuePin,
-        sbol:Identified ;
-    ns1:activityType om:Measure ;
-    ns1:instanceOfPinSpecification <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/PrimitivePinSpecification2> ;
-    ns1:localValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3/LocalValuePin1/Measure1> ;
-    sbol:displayId "LocalValuePin1" ;
-    sbol:name "wavelength" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3/LocalValuePin1/Measure1> a sbol:Identified,
-        om:Measure ;
-    sbol:displayId "Measure1" ;
-    om:hasNumericalValue 6e+02 ;
-    om:hasUnit om:nanometre .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3/Pin2> a ns1:Pin,
-        sbol:Identified ;
-    ns1:activityType xsd:integer ;
-    ns1:instanceOfPinSpecification <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/PrimitivePinSpecification3> ;
-    sbol:displayId "Pin2" ;
-    sbol:name "numFlashes" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ProtocolPinSpecification1> a ns1:ProtocolPinSpecification,
-        sbol:Identified ;
-    ns1:pinActivity <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Value1> ;
-    sbol:displayId "ProtocolPinSpecification1" ;
-    sbol:name "absorbance" .
-
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance> a ns1:Primitive,
-        sbol:TopLevel ;
-    ns1:input <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/PrimitivePinSpecification1>,
-        <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/PrimitivePinSpecification2>,
-        <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/PrimitivePinSpecification3> ;
-    ns1:output <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/PrimitivePinSpecification4> ;
-    sbol:description "Measure absorbance at a given wavelength from a set of samples" ;
-    sbol:displayId "MeasureAbsorbance" .
 
 <https://bbn.com/scratch/LUDOX> a sbol:Component ;
     sbol:displayId "LUDOX" ;
+    sbol:hasNamespace <https://bbn.com/scratch/> ;
     sbol:name "LUDOX(R) CL-X colloidal silica, 45 wt. % suspension in H2O" ;
     sbol:type <https://identifiers.org/pubchem.substance:24866361> .
 
 <https://bbn.com/scratch/ddH2O> a sbol:Component ;
     sbol:displayId "ddH2O" ;
+    sbol:hasNamespace <https://bbn.com/scratch/> ;
     sbol:name "Water, sterile-filtered, BioReagent, suitable for cell culture" ;
     sbol:type <https://identifiers.org/pubchem.substance:24901740> .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ContainerCoordinates1> a ns1:ContainerCoordinates,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/ValuePin1> a ns1:ValuePin,
         sbol:Identified ;
-    ns1:coordinates "A1:D1" ;
-    ns1:inContainer <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Container1> ;
-    sbol:displayId "ContainerCoordinates1" .
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:value <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/ValuePin1/LiteralString1> ;
+    sbol:displayId "ValuePin1" ;
+    sbol:name "specification" .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ContainerCoordinates2> a ns1:ContainerCoordinates,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/ValuePin1/LiteralString1> a ns1:LiteralString,
         sbol:Identified ;
-    ns1:coordinates "A2:D2" ;
-    ns1:inContainer <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Container1> ;
-    sbol:displayId "ContainerCoordinates2" .
+    ns1:stringValue "https://identifiers.org/ncit:C43377" ;
+    sbol:displayId "LiteralString1" .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Final1> a ns1:Final,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/ValuePin1> a ns1:ValuePin,
         sbol:Identified ;
-    sbol:displayId "Final1" .
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:value <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/ValuePin1/LiteralString1> ;
+    sbol:displayId "ValuePin1" ;
+    sbol:name "coordinates" .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1> a ns1:PrimitiveExecutable,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/ValuePin1/LiteralString1> a ns1:LiteralString,
         sbol:Identified ;
-    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1/LocalValuePin1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1/Pin1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1/ReferenceValuePin1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1/ReferenceValuePin2> ;
-    ns1:instanceOfPrimitive <https://bioprotocols.org/paml/primitives/liquid_handling/Provision> ;
-    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1/Pin2> ;
-    sbol:displayId "PrimitiveExecutable1" .
+    ns1:stringValue "A1:D1" ;
+    sbol:displayId "LiteralString1" .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable1/Pin2> a ns1:Pin,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/InputPin2> a ns1:InputPin,
         sbol:Identified ;
-    ns1:instanceOfPinSpecification <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification5> ;
-    sbol:displayId "Pin2" ;
-    sbol:name "samples" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2> a ns1:PrimitiveExecutable,
-        sbol:Identified ;
-    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2/LocalValuePin1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2/Pin1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2/ReferenceValuePin1>,
-        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2/ReferenceValuePin2> ;
-    ns1:instanceOfPrimitive <https://bioprotocols.org/paml/primitives/liquid_handling/Provision> ;
-    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2/Pin2> ;
-    sbol:displayId "PrimitiveExecutable2" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable2/Pin2> a ns1:Pin,
-        sbol:Identified ;
-    ns1:instanceOfPinSpecification <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification5> ;
-    sbol:displayId "Pin2" ;
-    sbol:name "samples" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3/Pin1> a ns1:Pin,
-        sbol:Identified ;
-    ns1:activityType ns1:LocatedSamples ;
-    ns1:instanceOfPinSpecification <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/PrimitivePinSpecification1> ;
-    sbol:displayId "Pin1" ;
-    sbol:name "samples" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/PrimitiveExecutable3/Pin3> a ns1:Pin,
-        sbol:Identified ;
-    ns1:instanceOfPinSpecification <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/PrimitivePinSpecification4> ;
-    sbol:displayId "Pin3" ;
-    sbol:name "measurements" .
-
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision> a ns1:Primitive,
-        sbol:TopLevel ;
-    ns1:input <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification1>,
-        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification2>,
-        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification3>,
-        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification4> ;
-    ns1:output <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification5> ;
-    sbol:description "Place a measured amount (mass or volume) of a specified component into a location, where it may then be used in executing the protocol." ;
-    sbol:displayId "Provision" .
-
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/PrimitivePinSpecification1> a ns1:PrimitivePinSpecification,
-        sbol:Identified ;
-    ns1:activityType ns1:LocatedSamples ;
-    sbol:displayId "PrimitivePinSpecification1" ;
-    sbol:name "samples" .
-
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/PrimitivePinSpecification2> a ns1:PrimitivePinSpecification,
-        sbol:Identified ;
-    ns1:activityType om:Measure ;
-    sbol:displayId "PrimitivePinSpecification2" ;
-    sbol:name "wavelength" .
-
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/PrimitivePinSpecification3> a ns1:PrimitivePinSpecification,
-        sbol:Identified ;
-    ns1:activityType xsd:integer ;
-    sbol:displayId "PrimitivePinSpecification3" ;
-    sbol:name "numFlashes" .
-
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/PrimitivePinSpecification4> a ns1:PrimitivePinSpecification,
-        sbol:Identified ;
-    ns1:activityType ns1:LocatedData ;
-    sbol:displayId "PrimitivePinSpecification4" ;
-    sbol:name "measurements" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Container1> a ns1:Container,
-        sbol:Identified ;
-    ns1:containerType <https://identifiers.org/ncit:C43377> ;
-    sbol:displayId "Container1" ;
-    sbol:name "Microplate" .
-
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Initial1> a ns1:Initial,
-        sbol:Identified ;
-    sbol:displayId "Initial1" .
-
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification1> a ns1:PrimitivePinSpecification,
-        sbol:Identified ;
-    ns1:activityType sbol:Component ;
-    sbol:displayId "PrimitivePinSpecification1" ;
-    sbol:name "resource" .
-
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification2> a ns1:PrimitivePinSpecification,
-        sbol:Identified ;
-    ns1:activityType ns1:Location ;
-    sbol:displayId "PrimitivePinSpecification2" ;
-    sbol:name "destination" .
-
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification3> a ns1:PrimitivePinSpecification,
-        sbol:Identified ;
-    ns1:activityType om:Measure ;
-    sbol:displayId "PrimitivePinSpecification3" ;
-    sbol:name "amount" .
-
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification4> a ns1:PrimitivePinSpecification,
-        sbol:Identified ;
-    ns1:activityType om:Measure ;
-    sbol:displayId "PrimitivePinSpecification4" ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "InputPin2" ;
     sbol:name "dispenseVelocity" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/PrimitivePinSpecification5> a ns1:PrimitivePinSpecification,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/ValuePin1> a ns1:ValuePin,
         sbol:Identified ;
-    ns1:activityType ns1:LocatedSamples ;
-    sbol:displayId "PrimitivePinSpecification5" ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:value <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/ValuePin1/LiteralReference1> ;
+    sbol:displayId "ValuePin1" ;
+    sbol:name "resource" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/ValuePin1/LiteralReference1> a ns1:LiteralReference,
+        sbol:Identified ;
+    ns1:referenceValue <https://bbn.com/scratch/LUDOX> ;
+    sbol:displayId "LiteralReference1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/ValuePin2> a ns1:ValuePin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:value <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/ValuePin2/LiteralIdentified1> ;
+    sbol:displayId "ValuePin2" ;
+    sbol:name "amount" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/ValuePin2/LiteralIdentified1> a ns1:LiteralIdentified,
+        sbol:Identified ;
+    ns1:identifiedValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/ValuePin2/LiteralIdentified1/Measure1> ;
+    sbol:displayId "LiteralIdentified1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/ValuePin2/LiteralIdentified1/Measure1> a sbol:Identified,
+        om:Measure ;
+    sbol:displayId "Measure1" ;
+    om:hasNumericalValue 1e+02 ;
+    om:hasUnit om:microlitre .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/ValuePin1> a ns1:ValuePin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:value <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/ValuePin1/LiteralString1> ;
+    sbol:displayId "ValuePin1" ;
+    sbol:name "coordinates" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/ValuePin1/LiteralString1> a ns1:LiteralString,
+        sbol:Identified ;
+    ns1:stringValue "A2:D2" ;
+    sbol:displayId "LiteralString1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/InputPin2> a ns1:InputPin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "InputPin2" ;
+    sbol:name "dispenseVelocity" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin1> a ns1:ValuePin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:value <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin1/LiteralReference1> ;
+    sbol:displayId "ValuePin1" ;
+    sbol:name "resource" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin1/LiteralReference1> a ns1:LiteralReference,
+        sbol:Identified ;
+    ns1:referenceValue <https://bbn.com/scratch/ddH2O> ;
+    sbol:displayId "LiteralReference1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin2> a ns1:ValuePin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:value <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin2/LiteralIdentified1> ;
+    sbol:displayId "ValuePin2" ;
+    sbol:name "amount" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin2/LiteralIdentified1> a ns1:LiteralIdentified,
+        sbol:Identified ;
+    ns1:identifiedValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin2/LiteralIdentified1/Measure1> ;
+    sbol:displayId "LiteralIdentified1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin2/LiteralIdentified1/Measure1> a sbol:Identified,
+        om:Measure ;
+    sbol:displayId "Measure1" ;
+    om:hasNumericalValue 1e+02 ;
+    om:hasUnit om:microlitre .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/ValuePin1> a ns1:ValuePin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:value <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/ValuePin1/LiteralString1> ;
+    sbol:displayId "ValuePin1" ;
+    sbol:name "coordinates" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/ValuePin1/LiteralString1> a ns1:LiteralString,
+        sbol:Identified ;
+    ns1:stringValue "A1:D2" ;
+    sbol:displayId "LiteralString1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin2> a ns1:InputPin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "InputPin2" ;
+    sbol:name "numFlashes" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/OutputPin1> a ns1:OutputPin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "OutputPin1" ;
+    sbol:name "measurements" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/ValuePin1> a ns1:ValuePin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:value <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/ValuePin1/LiteralIdentified1> ;
+    sbol:displayId "ValuePin1" ;
+    sbol:name "wavelength" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/ValuePin1/LiteralIdentified1> a ns1:LiteralIdentified,
+        sbol:Identified ;
+    ns1:identifiedValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/ValuePin1/LiteralIdentified1/Measure1> ;
+    sbol:displayId "LiteralIdentified1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/ValuePin1/LiteralIdentified1/Measure1> a sbol:Identified,
+        om:Measure ;
+    sbol:displayId "Measure1" ;
+    om:hasNumericalValue 6e+02 ;
+    om:hasUnit om:nanometre .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow1> a ns1:ControlFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/InitialNode1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1> ;
+    sbol:displayId "ControlFlow1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow2> a ns1:ControlFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2> ;
+    sbol:displayId "ControlFlow2" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow3> a ns1:ControlFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3> ;
+    sbol:displayId "ControlFlow3" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow4> a ns1:ControlFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4> ;
+    sbol:displayId "ControlFlow4" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow5> a ns1:ControlFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5> ;
+    sbol:displayId "ControlFlow5" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow6> a ns1:ControlFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6> ;
+    sbol:displayId "ControlFlow6" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ControlFlow7> a ns1:ControlFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7> ;
+    sbol:displayId "ControlFlow7" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow1> a ns1:ObjectFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/InputPin1> ;
+    sbol:displayId "ObjectFlow1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow2> a ns1:ObjectFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/OutputPin1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/InputPin1> ;
+    sbol:displayId "ObjectFlow2" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow3> a ns1:ObjectFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/OutputPin1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
+    sbol:displayId "ObjectFlow3" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow4> a ns1:ObjectFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/InputPin1> ;
+    sbol:displayId "ObjectFlow4" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow5> a ns1:ObjectFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/OutputPin1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/InputPin1> ;
+    sbol:displayId "ObjectFlow5" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow6> a ns1:ObjectFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/InputPin1> ;
+    sbol:displayId "ObjectFlow6" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ObjectFlow7> a ns1:ObjectFlow,
+        sbol:Identified ;
+    ns1:source <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/OutputPin1> ;
+    ns1:target <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin1> ;
+    sbol:displayId "ObjectFlow7" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/OrderedPropertyValue1> a ns1:OrderedPropertyValue,
+        sbol:Identified ;
+    ns1:indexValue 0 ;
+    ns1:propertyValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/OrderedPropertyValue1/Parameter1> ;
+    sbol:displayId "OrderedPropertyValue1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/OrderedPropertyValue1/Parameter1> a ns1:Parameter,
+        sbol:Identified ;
+    ns1:direction ns1:out ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:lowerValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/OrderedPropertyValue1/Parameter1/LiteralInteger2> ;
+    ns1:upperValue <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/OrderedPropertyValue1/Parameter1/LiteralInteger1> ;
+    sbol:displayId "Parameter1" ;
+    sbol:name "absorbance" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/OrderedPropertyValue1/Parameter1/LiteralInteger1> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/OrderedPropertyValue1/Parameter1/LiteralInteger2> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger2" .
+
+<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1> a ns1:Parameter,
+        sbol:Identified ;
+    ns1:direction ns1:in ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:lowerValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1/LiteralInteger2> ;
+    ns1:type sbol:Component ;
+    ns1:upperValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1/LiteralInteger1> ;
+    sbol:displayId "Parameter1" ;
+    sbol:name "resource" .
+
+<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1/LiteralInteger1> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger1" .
+
+<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1/LiteralInteger2> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger2" .
+
+<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2> a ns1:Parameter,
+        sbol:Identified ;
+    ns1:direction ns1:in ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:lowerValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2/LiteralInteger2> ;
+    ns1:type <http://bioprotocols.org/paml#SampleCollection> ;
+    ns1:upperValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2/LiteralInteger1> ;
+    sbol:displayId "Parameter2" ;
+    sbol:name "destination" .
+
+<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2/LiteralInteger1> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger1" .
+
+<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2/LiteralInteger2> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger2" .
+
+<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter3> a ns1:Parameter,
+        sbol:Identified ;
+    ns1:direction ns1:in ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:lowerValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter3/LiteralInteger2> ;
+    ns1:type om:Measure ;
+    ns1:upperValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter3/LiteralInteger1> ;
+    sbol:displayId "Parameter3" ;
+    sbol:name "amount" .
+
+<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter3/LiteralInteger1> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger1" .
+
+<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter3/LiteralInteger2> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger2" .
+
+<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter4> a ns1:Parameter,
+        sbol:Identified ;
+    ns1:direction ns1:in ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:lowerValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter4/LiteralInteger2> ;
+    ns1:type om:Measure ;
+    ns1:upperValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter4/LiteralInteger1> ;
+    sbol:displayId "Parameter4" ;
+    sbol:name "dispenseVelocity" .
+
+<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter4/LiteralInteger1> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger1" .
+
+<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter4/LiteralInteger2> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 0 ;
+    sbol:displayId "LiteralInteger2" .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer> a <http://bioprotocols.org/paml#Primitive>,
+        sbol:TopLevel ;
+    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1>,
+        <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter2> ;
+    sbol:description "Allocate a sample array with size and type based on an empty container" ;
+    sbol:displayId "EmptyContainer" ;
+    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/sample_arrays> .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1> a ns1:Parameter,
+        sbol:Identified ;
+    ns1:direction ns1:in ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:lowerValue <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1/LiteralInteger2> ;
+    ns1:type sbol:Identified ;
+    ns1:upperValue <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1/LiteralInteger1> ;
+    sbol:displayId "Parameter1" ;
+    sbol:name "specification" .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1/LiteralInteger1> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger1" .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1/LiteralInteger2> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger2" .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter2> a ns1:Parameter,
+        sbol:Identified ;
+    ns1:direction ns1:out ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:lowerValue <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter2/LiteralInteger2> ;
+    ns1:type <http://bioprotocols.org/paml#SampleArray> ;
+    ns1:upperValue <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter2/LiteralInteger1> ;
+    sbol:displayId "Parameter2" ;
     sbol:name "samples" .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Join1> a ns1:Join,
+<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter2/LiteralInteger1> a ns1:LiteralInteger,
         sbol:Identified ;
-    sbol:displayId "Join1" .
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger1" .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/Value1> a ns1:Value,
+<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter2/LiteralInteger2> a ns1:LiteralInteger,
         sbol:Identified ;
-    sbol:displayId "Value1" .
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger2" .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1> a ns1:Parameter,
+        sbol:Identified ;
+    ns1:direction ns1:in ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:lowerValue <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1/LiteralInteger2> ;
+    ns1:type <http://bioprotocols.org/paml#SampleCollection> ;
+    ns1:upperValue <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1/LiteralInteger1> ;
+    sbol:displayId "Parameter1" ;
+    sbol:name "source" .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1/LiteralInteger1> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger1" .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1/LiteralInteger2> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger2" .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter2> a ns1:Parameter,
+        sbol:Identified ;
+    ns1:direction ns1:in ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:lowerValue <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter2/LiteralInteger2> ;
+    ns1:type ns1:ValueSpecification ;
+    ns1:upperValue <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter2/LiteralInteger1> ;
+    sbol:displayId "Parameter2" ;
+    sbol:name "coordinates" .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter2/LiteralInteger1> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger1" .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter2/LiteralInteger2> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger2" .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter3> a ns1:Parameter,
+        sbol:Identified ;
+    ns1:direction ns1:out ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:lowerValue <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter3/LiteralInteger2> ;
+    ns1:type <http://bioprotocols.org/paml#SampleCollection> ;
+    ns1:upperValue <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter3/LiteralInteger1> ;
+    sbol:displayId "Parameter3" ;
+    sbol:name "samples" .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter3/LiteralInteger1> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger1" .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter3/LiteralInteger2> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger2" .
+
+<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance> a <http://bioprotocols.org/paml#Primitive>,
+        sbol:TopLevel ;
+    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1>,
+        <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter2>,
+        <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter3>,
+        <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4> ;
+    sbol:description "Measure absorbance at a given wavelength from a set of samples" ;
+    sbol:displayId "MeasureAbsorbance" ;
+    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/spectrophotometry> .
+
+<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1> a ns1:Parameter,
+        sbol:Identified ;
+    ns1:direction ns1:in ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:lowerValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1/LiteralInteger2> ;
+    ns1:type <http://bioprotocols.org/paml#SampleCollection> ;
+    ns1:upperValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1/LiteralInteger1> ;
+    sbol:displayId "Parameter1" ;
+    sbol:name "samples" .
+
+<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1/LiteralInteger1> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger1" .
+
+<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1/LiteralInteger2> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger2" .
+
+<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter2> a ns1:Parameter,
+        sbol:Identified ;
+    ns1:direction ns1:in ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:lowerValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter2/LiteralInteger2> ;
+    ns1:type om:Measure ;
+    ns1:upperValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter2/LiteralInteger1> ;
+    sbol:displayId "Parameter2" ;
+    sbol:name "wavelength" .
+
+<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter2/LiteralInteger1> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger1" .
+
+<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter2/LiteralInteger2> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger2" .
+
+<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter3> a ns1:Parameter,
+        sbol:Identified ;
+    ns1:direction ns1:in ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:lowerValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter3/LiteralInteger2> ;
+    ns1:type xsd:integer ;
+    ns1:upperValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter3/LiteralInteger1> ;
+    sbol:displayId "Parameter3" ;
+    sbol:name "numFlashes" .
+
+<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter3/LiteralInteger1> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger1" .
+
+<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter3/LiteralInteger2> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 0 ;
+    sbol:displayId "LiteralInteger2" .
+
+<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4> a ns1:Parameter,
+        sbol:Identified ;
+    ns1:direction ns1:out ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    ns1:lowerValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4/LiteralInteger2> ;
+    ns1:type <http://bioprotocols.org/paml#SampleData> ;
+    ns1:upperValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4/LiteralInteger1> ;
+    sbol:displayId "Parameter4" ;
+    sbol:name "measurements" .
+
+<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4/LiteralInteger1> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger1" .
+
+<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4/LiteralInteger2> a ns1:LiteralInteger,
+        sbol:Identified ;
+    ns1:integerValue 1 ;
+    sbol:displayId "LiteralInteger2" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/OutputPin1> a ns1:OutputPin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "OutputPin1" ;
+    sbol:name "samples" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/InputPin1> a ns1:InputPin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "InputPin1" ;
+    sbol:name "source" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/OutputPin1> a ns1:OutputPin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "OutputPin1" ;
+    sbol:name "samples" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/InputPin1> a ns1:InputPin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "InputPin1" ;
+    sbol:name "destination" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/InputPin1> a ns1:InputPin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "InputPin1" ;
+    sbol:name "source" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/OutputPin1> a ns1:OutputPin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "OutputPin1" ;
+    sbol:name "samples" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/InputPin1> a ns1:InputPin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "InputPin1" ;
+    sbol:name "destination" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/InputPin1> a ns1:InputPin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "InputPin1" ;
+    sbol:name "source" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/OutputPin1> a ns1:OutputPin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "OutputPin1" ;
+    sbol:name "samples" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7> a ns1:CallBehaviorAction,
+        sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance> ;
+    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin2>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/ValuePin1> ;
+    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/OutputPin1> ;
+    sbol:displayId "CallBehaviorAction7" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction7/InputPin1> a ns1:InputPin,
+        sbol:Identified ;
+    ns1:isOrdered true ;
+    ns1:isUnique true ;
+    sbol:displayId "InputPin1" ;
+    sbol:name "samples" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/InitialNode1> a ns1:InitialNode,
+        sbol:Identified ;
+    sbol:displayId "InitialNode1" .
+
+<https://bioprotocols.org/paml/primitives/liquid_handling/Provision> a <http://bioprotocols.org/paml#Primitive>,
+        sbol:TopLevel ;
+    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1>,
+        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2>,
+        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter3>,
+        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter4> ;
+    sbol:description "Place a measured amount (mass or volume) of a specified component into a location, where it may then be used in executing the protocol." ;
+    sbol:displayId "Provision" ;
+    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/liquid_handling> .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1> a ns1:CallBehaviorAction,
+        sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer> ;
+    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/ValuePin1> ;
+    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction1/OutputPin1> ;
+    sbol:displayId "CallBehaviorAction1" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2> a ns1:CallBehaviorAction,
+        sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
+    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/InputPin1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/ValuePin1> ;
+    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction2/OutputPin1> ;
+    sbol:displayId "CallBehaviorAction2" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3> a ns1:CallBehaviorAction,
+        sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/liquid_handling/Provision> ;
+    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/InputPin1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/InputPin2>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/ValuePin1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction3/ValuePin2> ;
+    sbol:displayId "CallBehaviorAction3" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4> a ns1:CallBehaviorAction,
+        sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
+    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/InputPin1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/ValuePin1> ;
+    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction4/OutputPin1> ;
+    sbol:displayId "CallBehaviorAction4" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5> a ns1:CallBehaviorAction,
+        sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/liquid_handling/Provision> ;
+    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/InputPin1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/InputPin2>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction5/ValuePin2> ;
+    sbol:displayId "CallBehaviorAction5" .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6> a ns1:CallBehaviorAction,
+        sbol:Identified ;
+    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
+    ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/InputPin1>,
+        <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/ValuePin1> ;
+    ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/CallBehaviorAction6/OutputPin1> ;
+    sbol:displayId "CallBehaviorAction6" .
+
+<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> a <http://bioprotocols.org/paml#Primitive>,
+        sbol:TopLevel ;
+    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1>,
+        <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter2>,
+        <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter3> ;
+    sbol:description "Select only the samples with specified row/column combination from a sample collection" ;
+    sbol:displayId "PlateCoordinates" ;
+    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/sample_arrays> .
+
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018/ForkNode1> a ns1:ForkNode,
+        sbol:Identified ;
+    sbol:displayId "ForkNode1" .
 

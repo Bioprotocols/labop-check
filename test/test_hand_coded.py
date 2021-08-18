@@ -105,3 +105,65 @@ def test_ludox_check_direct():
         print("UNSAT")
 
     assert result
+
+def test_decision_merge():
+    """
+    Test encoding of decision and merge nodes
+    :return:
+    """
+
+    timepoints = [
+        "decision",
+        "act1",
+        "act2",
+        "merge"
+    ]
+    t_inf = 10000.0
+    t_epsilon = 0.0001
+
+    timepoint_vars = {t: pysmt.shortcuts.Symbol(t, pysmt.shortcuts.REAL)
+                      for t in timepoints}
+
+    timepoint_var_domains = [pysmt.shortcuts.And(pysmt.shortcuts.GE(t, pysmt.shortcuts.Real(0.0)),
+                                                 pysmt.shortcuts.LE(t, pysmt.shortcuts.Real(t_inf)))
+                             for _, t in timepoint_vars.items()]
+
+    timepoint_happens = { t : pysmt.shortcuts.Symbol(f"happens({t})")
+                          for t in timepoints
+                          }
+
+    condition = pysmt.shortcuts.Symbol("D")
+
+    # A timepoint happens if its ancestors happen
+    happens_constraints = [
+        timepoint_happens['decision'],
+        timepoint_happens['merge'],
+        pysmt.shortcuts.Implies(timepoint_happens["act1"],
+                                pysmt.shortcuts.And(timepoint_happens["decision"],
+                                                    condition)),
+        pysmt.shortcuts.Implies(timepoint_happens["act2"],
+                                pysmt.shortcuts.And(timepoint_happens["decision"],
+                                                    pysmt.shortcuts.Not(condition))),
+        pysmt.shortcuts.Implies(timepoint_happens["merge"],
+                                pysmt.shortcuts.Or(timepoint_happens["act1"],
+                                                   timepoint_happens["act2"])),
+    ]
+
+
+    formula = pysmt.shortcuts.And(
+        timepoint_var_domains + \
+        happens_constraints +
+        [
+            pysmt.shortcuts.Not(condition)
+        ]
+    )
+
+    result = pc.check(formula)
+    if result:
+        # timeline = Timeline(result, timepoint_vars, happenings)
+        # print(timeline)
+        print("SAT")
+    else:
+        print("UNSAT")
+
+    assert result

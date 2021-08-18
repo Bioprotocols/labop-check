@@ -16,7 +16,7 @@ def _post_install():
 
 
 setup(name='paml_check',
-      version='0.1.2',
+      version='0.1.3',
       description='PAML Checker',
       long_description=long_description,
       long_description_content_type='text/markdown',
@@ -28,6 +28,7 @@ setup(name='paml_check',
       package_dir={'': 'src'},
       install_requires=[
           # "paml" This requires that paml have a valid package name
+          "pint",
           "pysmt",
           "sbol3",
           "z3-solver"
