@@ -1,1 +1,1 @@
-git+git://github.com/SD2E/paml@main#egg=paml
+git+git://github.com/SD2E/paml@time#egg=paml
