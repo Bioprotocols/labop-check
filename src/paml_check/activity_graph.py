@@ -17,7 +17,7 @@ from paml_check.units import om_convert
 from paml_check.utils import Interval
 from paml_check.minimize_duration import MinimizeDuration
 from paml_check.convert_constraints import ConstraintConverter
-from paml_check.protocol import Protocol
+from paml_check.protocol import Protocol, TimeConstraints
 
 import paml_time as pamlt # May be unused but is required to access paml_time values
 
@@ -39,12 +39,14 @@ class ActivityGraph:
         self.infinity = infinity
         self.variables = {}
         self.protocols = {}
+        self.time_constraints = {}
         self._process_doc()
 
     def _process_doc(self):
         sbol3.set_namespace('https://bbn.com/scratch/')
 
         protocols = self.doc.find_all(lambda obj: isinstance(obj, paml.Protocol))
+        time_constraints = self.doc.find_all(lambda obj: isinstance(obj, pamlt.TimeConstraints))
         # FIXME final_all seems to return duplicates
         p_count = len(protocols)
         protocols = list(set(protocols))
@@ -53,6 +55,9 @@ class ActivityGraph:
         for protocol in protocols:
             print(f"Initializing protocol: {protocol.identity}")
             self.protocols[protocol.identity] = Protocol(protocol, self.epsilon, self.infinity)
+        for time_constraint in time_constraints:
+            print(f"Initializing time constraints: {time_constraint.identity}")
+            self.time_constraints[time_constraint.identity] = TimeConstraints(time_constraint, self)
 
     def print_debug(self):
         try:
@@ -77,9 +82,14 @@ class ActivityGraph:
         protocol_constraints = []
         for _, protocol in self.protocols.items():
             protocol_constraints.append(protocol.generate_constraints())
-        if len(protocol_constraints) == 1:
-            return protocol_constraints[0]
-        return pysmt.shortcuts.And(protocol_constraints)
+        #if len(protocol_constraints) == 1:
+        #    return protocol_constraints[0]
+
+        custom_constraints = []
+        for _, time_constraint in self.time_constraints.items():
+            custom_constraints.append(time_constraint.extract_time_constraints())
+
+        return pysmt.shortcuts.And(protocol_constraints + custom_constraints)
 
 
     # def add_result(self, doc, result):
@@ -146,9 +156,9 @@ class ActivityGraph:
         result = pysmt.shortcuts.get_model(base_formula)
         min_duration = {protocol: None for protocol in self.protocols}
         if result:
-            for _, protocol in self.protocols.items():
+            for protocol_id, protocol in self.protocols.items():
                 # TODO push Protocol object through
                 supremum_duration = self.get_duration(result, protocol.ref)
-                min_duration[protocol] = MinimizeDuration(base_formula, self, protocol.ref).minimize(supremum_duration)
+                min_duration[protocol_id] = MinimizeDuration(base_formula, self, protocol.ref).minimize(supremum_duration)
 
         return min_duration

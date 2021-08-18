@@ -3,6 +3,7 @@ import uml
 import paml_time as pamlt
 import pysmt
 import tyto
+import sbol3
 
 # from paml_check.constraints import \
 #     binary_temporal_constraint, \
@@ -22,8 +23,8 @@ from . import \
     time
 
 class ConstraintConverter:
-    def __init__(self, protocol):
-        self.protocol = protocol
+    def __init__(self, time_constraints):
+        self.time_constraints = time_constraints
         self.constraint_func_map = {
             pamlt.AndConstraint: logic.convert_and_constraint,
             pamlt.OrConstraint: logic.convert_or_constraint,
@@ -63,17 +64,18 @@ class ConstraintConverter:
         return self.expression_func_map[t](self, expression)
 
     def convert_constraint(self, constraint):
-        if isinstance(constraint, list):
+        if isinstance(constraint, list) or isinstance(constraint, sbol3.ownedobject.OwnedObjectListProperty):
             if len(constraint) > 1:
-                warning(f"Treating list of constraints as an implicit And (for {constraint.indentity})."
+                identities = ','.join([c.indentity for c in constraint])
+                warning(f"Treating list of constraints as an implicit And (for [{identities}])."
                         + "\n  This is not recommended.")
-                clauses = [ self._convert_constraint_by_type(c)
-                            for c in constraint ]
+                clauses = [self._convert_constraint_by_type(c)
+                           for c in constraint]
                 return pysmt.shortcuts.And(clauses)
             else:
                 # FIXME this may just be fine to leave as real functionality but for now print a warning
-                warning(f"Treating list of constraints of length one as a single constraint (for {constraint.indentity}).")
                 constraint = constraint[0]
+                warning(f"Treating list of constraints of length one as a single constraint (for {constraint.identity}).")
         return self._convert_constraint_by_type(constraint)
 
     def convert_expression(self, expression):

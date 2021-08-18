@@ -2,14 +2,17 @@ import paml_check.convert_constraints as pcc
 import paml_time as pamlt
 import pysmt
 import pysmt.shortcuts
+import uml
 
 def convert_and_constraint(converter: 'pcc.ConstraintConverter',
                            constraint: pamlt.AndConstraint):
     """
     Convert a paml_time.AndConstraint into the pysmt equivalent
     """
-    clauses = [ converter.convert_constraint(ce)
+    elements = [ ce.property_value if isinstance(ce, uml.OrderedPropertyValue) else ce
                 for ce in constraint.constrained_elements ]
+    clauses = [ converter.convert_constraint(ce)
+                for ce in elements ]
     return pysmt.shortcuts.And(clauses)
 
 def convert_or_constraint(converter: 'pcc.ConstraintConverter',

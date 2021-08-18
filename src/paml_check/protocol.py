@@ -223,30 +223,6 @@ class Protocol:
                 join_groups[end].append(start)
         return join_groups
 
-    def extract_time_constraints(self):
-        cc = ConstraintConverter(self)
-        protocol = self.ref
-        doc = protocol.document
-        count = len(protocol.time_constraints)
-
-        # no constraints were specified
-        if count == 0:
-            # FIXME what shortcut is approriate to return when no constraints are specified?
-            return pysmt.shortcuts.TRUE()
-
-        # exactly one constraint was specified
-        if count == 1:
-            tc = doc.find(protocol.time_constraints[0])
-            return cc.convert_constraint(tc)
-
-        # more than one constraint was specified
-        # so fallback to an implicit And
-        warning(f"Protocol with identity '{protocol.indentity}' provided multiple top level constraints."
-                + "\n  These will be treated as an implicit And operation. This is not recommended.")
-        clauses = [ cc.convert_constraint(doc.find(tc_ref))
-                    for tc_ref in protocol.time_constraints ]
-        return pysmt.shortcuts.And(clauses)
-        
     def _make_protocol_constraints(self):
         protocol_start = self.time_variables.start.symbol
         protocol_end = self.time_variables.end.symbol
@@ -254,7 +230,7 @@ class Protocol:
         final_end = self.final_time_variables.end.symbol
         start_constraint = pysmt.shortcuts.Equals(protocol_start, initial_start)
         end_constraint = pysmt.shortcuts.Equals(protocol_end, final_end)
-        return [start_constraint, end_constraint, self.extract_time_constraints()]
+        return [start_constraint, end_constraint]
 
     def generate_constraints(self):
         symbols = self.collect_time_symbols()
@@ -386,3 +362,47 @@ class Protocol:
             for _, var in grp.items():
                 print(f"    {var.prefix} = {float(model[var.symbol].constant_value())}")
         print("----------------")
+
+class TimeConstraints(object):
+
+    def __init__(self, ref : pamlt.TimeConstraints, activity_graph : "paml_check.ActivityGraph"):
+        self.ref = ref
+        self.activity_graph = activity_graph
+
+    def extract_time_constraints(self):
+        cc = ConstraintConverter(self)
+        time_constraints = self.ref
+        doc = time_constraints.document
+        count = len(time_constraints.constraints)
+
+        # no constraints were specified
+        if count == 0:
+            # FIXME what shortcut is approriate to return when no constraints are specified?
+            return pysmt.shortcuts.TRUE()
+
+        # exactly one constraint was specified
+        if count == 1:
+            return cc.convert_constraint(time_constraints.constraints)
+
+        # more than one constraint was specified
+        # so fallback to an implicit And
+        warning(f"Time Constraints with identity '{time_constraints.indentity}' provided multiple top level constraints."
+                + "\n  These will be treated as an implicit And operation. This is not recommended.")
+        clauses = [ cc.convert_constraint(tc_ref)
+                    for tc_ref in time_constraints.constraints ]
+        return pysmt.shortcuts.And(clauses)
+
+    def _get_protocol_of_identity(self, identity):
+        org_identity = str(identity)
+
+        while identity not in self.ref.protocols:
+            res = identity.rsplit('/', 1)
+            if len(res) == 1:
+                break
+            identity = res[0]
+        if identity not in self.ref.protocols:
+            raise Exception(f"Failed to find  node for constraint on {org_identity}")
+        return identity
+
+    def identity_to_time_variables(self, identity):
+        return self.activity_graph.protocols[str(self._get_protocol_of_identity(identity))].identity_to_time_variables(str(identity))

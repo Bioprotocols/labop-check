@@ -73,8 +73,8 @@ def get_start_and_end(converter: 'pcc.ConstraintConverter', constraint: uml.Dura
     first = ce[0]
     second = ce[0] if num_elements == 1 else ce[1]
 
-    first_vars = converter.protocol.identity_to_time_variables(first.identity)
-    second_vars = converter.protocol.identity_to_time_variables(second.identity)
+    first_vars = converter.time_constraints.identity_to_time_variables(first.property_value)
+    second_vars = converter.time_constraints.identity_to_time_variables(second.property_value)
     
     # defaults
     start_of_first = True

@@ -1,14 +1,14 @@
 import os
 import sbol3
+import paml
 
 import paml_check.paml_check as pc
 from paml_check.activity_graph import ActivityGraph
 
-paml_spec = "https://raw.githubusercontent.com/SD2E/paml/time/paml/paml.ttl"
-
 def get_doc_from_file(paml_file):
     doc = sbol3.Document()
-    doc.read(paml_file, 'ttl')
+    sbol3.set_namespace('https://bbn.com/scratch/')
+    doc.read(paml_file, 'turtle')
     return doc
 
 
