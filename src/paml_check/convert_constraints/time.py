@@ -31,7 +31,7 @@ def get_min_duration(time_interval: uml.TimeInterval):
     try:
         return time_interval.min.expr.expr
     except Exception as e:
-        raise DurationConstraintException(f"Failed to read min duration from {time_interval.identity}: {e}")
+        raise TimeConstraintException(f"Failed to read min duration from {time_interval.identity}: {e}")
 
 
 def get_max_duration(time_interval: uml.TimeInterval):
@@ -41,7 +41,7 @@ def get_max_duration(time_interval: uml.TimeInterval):
     try:
         return time_interval.max.expr.expr
     except Exception as e:
-        raise DurationConstraintException(f"Failed to read max duration from {time_interval.identity}: {e}")
+        raise TimeConstraintException(f"Failed to read max duration from {time_interval.identity}: {e}")
 
 
 

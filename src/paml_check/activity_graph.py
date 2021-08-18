@@ -10,8 +10,6 @@ from paml_check.constraints import \
     fork_constraint, \
     join_constraint, \
     unary_temporal_constaint, \
-    anytime_before, \
-    determine_time_constraint, \
     duration_constraint
 from paml_check.units import om_convert
 from paml_check.utils import Interval
