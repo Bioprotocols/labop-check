@@ -7,7 +7,4 @@ def test_read_paml():
     doc = sbol3.Document()
     doc.read(paml_file, 'ttl')
     protocols = doc.find_all(lambda obj: isinstance(obj, paml.Protocol))
-    for protocol in protocols:
-        for activity in protocol.activities:
-            print(f"Found activity {activity}")
     assert(protocols)
