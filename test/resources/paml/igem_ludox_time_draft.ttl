@@ -328,9 +328,20 @@
 <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue1/TimeConstraint1> a ns1:TimeConstraint,
         sbol:Identified ;
     ns1:constrainedElement <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue1/TimeConstraint1/ReferencedOrderedPropertyValue1> ;
-    ns1:firstEventValue true ;
+    ns1:firstEventValue <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue1/TimeConstraint1/OrderedPropertyValue1> ;
     ns1:timeSpecification <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue1/TimeConstraint1/TimeInterval1> ;
     sbol:displayId "TimeConstraint1" .
+
+<https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue1/TimeConstraint1/OrderedPropertyValue1> a ns1:OrderedPropertyValue,
+        sbol:Identified ;
+    ns1:indexValue 0 ;
+    ns1:propertyValue <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue1/TimeConstraint1/OrderedPropertyValue1/LiteralBoolean1> ;
+    sbol:displayId "OrderedPropertyValue1" .
+
+<https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue1/TimeConstraint1/OrderedPropertyValue1/LiteralBoolean1> a ns1:LiteralBoolean,
+        sbol:Identified ;
+    ns1:booleanValue true ;
+    sbol:displayId "LiteralBoolean1" .
 
 <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue1/TimeConstraint1/ReferencedOrderedPropertyValue1> a ns2:ReferencedOrderedPropertyValue,
         sbol:Identified ;
@@ -340,8 +351,8 @@
 
 <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue1/TimeConstraint1/TimeInterval1> a ns1:TimeInterval,
         sbol:Identified ;
-    ns1:maxTimeValue <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue1/TimeConstraint1/TimeInterval1/TimeExpression1> ;
-    ns1:minTimeValue <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue1/TimeConstraint1/TimeInterval1/TimeExpression2> ;
+    ns1:maxTimeValue <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue1/TimeConstraint1/TimeInterval1/TimeExpression2> ;
+    ns1:minTimeValue <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue1/TimeConstraint1/TimeInterval1/TimeExpression1> ;
     sbol:displayId "TimeInterval1" .
 
 <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue1/TimeConstraint1/TimeInterval1/TimeExpression1> a ns1:TimeExpression,
@@ -555,8 +566,8 @@
     ns1:constrainedElement <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue5/DurationConstraint1/ReferencedOrderedPropertyValue1>,
         <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue5/DurationConstraint1/ReferencedOrderedPropertyValue2> ;
     ns1:durationSpecification <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue5/DurationConstraint1/DurationInterval1> ;
-    ns1:firstEventValue false,
-        true ;
+    ns1:firstEventValue <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue5/DurationConstraint1/OrderedPropertyValue1>,
+        <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue5/DurationConstraint1/OrderedPropertyValue2> ;
     sbol:displayId "DurationConstraint1" .
 
 <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue5/DurationConstraint1/DurationInterval1> a ns1:DurationInterval,
@@ -596,6 +607,28 @@
     sbol:displayId "Measure1" ;
     om:hasNumericalValue 1e+01 ;
     om:hasUnit om:hour .
+
+<https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue5/DurationConstraint1/OrderedPropertyValue1> a ns1:OrderedPropertyValue,
+        sbol:Identified ;
+    ns1:indexValue 0 ;
+    ns1:propertyValue <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue5/DurationConstraint1/OrderedPropertyValue1/LiteralBoolean1> ;
+    sbol:displayId "OrderedPropertyValue1" .
+
+<https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue5/DurationConstraint1/OrderedPropertyValue1/LiteralBoolean1> a ns1:LiteralBoolean,
+        sbol:Identified ;
+    ns1:booleanValue false ;
+    sbol:displayId "LiteralBoolean1" .
+
+<https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue5/DurationConstraint1/OrderedPropertyValue2> a ns1:OrderedPropertyValue,
+        sbol:Identified ;
+    ns1:indexValue 1 ;
+    ns1:propertyValue <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue5/DurationConstraint1/OrderedPropertyValue2/LiteralBoolean1> ;
+    sbol:displayId "OrderedPropertyValue2" .
+
+<https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue5/DurationConstraint1/OrderedPropertyValue2/LiteralBoolean1> a ns1:LiteralBoolean,
+        sbol:Identified ;
+    ns1:booleanValue true ;
+    sbol:displayId "LiteralBoolean1" .
 
 <https://bbn.com/scratch/ludox_protocol_constraints/AndConstraint1/OrderedPropertyValue5/DurationConstraint1/ReferencedOrderedPropertyValue1> a ns2:ReferencedOrderedPropertyValue,
         sbol:Identified ;

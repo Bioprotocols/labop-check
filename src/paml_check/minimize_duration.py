@@ -35,7 +35,7 @@ class MinimizeDuration():
 
             # Check whether there is a smaller duration below the midpoint
             mid_duration = (infimum_duration + supremum_duration) / 2.0
-            left_duration = self.bounded_check(infimum_duration, mid_duration)
+            left_duration, result = self.bounded_check(infimum_duration, mid_duration)
 
             if left_duration:
                 # Found a smaller duration, update suprememum
@@ -48,8 +48,9 @@ class MinimizeDuration():
             duration = self.minimize(supremum_duration, infimum_duration=infimum_duration)
         else:
             duration = supremum_duration
+            result = None
 
-        return duration
+        return duration, result
 
     def bounded_check(self, infimum_duration, supremum_duration):
         """
@@ -68,4 +69,4 @@ class MinimizeDuration():
         if result:
             duration = self.graph.get_duration(result, self.protocol)
 
-        return duration
+        return duration, result

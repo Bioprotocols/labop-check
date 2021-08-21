@@ -55,5 +55,5 @@ def get_timepoint(converter: 'pcc.ConstraintConverter', constraint: uml.TimeCons
     first = ce[0]
     first_vars = converter.time_constraints.identity_to_time_variables(first.property_value)
 
-    start = first_vars.start if constraint.firstEvent else first_vars.end
+    start = first_vars.start if constraint.firstEvent.property_value.value else first_vars.end
     return start

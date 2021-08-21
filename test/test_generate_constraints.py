@@ -1,9 +1,10 @@
 import os
-import sbol3
-import paml
 
 import paml_check.paml_check as pc
+import sbol3
 from paml_check.activity_graph import ActivityGraph
+from paml_check.schedule import Schedule
+
 
 def get_doc_from_file(paml_file):
     doc = sbol3.Document()
@@ -20,8 +21,9 @@ def test_minimize_duration():
 
 def test_generate_timed_constraints():
     paml_file = os.path.join(os.getcwd(), 'test/resources/paml', 'igem_ludox_time_draft.ttl')
-    result = pc.check_doc(get_doc_from_file(paml_file))
-    assert result
+    schedule = pc.check_doc(get_doc_from_file(paml_file))
+    assert schedule
+    schedule.plot()
 
 
 def test_generate_untimed_constraints():

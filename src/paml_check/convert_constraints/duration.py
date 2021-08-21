@@ -68,10 +68,14 @@ def get_start_and_end(converter: 'pcc.ConstraintConverter', constraint: uml.Dura
     if not 1 <= num_elements <= 2:
         # TODO better error messaging
         raise DurationConstraintException("Expected a constrainted_element count of 1 or 2")
-    
-    # FIXME at the time of writing this there is no guarentee these are in the correct order
-    first = ce[0]
-    second = ce[0] if num_elements == 1 else ce[1]
+
+    for i, elt in enumerate(ce):
+        if elt.index == 0:
+            first = elt
+            first_idx = i
+        if elt.index == 1 or num_elements == 1:
+            second = elt
+            second_idx = i
 
     first_vars = converter.time_constraints.identity_to_time_variables(first.property_value)
     second_vars = converter.time_constraints.identity_to_time_variables(second.property_value)
@@ -86,12 +90,12 @@ def get_start_and_end(converter: 'pcc.ConstraintConverter', constraint: uml.Dura
         if num_event_spec == 0:
             start_of_first = False
             start_of_second = True
-        elif num_event_spec == 1:
-            start_of_first = constraint.firstEvent[0]
-            start_of_second = constraint.firstEvent[0]
-        elif num_event_spec == 2:
-            start_of_first = constraint.firstEvent[0]
-            start_of_second = constraint.firstEvent[1]
+        elif num_event_spec >= 1 and num_event_spec <= 2:
+            for i, elt in enumerate(constraint.firstEvent):
+                if elt.index == 0:
+                    start_of_first = elt.property_value.value
+                if elt.index == 1:
+                    start_of_second = elt.property_value.value
         else:
             raise DurationConstraintException("Expected a firstEvent count of 0 or 1 or 2")
 

@@ -5,6 +5,7 @@ import pysmt.shortcuts
 
 from paml_check.activity_graph import ActivityGraph
 from paml_check.utils import print_debug
+from paml_check.schedule import Schedule
 
 def check_doc(doc):
     """
@@ -13,13 +14,15 @@ def check_doc(doc):
     :return:
     """
     graph = ActivityGraph(doc)
-    graph.print_debug()
+    # graph.print_debug()
 
     formula = graph.generate_constraints()
     result = check(formula)
-    # doc = graph.add_result(doc, result)
-    # doc = graph.compute_durations(doc)
-    return result is not None
+    if result:
+        s = Schedule(result, graph)
+        return s
+    else:
+        return None
 
 def get_minimum_duration(doc):
     """

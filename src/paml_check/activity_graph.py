@@ -1,26 +1,13 @@
 from logging import warning
-import math
+
 import paml
-import sbol3
-import tyto
-import uml
-
-from paml_check.constraints import \
-    binary_temporal_constraint, \
-    fork_constraint, \
-    join_constraint, \
-    unary_temporal_constaint, \
-    duration_constraint
-from paml_check.units import om_convert
-from paml_check.utils import Interval
-from paml_check.minimize_duration import MinimizeDuration
-from paml_check.convert_constraints import ConstraintConverter
-from paml_check.protocol import Protocol, TimeConstraints
-
-import paml_time as pamlt # May be unused but is required to access paml_time values
-
+import paml_time as pamlt  # May be unused but is required to access paml_time values
 import pysmt
 import pysmt.shortcuts
+import sbol3
+from paml_check.minimize_duration import MinimizeDuration
+from paml_check.protocol import Protocol, TimeConstraints
+
 
 class ActivityGraph:
 
@@ -156,7 +143,9 @@ class ActivityGraph:
         if result:
             for protocol_id, protocol in self.protocols.items():
                 # TODO push Protocol object through
-                supremum_duration = self.get_duration(result, protocol.ref)
-                min_duration[protocol_id] = MinimizeDuration(base_formula, self, protocol.ref).minimize(supremum_duration)
+                supremum_duration, upper_bound_result = self.get_duration(result, protocol.ref)
+                minimum_duration, minimum_result = MinimizeDuration(base_formula, self, protocol.ref).minimize(supremum_duration)
+                min_duration[protocol_id] = { "duration" : minimum_duration, "result" : minimum_result }
+
 
         return min_duration

@@ -175,6 +175,9 @@ class Protocol:
 
     def _insert_control_flow(self, edge):
         self.control_flow.append(edge)
+        source = self.identity_to_time_variables(str(edge.source))
+        target = self.identity_to_time_variables(str(edge.target))
+        self._insert_time_edge(source.end, target.start, 0)
 
     def _insert_object_flow(self, edge):
         self.object_flow.append(edge)

@@ -39,13 +39,13 @@ def unary_temporal_constaint(t_p, disjunctive_distance):
 
 def join_constraint(t_join, joined_times):
     """
-    A join step must be equal to one of the preceding timepoints
+    A join step must be after all of the preceding timepoints
     :param t_join:
     :param joined_times:
     :return:
     """
-    constraint = pysmt.shortcuts.Or([
-        pysmt.shortcuts.Equals(t_join, t_j)
+    constraint = pysmt.shortcuts.And([
+        pysmt.shortcuts.GE(t_join, t_j)
         for t_j in joined_times
     ])
     return constraint
@@ -53,13 +53,13 @@ def join_constraint(t_join, joined_times):
 # TODO review this
 def fork_constraint(t_fork, forked_times):
     """
-    A fork step must be equal to all of the preceding timepoints
+    A fork step must be before all of the succeeding timepoints
     :param t_fork:
     :param forked_times:
     :return:
     """
     constraint = pysmt.shortcuts.And([
-        pysmt.shortcuts.Equals(t_fork, t_f)
+        pysmt.shortcuts.LE(t_fork, t_f)
         for t_f in forked_times
     ])
     return constraint
