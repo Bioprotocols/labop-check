@@ -64,7 +64,11 @@ class ActivityGraph:
             print(f"Error during print_variables: {e}")
 
     def to_dot(self):
-        dot = graphviz.Digraph(comment=self.name)
+        dot = graphviz.Digraph(comment=self.name,
+                               strict=True,
+                               graph_attr={"rankdir": "TB",
+                                           "concentrate" : "true"},
+                               node_attr={"ordering": "out"})
         for _, protocol in self.protocols.items():
             protocol_graph = protocol.to_dot()
             dot.body.extend(protocol_graph.body)

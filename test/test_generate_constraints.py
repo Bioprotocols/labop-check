@@ -24,11 +24,10 @@ def test_generate_timed_constraints():
     paml_file = os.path.join(os.getcwd(), 'test/resources/paml', 'igem_ludox_time_draft.ttl')
     schedule, graph = pc.check_doc(get_doc_from_file(paml_file))
     assert schedule
-    schedule.plot()
+    schedule.plot('igem_ludox_time_draft_schedule.pdf')
     dot = graph.to_dot()
-    dot.unflatten(stagger=3)
-    dot.view(tempfile.mktemp('.gv'))
-    dot.render('igem_ludox_time_draft.gv', view=True)
+    #dot.unflatten(stagger=3)
+    dot.render('igem_ludox_time_draft.gv')
 
 
 def test_generate_untimed_constraints():

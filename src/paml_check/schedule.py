@@ -5,7 +5,7 @@ from datetime import date, timedelta
 import plotly.express as px
 import uml
 
-class Schedule():
+class Schedule(object):
 
     def __init__(self, model, graph, start_time=datetime.datetime.utcnow()):
         self.start_time = start_time
@@ -51,9 +51,15 @@ class Schedule():
         ])
         return df
 
-    def plot(self):
+    def plot(self, filename=f"schedule.pdf", show=False):
+        filename = f"{self.activity_graph.name}_schedule.pdf"
         df = self.to_df()
         df.to_csv("plot_data.csv")
         fig = px.timeline(df, x_start="Start", x_end="Finish", y="Task")
         fig.update_yaxes(autorange="reversed")  # otherwise tasks are listed from the bottom up
-        fig.show()
+        with open(filename, "wb") as f:
+            f.write(fig.to_image("pdf", scale=4))
+        if show:
+            fig.show()
+
+        return fig

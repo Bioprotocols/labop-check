@@ -31,7 +31,8 @@ setup(name='paml_check',
           "z3-solver",
           "plotly",
           "pandas",
-          "graphviz"
+          "graphviz",
+          "kaleido"
       ],
       tests_require=["pytest"],
       zip_safe=False
