@@ -51,14 +51,14 @@ class Schedule(object):
         ])
         return df
 
-    def plot(self, filename=f"schedule.pdf", show=False):
-        filename = f"{self.activity_graph.name}_schedule.pdf"
+    def plot(self, filename=None, show=False):
         df = self.to_df()
         df.to_csv("plot_data.csv")
         fig = px.timeline(df, x_start="Start", x_end="Finish", y="Task")
         fig.update_yaxes(autorange="reversed")  # otherwise tasks are listed from the bottom up
-        with open(filename, "wb") as f:
-            f.write(fig.to_image("pdf", scale=4))
+        if filename:
+            with open(filename, "wb") as f:
+                f.write(fig.to_image("pdf", scale=4))
         if show:
             fig.show()
 
