@@ -7,7 +7,7 @@ import pysmt.shortcuts
 import sbol3
 from paml_check.minimize_duration import MinimizeDuration
 from paml_check.protocol import Protocol, TimeConstraints
-
+import graphviz
 
 class ActivityGraph:
 
@@ -20,6 +20,7 @@ class ActivityGraph:
             self.doc = sbol3.Document()
             self.doc.read_string(doc.write_string('ttl'), 'ttl')
 
+        self.name = f"Protcol Document: {doc.graph().identifier}"
         self.epsilon = epsilon
         self.infinity = infinity
         self.variables = {}
@@ -62,6 +63,12 @@ class ActivityGraph:
         except Exception as e:
             print(f"Error during print_variables: {e}")
 
+    def to_dot(self):
+        dot = graphviz.Digraph(comment=self.name)
+        for _, protocol in self.protocols.items():
+            protocol_graph = protocol.to_dot()
+            dot.body.extend(protocol_graph.body)
+        return dot
 
     def generate_constraints(self):
         protocol_constraints = []

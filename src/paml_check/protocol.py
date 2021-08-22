@@ -2,6 +2,7 @@ from logging import warning
 import math
 import paml
 import uml
+import graphviz
 
 from paml_check.constraints import \
     binary_temporal_constraint, \
@@ -24,6 +25,9 @@ class TimeVariable:
         self.name = f"{prefix}:{ref.identity}"
         self.symbol = pysmt.shortcuts.Symbol(self.name, pysmt.shortcuts.REAL)
         self.value = None
+
+    def to_dot(self):
+        return self.name.replace(":", "_")
 
 class TimeVariableGroup(dict):
     DURATION_VARIABLE = 'duration'
@@ -49,7 +53,16 @@ class TimeVariableGroup(dict):
         self._define_time_variable(self.START_TIME_VARIABLE, ref)
         self._define_time_variable(self.END_TIME_VARIABLE, ref)
         self._define_time_variable(self.DURATION_VARIABLE, ref)
+        self.ref = ref
 
+    def to_dot(self):
+        graph = graphviz.Digraph(name=f"cluster_{self.ref.identity}")
+        src = self[self.START_TIME_VARIABLE].to_dot()
+        dest = self[self.END_TIME_VARIABLE].to_dot()
+        graph.node(src)
+        graph.node(dest)
+        graph.edge(src, dest)
+        return graph
 
 class Protocol:
     @property
@@ -100,7 +113,7 @@ class Protocol:
         self.identity_to_ref[self.initial.identity] = self.initial
         self.identity_to_ref[self.final.identity] = self.final
         for node in self.ref.nodes:
-            self.identity_to_ref[ref.identity] = ref
+            self.identity_to_ref[node.identity] = node
 
         # Build time variables
         self.time_edges = []
@@ -119,6 +132,26 @@ class Protocol:
         self.repair_nodes_with_no_in_flow()
         self.repair_nodes_with_no_out_flow()
         self.define_time_variable_group(self.ref)
+
+    def to_dot(self):
+        def _node_name(node):
+            return node.name.replace(":", "_")
+
+        try:
+            dot = graphviz.Digraph(name=self.identity)
+            for edge in self.time_edges:
+                src = edge[0].to_dot()
+                dest = edge[2].to_dot()
+                dot.node(src)
+                dot.node(dest)
+                dot.edge(src, dest, label=str(edge[1]), constraint="False")
+            # Make clusters for each activity
+            for name, tvg in self.time_variable_groups.items():
+                subgraph = tvg.to_dot()
+                dot.subgraph(subgraph)
+        except Exception as e:
+            print(f"Cannot translate to graphviz: {e}")
+        return dot
 
     def collect_time_symbols(self):
         variables = []

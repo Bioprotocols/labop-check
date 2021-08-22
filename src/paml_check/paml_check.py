@@ -20,9 +20,9 @@ def check_doc(doc):
     result = check(formula)
     if result:
         s = Schedule(result, graph)
-        return s
+        return s, graph
     else:
-        return None
+        return None, graph
 
 def get_minimum_duration(doc):
     """
