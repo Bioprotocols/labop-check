@@ -2,6 +2,7 @@ from logging import warning
 import math
 import paml
 import uml
+import graphviz
 
 from paml_check.constraints import \
     binary_temporal_constraint, \
@@ -24,6 +25,9 @@ class TimeVariable:
         self.name = f"{prefix}:{ref.identity}"
         self.symbol = pysmt.shortcuts.Symbol(self.name, pysmt.shortcuts.REAL)
         self.value = None
+
+    def to_dot(self):
+        return self.name.replace(":", "_")
 
 class TimeVariableGroup(dict):
     DURATION_VARIABLE = 'duration'
@@ -49,7 +53,16 @@ class TimeVariableGroup(dict):
         self._define_time_variable(self.START_TIME_VARIABLE, ref)
         self._define_time_variable(self.END_TIME_VARIABLE, ref)
         self._define_time_variable(self.DURATION_VARIABLE, ref)
+        self.ref = ref
 
+    def to_dot(self):
+        graph = graphviz.Digraph(name=f"cluster_{self.ref.identity}")
+        src = self[self.START_TIME_VARIABLE].to_dot()
+        dest = self[self.END_TIME_VARIABLE].to_dot()
+        graph.node(src)
+        graph.node(dest)
+        #graph.edge(src, dest)
+        return graph
 
 class Protocol:
     @property
@@ -100,7 +113,7 @@ class Protocol:
         self.identity_to_ref[self.initial.identity] = self.initial
         self.identity_to_ref[self.final.identity] = self.final
         for node in self.ref.nodes:
-            self.identity_to_ref[ref.identity] = ref
+            self.identity_to_ref[node.identity] = node
 
         # Build time variables
         self.time_edges = []
@@ -116,9 +129,38 @@ class Protocol:
             self._insert_activity_edge(edge)
 
         # Run these last since they depend on the object flow
-        self.repair_nodes_with_no_in_flow()
-        self.repair_nodes_with_no_out_flow()
+        #self.repair_nodes_with_no_in_flow()
+        self.repair_nodes_with_no_out_flow() ## Needed because final node has no in flows currently
+
+        ## Bind protocol start and end times with initial and final nodes
         self.define_time_variable_group(self.ref)
+        self._insert_time_edge(self.time_variable_groups[self.ref.identity].start,
+                               self.time_variable_groups[self.initial.identity].start,
+                               0, max_dur=0)
+        self._insert_time_edge(self.time_variable_groups[self.final.identity].end,
+                               self.time_variable_groups[self.ref.identity].end,
+                               0, max_dur=0)
+
+    def to_dot(self):
+        def _node_name(node):
+            return node.name.replace(":", "_")
+
+        try:
+            dot = graphviz.Digraph(name=self.identity)
+            for edge in self.time_edges:
+                src = edge[0].to_dot()
+                dest = edge[2].to_dot()
+                dot.node(src)
+                dot.node(dest)
+                dot.edge(src, dest, label=str(edge[1]))
+            # Make clusters for each activity
+            for name, tvg in self.time_variable_groups.items():
+                if name != self.ref.identity:  # Don't group the protocol start/end nodes
+                    subgraph = tvg.to_dot()
+                    dot.subgraph(subgraph)
+        except Exception as e:
+            print(f"Cannot translate to graphviz: {e}")
+        return dot
 
     def collect_time_symbols(self):
         variables = []
@@ -158,6 +200,9 @@ class Protocol:
             self._insert_time_edge(tvs.start, tvs.end, self.epsilon)
         else:
             self._insert_time_edge(tvs.start, tvs.end, 0)
+        if node != self.final:
+            self._insert_precedes_final_edge(tvs)
+
         # Handle any type specific inserts
         t = type(node)
         if t not in self.node_func_map:
@@ -173,6 +218,10 @@ class Protocol:
             return
         self.edge_func_map[t](edge)
 
+    def _insert_precedes_final_edge(self, source):
+        target = self.identity_to_time_variables(str(self.final.identity))
+        self._insert_time_edge(source.end, target.start, 0)
+
     def _insert_control_flow(self, edge):
         self.control_flow.append(edge)
         source = self.identity_to_time_variables(str(edge.source))
@@ -185,13 +234,15 @@ class Protocol:
         target = self.identity_to_time_variables(str(edge.target))
         self._insert_time_edge(source.end, target.start, 0)
 
-    def _insert_time_edge(self, start, end, min_d):
-        difference = [[min_d, math.inf]]
+    def _insert_time_edge(self, start, end, min_d, max_dur=math.inf):
+        difference = [[min_d, max_dur]]
         if start.value and end.value:
             d = end.value - start.value
             difference.append([d, d])
         intersected_difference = Interval.intersect(difference)
-        self.time_edges.append((start, [intersected_difference], end))
+        new_edge = (start, [intersected_difference], end)
+        if new_edge not in self.time_edges:
+            self.time_edges.append(new_edge)
 
     def _insert_join(self, node):
         v = self.identity_to_time_variables(node.identity)
@@ -233,9 +284,32 @@ class Protocol:
         end_constraint = pysmt.shortcuts.Equals(protocol_end, final_end)
         return [start_constraint, end_constraint]
 
+    def _make_join_constraints(self):
+        join_constraints = []
+        join_groups = self.find_join_groups()
+        for j, grp in join_groups.items():
+            join_constraints.append(
+                join_constraint(
+                    j.symbol,
+                    [v.symbol for v in grp]
+                )
+            )
+        return join_constraints
+
+    def _make_fork_constraints(self):
+        fork_constraints = []
+        fork_groups = self.find_fork_groups()
+        for f, grp in fork_groups.items():
+            fork_constraints.append(
+                fork_constraint(
+                    f.symbol,
+                    [v.symbol for v in grp]
+                )
+            )
+        return fork_constraints
+
     def generate_constraints(self):
         symbols = self.collect_time_symbols()
-        protocol_constraints = self._make_protocol_constraints()
 
         timepoint_var_domains = [pysmt.shortcuts.And(pysmt.shortcuts.GE(s, pysmt.shortcuts.Real(0.0)),
                                                      pysmt.shortcuts.LE(s, pysmt.shortcuts.Real(self.infinity)))
@@ -246,32 +320,15 @@ class Protocol:
                                                        end.symbol)
                             for (start, disjunctive_distance, end) in self.time_edges]
         
-        join_constraints = []                     
-        join_groups = self.find_join_groups()
-        for j, grp in join_groups.items():
-            join_constraints.append(
-                join_constraint(
-                    j.symbol,
-                    [v.symbol for v in grp]
-                )
-            )
+        join_constraints = self._make_join_constraints()
 
-        fork_constraints = []                     
-        fork_groups = self.find_fork_groups()
-        for f, grp in fork_groups.items():
-            fork_constraints.append(
-                fork_constraint(
-                    f.symbol,
-                    [v.symbol for v in grp]
-                )
-            )
+        #fork_constraints = self._make_fork_constraints()
 
         return pysmt.shortcuts.And( \
             timepoint_var_domains + \
-            time_constraints + \
-            join_constraints + \
-            fork_constraints + \
-            protocol_constraints \
+            time_constraints # +  \
+            # join_constraints # + \
+            # fork_constraints
         )
 
     # TODO remove once final nodes are provided in document

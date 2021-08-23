@@ -44,8 +44,8 @@ def join_constraint(t_join, joined_times):
     :param joined_times:
     :return:
     """
-    constraint = pysmt.shortcuts.And([
-        pysmt.shortcuts.GE(t_join, t_j)
+    constraint = pysmt.shortcuts.Or([
+        pysmt.shortcuts.Equals(t_join, t_j)
         for t_j in joined_times
     ])
     return constraint
