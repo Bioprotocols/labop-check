@@ -1,10 +1,21 @@
-import os
-
-import paml_check.paml_check as pc
-import sbol3
 from paml_check.activity_graph import ActivityGraph
-import tempfile
 from paml_check.schedule import Schedule
+import os
+import sbol3
+import tempfile
+import paml
+import paml_check.paml_check as pc
+import pytest
+
+timed_targets = [
+    'igem_ludox_time_draft.ttl',
+    'igem_ludox_dual_time_draft.ttl'
+]
+untimed_targets = [
+    'igem_ludox_draft.ttl',
+    'igem_ludox_dual_draft.ttl'
+]
+all_targets = timed_targets + untimed_targets
 
 
 def get_doc_from_file(paml_file):
@@ -14,29 +25,35 @@ def get_doc_from_file(paml_file):
     return doc
 
 
-def test_minimize_duration():
-    paml_file = os.path.join(os.getcwd(), 'test/resources/paml', 'igem_ludox_time_draft.ttl')
-    duration = pc.get_minimum_duration(get_doc_from_file(paml_file))
+def get_doc_for_target(target):
+    paml_file = os.path.join(os.getcwd(), 'test/resources/paml', target)
+    return get_doc_from_file(paml_file)
+
+
+@pytest.mark.parametrize("target", timed_targets)
+def test_minimize_duration(target):
+    duration = pc.get_minimum_duration(get_doc_for_target(target))
     assert duration
 
 
-def test_generate_timed_constraints():
-    paml_file = os.path.join(os.getcwd(), 'test/resources/paml', 'igem_ludox_time_draft.ttl')
-    schedule, graph = pc.check_doc(get_doc_from_file(paml_file))
+@pytest.mark.parametrize("target", timed_targets)
+def test_generate_timed_constraints(target):
+    schedule, graph = pc.check_doc(get_doc_for_target(target))
     assert schedule
-    #schedule.plot(filename='igem_ludox_time_draft_schedule.pdf')
-    #dot = graph.to_dot()
-    #dot.render('igem_ludox_time_draft.gv')
+    schedule.plot(filename=f'{target}_schedule.pdf')
+    dot = graph.to_dot()
+    dot.render(f'{target}.gv')
 
 
-def test_generate_untimed_constraints():
-    paml_file = os.path.join(os.getcwd(), 'test/resources/paml', 'igem_ludox_draft.ttl')
-    schedule, graph = pc.check_doc(get_doc_from_file(paml_file))
+@pytest.mark.parametrize("target", untimed_targets)
+def test_generate_untimed_constraints(target):
+    schedule, graph = pc.check_doc(get_doc_for_target(target))
     assert schedule
 
-def test_activity_graph():
-    paml_file = os.path.join(os.getcwd(), 'test/resources/paml', 'igem_ludox_time_draft.ttl')
-    doc = get_doc_from_file(paml_file)
+
+@pytest.mark.parametrize("target", all_targets)
+def test_activity_graph(target):
+    doc = get_doc_for_target(target)
     graph = ActivityGraph(doc)
     formula = graph.generate_constraints()
     result = pc.check(formula)

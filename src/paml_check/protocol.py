@@ -105,8 +105,8 @@ class Protocol:
         self.initial = self.ref.initial()
         self.final = self.ref.final()
 
-        self.forks = []
-        self.joins = []
+        self.fork_groups = {}
+        self.join_groups = {}
 
         # Build identity map
         self.identity_to_ref = {}
@@ -123,10 +123,8 @@ class Protocol:
         for node in self.ref.nodes:
             self.define_time_variable_group(node)
 
-        for node in self.ref.nodes:
-            self._insert_activity_node(node)
-        for edge in self.ref.edges:
-            self._insert_activity_edge(edge)
+        self._insert_nodes()
+        self._insert_edges()
 
         # Run these last since they depend on the object flow
         #self.repair_nodes_with_no_in_flow()
@@ -140,6 +138,14 @@ class Protocol:
         self._insert_time_edge(self.time_variable_groups[self.final.identity].end,
                                self.time_variable_groups[self.ref.identity].end,
                                0, max_dur=0)
+
+    def _insert_nodes(self):
+        for node in self.ref.nodes:
+            self._insert_activity_node(node)
+
+    def _insert_edges(self):
+        for edge in self.ref.edges:
+            self._insert_activity_edge(edge)
 
     def to_dot(self):
         def _node_name(node):
@@ -200,8 +206,8 @@ class Protocol:
             self._insert_time_edge(tvs.start, tvs.end, self.epsilon)
         else:
             self._insert_time_edge(tvs.start, tvs.end, 0)
-        if node != self.final:
-            self._insert_precedes_final_edge(tvs)
+        # if node != self.final:
+        #     self._insert_precedes_final_edge(tvs)
 
         # Handle any type specific inserts
         t = type(node)
@@ -211,6 +217,13 @@ class Protocol:
         self.node_func_map[t](node)
 
     def _insert_activity_edge(self, edge):
+        source = self.identity_to_time_variables(str(edge.source))
+        target = self.identity_to_time_variables(str(edge.target))
+        if target.start in self.join_groups:
+            self.join_groups[target.start].append(source.end)
+        if source.end in self.fork_groups:
+            self.fork_groups[source.end].append(target.start)
+
         # Handle any type specific inserts
         t = type(edge)
         if t not in self.edge_func_map:
@@ -246,11 +259,11 @@ class Protocol:
 
     def _insert_join(self, node):
         v = self.identity_to_time_variables(node.identity)
-        self.joins.append(v.start)
+        self.join_groups[v.start] = []
 
     def _insert_fork(self, node):
         v = self.identity_to_time_variables(node.identity)
-        self.forks.append(v.end)
+        self.fork_groups[v.end] = []
 
     def _insert_initial(self, node):
         self._insert_fork(node)
@@ -260,20 +273,6 @@ class Protocol:
 
     def _insert_call_behavior_action(self, node):
         pass # We currently don't use these for anything type specific
-        
-    def find_fork_groups(self):
-        fork_groups = {f: [] for f in self.forks}
-        for (start, _, end) in self.time_edges:
-            if start in fork_groups:
-                fork_groups[start].append(end)
-        return fork_groups
-
-    def find_join_groups(self):
-        join_groups = {j: [] for j in self.joins}
-        for (start, _, end) in self.time_edges:
-            if end in join_groups:
-                join_groups[end].append(start)
-        return join_groups
 
     def _make_protocol_constraints(self):
         protocol_start = self.time_variables.start.symbol
@@ -286,8 +285,7 @@ class Protocol:
 
     def _make_join_constraints(self):
         join_constraints = []
-        join_groups = self.find_join_groups()
-        for j, grp in join_groups.items():
+        for j, grp in self.join_groups.items():
             join_constraints.append(
                 join_constraint(
                     j.symbol,
@@ -298,8 +296,7 @@ class Protocol:
 
     def _make_fork_constraints(self):
         fork_constraints = []
-        fork_groups = self.find_fork_groups()
-        for f, grp in fork_groups.items():
+        for f, grp in self.fork_groups.items():
             fork_constraints.append(
                 fork_constraint(
                     f.symbol,
@@ -321,14 +318,13 @@ class Protocol:
                             for (start, disjunctive_distance, end) in self.time_edges]
         
         join_constraints = self._make_join_constraints()
-
-        #fork_constraints = self._make_fork_constraints()
+        fork_constraints = self._make_fork_constraints()
 
         return pysmt.shortcuts.And( \
             timepoint_var_domains + \
-            time_constraints # +  \
-            # join_constraints # + \
-            # fork_constraints
+            time_constraints + \
+            join_constraints + \
+            fork_constraints
         )
 
     # TODO remove once final nodes are provided in document
@@ -353,6 +349,10 @@ class Protocol:
                     continue
                 warning(f"  {result.end.ref.identity}--->{final.start.ref.identity}")
                 self._insert_time_edge(result.end, final.start, 0)
+                if final.start in self.join_groups:
+                    self.join_groups[final.start].append(result.end)
+                if result.end in self.fork_groups:
+                    self.fork_groups[result.end].append(final.start)
 
     # TODO remove once initial nodes are provided in document
     def repair_nodes_with_no_in_flow(self):
@@ -376,6 +376,10 @@ class Protocol:
                     continue
                 warning(f"  {initial.end.ref.identity}--->{result.start.ref.identity}")
                 self._insert_time_edge(initial.end, result.start, 0)
+                if result.start in self.join_groups:
+                    self.join_groups[result.start].append(initial.end)
+                if initial.end in self.fork_groups:
+                    self.fork_groups[initial.end].append(result.start)
 
     def link_protocols(self, protocols):
         """
@@ -396,51 +400,59 @@ class Protocol:
                 ## The subprotocol time span equals the calling behavior time span
                 self._insert_time_edge(node_start, sub_protocol_start, 0, max_dur=0)
                 self._insert_time_edge(sub_protocol_end, node_end, 0, max_dur=0)
-
-
+    
     def print_debug(self):
+        def dprint(msg):
+            msg = msg.replace(f":{self.ref.identity}/", " | ")
+            msg = msg.replace(f":{self.ref.identity}", " | Protocol")
+            msg = msg.replace(f"end |", "e |")
+            msg = msg.replace(f"start |", "s |")
+            print(msg)
         try:
-            print("Control Flow")
-            for edge in self.control_flow:
-                print(f"  {edge.identity}")
-            print("----------------")
+            # dprint("Control Flow")
+            # for edge in self.control_flow:
+            #     dprint(f"  {edge.identity}")
+            # dprint("----------------")
 
-            print("Object Flow")
-            for edge in self.object_flow:
-                print(f"  {edge.identity}")
-            print("----------------")
+            # dprint("Object Flow")
+            # for edge in self.object_flow:
+            #     dprint(f"  {edge.identity}")
+            # dprint("----------------")
 
-            print("Time Edges")
+            dprint("  Time Edges")
             for edge in self.time_edges:
-                print(f"  {edge[0].name} ---> {edge[2].name}")
-            print("----------------")
+                dprint(f"    | {edge[0].name}")
+                dprint(f"    v {edge[2].name}\n")
+            print("  ----------------")
 
-            print("Joins")
-            join_groups = self.find_join_groups()
-            for j, grp in join_groups.items():
-                print(f"  {j.name}")
+            dprint("  Joins")
+            for j, grp in self.join_groups.items():
+                dprint(f"    {j.name}")
                 for v in grp:
-                    print(f"    - {v.name}")
-            print("----------------")
+                    dprint(f"      - {v.name}")
+            print("  ----------------")
 
-            print("Forks")
-            fork_groups = self.find_fork_groups()
-            for f, grp in fork_groups.items():
-                print(f"  {f.name}")
+            dprint("  Forks")
+            for f, grp in self.fork_groups.items():
+                dprint(f"    {f.name}")
                 for v in grp:
-                    print(f"    - {v.name}")
-            print("----------------")
+                    dprint(f"      - {v.name}")
+            print("  ----------------")
         except Exception as e:
             print(f"Error during print_debug: {e}")
     
 
     def print_variables(self, model):
-        print("Time Variables")
+        def dprint(msg):
+            msg = msg.replace(f"{self.ref.identity}/", "")
+            print(msg)
+        dprint("  Time Variables")
         for name, grp in self.time_variable_groups.items():
-            print(f"  {name}")
+            dprint(f"    {name}")
             for _, var in grp.items():
-                print(f"    {var.prefix} = {float(model[var.symbol].constant_value())}")
-        print("----------------")
+                dprint(f"      {var.prefix} = {float(model[var.symbol].constant_value())}")
+            print("")
+        print("  ----------------")
 
 class TimeConstraints(object):
 

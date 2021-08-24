@@ -33,7 +33,7 @@ class ActivityGraph:
 
         protocols = self.doc.find_all(lambda obj: isinstance(obj, paml.Protocol))
         time_constraints = self.doc.find_all(lambda obj: isinstance(obj, pamlt.TimeConstraints))
-        # FIXME final_all seems to return duplicates
+        # FIXME find_all seems to return duplicates
         p_count = len(protocols)
         protocols = list(set(protocols))
         if p_count != len(protocols):
