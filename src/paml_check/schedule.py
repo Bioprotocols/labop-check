@@ -53,7 +53,7 @@ class Schedule(object):
 
     def plot(self, filename=None, show=False):
         df = self.to_df()
-        df.to_csv("plot_data.csv")
+        #df.to_csv("plot_data.csv")
         fig = px.timeline(df, x_start="Start", x_end="Finish", y="Task")
         fig.update_yaxes(autorange="reversed")  # otherwise tasks are listed from the bottom up
         if filename:
