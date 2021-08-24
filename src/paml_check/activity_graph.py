@@ -41,6 +41,11 @@ class ActivityGraph:
         for protocol in protocols:
             print(f"Initializing protocol: {protocol.identity}")
             self.protocols[protocol.identity] = Protocol(protocol, self.epsilon, self.infinity)
+
+        ## The protocols will reference each other, but won't be linked in the
+        ## activity graph.  We need to make the links explicit to capture the constraints.
+        self.link_protocols()
+
         for time_constraint in time_constraints:
             print(f"Initializing time constraints: {time_constraint.identity}")
             self.time_constraints[time_constraint.identity] = TimeConstraints(time_constraint, self)
@@ -73,6 +78,10 @@ class ActivityGraph:
             protocol_graph = protocol.to_dot()
             dot.body.extend(protocol_graph.body)
         return dot
+
+    def link_protocols(self):
+        for protocol_id, protocol in self.protocols.items():
+            protocol.link_protocols(self.protocols)
 
     def generate_constraints(self):
         protocol_constraints = []

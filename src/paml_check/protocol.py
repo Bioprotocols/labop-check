@@ -376,7 +376,28 @@ class Protocol:
                     continue
                 warning(f"  {initial.end.ref.identity}--->{result.start.ref.identity}")
                 self._insert_time_edge(initial.end, result.start, 0)
-    
+
+    def link_protocols(self, protocols):
+        """
+        Make time edges between calling behavior and the start and end of the subprotocols.
+        :param protocols:
+        :return:
+        """
+        for node in self.ref.nodes:
+            if isinstance(node, uml.CallBehaviorAction) and \
+               str(node.behavior) in protocols:
+
+                node_start = self.time_variable_groups[node.identity].start
+                node_end = self.time_variable_groups[node.identity].end
+                sub_protocol = protocols[str(node.behavior)]
+                sub_protocol_start = sub_protocol.time_variables.start
+                sub_protocol_end = sub_protocol.time_variables.end
+
+                ## The subprotocol time span equals the calling behavior time span
+                self._insert_time_edge(node_start, sub_protocol_start, 0, max_dur=0)
+                self._insert_time_edge(sub_protocol_end, node_end, 0, max_dur=0)
+
+
     def print_debug(self):
         try:
             print("Control Flow")
