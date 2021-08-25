@@ -40,9 +40,9 @@ def test_minimize_duration(target):
 def test_generate_timed_constraints(target):
     schedule, graph = pc.check_doc(get_doc_for_target(target))
     assert schedule
-    schedule.plot(filename=f'{target}_schedule.pdf')
-    dot = graph.to_dot()
-    dot.render(f'{target}.gv')
+    # schedule.plot(filename=f'{target}_schedule.pdf')
+    # dot = graph.to_dot()
+    # dot.render(f'{target}.gv')
 
 
 @pytest.mark.parametrize("target", untimed_targets)

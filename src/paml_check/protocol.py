@@ -6,7 +6,6 @@ import graphviz
 
 from paml_check.constraints import \
     binary_temporal_constraint, \
-    fork_constraint, \
     join_constraint, \
     unary_temporal_constaint, \
     duration_constraint
@@ -206,8 +205,10 @@ class Protocol:
             self._insert_time_edge(tvs.start, tvs.end, self.epsilon)
         else:
             self._insert_time_edge(tvs.start, tvs.end, 0)
-        # if node != self.final:
-        #     self._insert_precedes_final_edge(tvs)
+        if node != self.initial:
+            self._insert_succeeds_initial_edge(tvs)
+        if node != self.final:
+            self._insert_precedes_final_edge(tvs)
 
         # Handle any type specific inserts
         t = type(node)
@@ -230,6 +231,10 @@ class Protocol:
             warning(f"Skipping processing of edge {edge.identity}. No handler function found.")
             return
         self.edge_func_map[t](edge)
+
+    def _insert_succeeds_initial_edge(self, target):
+        source = self.identity_to_time_variables(str(self.initial.identity))
+        self._insert_time_edge(source.end, target.start, 0)
 
     def _insert_precedes_final_edge(self, source):
         target = self.identity_to_time_variables(str(self.final.identity))
@@ -294,17 +299,6 @@ class Protocol:
             )
         return join_constraints
 
-    def _make_fork_constraints(self):
-        fork_constraints = []
-        for f, grp in self.fork_groups.items():
-            fork_constraints.append(
-                fork_constraint(
-                    f.symbol,
-                    [v.symbol for v in grp]
-                )
-            )
-        return fork_constraints
-
     def generate_constraints(self):
         symbols = self.collect_time_symbols()
 
@@ -318,13 +312,11 @@ class Protocol:
                             for (start, disjunctive_distance, end) in self.time_edges]
         
         join_constraints = self._make_join_constraints()
-        fork_constraints = self._make_fork_constraints()
 
         return pysmt.shortcuts.And( \
             timepoint_var_domains + \
             time_constraints + \
-            join_constraints + \
-            fork_constraints
+            join_constraints
         )
 
     # TODO remove once final nodes are provided in document
