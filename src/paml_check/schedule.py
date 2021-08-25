@@ -60,6 +60,7 @@ class Schedule(object):
             dict(Task=self.activity_pretty_strings[activity], Start=self.start_times[activity], Finish=self.end_times[activity])
             for activity in self.activities
         ])
+        df = df.sort_values(by="Start")
         return df
 
     def plot(self, filename=None, show=False):
