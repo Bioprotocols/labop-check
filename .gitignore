@@ -10,3 +10,8 @@
 
 /build/
 /dist/
+
+*.gv
+*.gv.pdf
+*schedule.pdf
+plot_data.csv
