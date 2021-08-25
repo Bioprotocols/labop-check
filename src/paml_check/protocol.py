@@ -21,7 +21,7 @@ class TimeVariable:
     def __init__(self, prefix, ref):
         self.ref = ref
         self.prefix = prefix
-        self.name = f"{prefix}:{ref.identity}"
+        self.name = f"{prefix}_{ref.identity}"
         self.symbol = pysmt.shortcuts.Symbol(self.name, pysmt.shortcuts.REAL)
         self.value = None
 
@@ -32,6 +32,11 @@ class TimeVariableGroup(dict):
     DURATION_VARIABLE = 'duration'
     START_TIME_VARIABLE = 'start'
     END_TIME_VARIABLE = 'end'
+
+
+    @property
+    def protocol(self):
+        return self._protocol
 
     @property
     def start(self):
@@ -48,19 +53,27 @@ class TimeVariableGroup(dict):
     def _define_time_variable(self, prefix, ref):
         self[prefix] = TimeVariable(prefix, ref)
 
-    def __init__(self, ref):
+    def __init__(self, protocol, ref):
+        self._protocol = protocol
         self._define_time_variable(self.START_TIME_VARIABLE, ref)
         self._define_time_variable(self.END_TIME_VARIABLE, ref)
         self._define_time_variable(self.DURATION_VARIABLE, ref)
         self.ref = ref
 
     def to_dot(self):
-        graph = graphviz.Digraph(name=f"cluster_{self.ref.identity}")
-        src = self[self.START_TIME_VARIABLE].to_dot()
-        dest = self[self.END_TIME_VARIABLE].to_dot()
-        graph.node(src)
-        graph.node(dest)
-        #graph.edge(src, dest)
+        uri = self.protocol.identity.replace(":", "_")
+        def _name_to_label(name):
+            return name.replace(f"_{uri}/", "_")
+
+        graph = graphviz.Digraph(name=f"cluster_{self.ref.identity}",
+                                 graph_attr={
+                                    "label": ""
+                                 })
+        src = self.start.to_dot()
+        dest = self.end.to_dot()
+        graph.node(src, label=_name_to_label(src))
+        graph.node(dest, label=_name_to_label(dest))
+        # graph.edge(src, dest)
         return graph
 
 class Protocol:
@@ -147,17 +160,30 @@ class Protocol:
             self._insert_activity_edge(edge)
 
     def to_dot(self):
-        def _node_name(node):
-            return node.name.replace(":", "_")
+        uri = self.identity.replace(":", "_")
+        def _name_to_label(name):
+            return name.replace(f"_{uri}/", "_").replace(f"{uri}", "protocol")
 
         try:
-            dot = graphviz.Digraph(name=self.identity)
+            dot = graphviz.Digraph(name=f"cluster_{self.identity}",
+                                   graph_attr={
+                                       "label": self.identity
+                                   })
             for edge in self.time_edges:
                 src = edge[0].to_dot()
                 dest = edge[2].to_dot()
-                dot.node(src)
-                dot.node(dest)
-                dot.edge(src, dest, label=str(edge[1]))
+
+                edge_label=[]
+                for dd in edge[1]:
+                    dd0 = dd[0]
+                    dd1 = dd[1]
+                    if dd1 == self.infinity:
+                        dd1 = "\u221e" # infinity symbol
+                    edge_label.append(f"[{dd0},{dd1}]")
+
+                dot.node(src, label=_name_to_label(src))
+                dot.node(dest, label=_name_to_label(dest))
+                dot.edge(src, dest, label=f"[{','.join(edge_label)}]")
             # Make clusters for each activity
             for name, tvg in self.time_variable_groups.items():
                 if name != self.ref.identity:  # Don't group the protocol start/end nodes
@@ -175,7 +201,7 @@ class Protocol:
         return variables
 
     def define_time_variable_group(self, ref):
-        self.time_variable_groups[ref.identity] = TimeVariableGroup(ref)
+        self.time_variable_groups[ref.identity] = TimeVariableGroup(self, ref)
     
     def identity_to_time_variables(self, identity):
         org_identity = str(identity)
@@ -395,8 +421,8 @@ class Protocol:
     
     def print_debug(self):
         def dprint(msg):
-            msg = msg.replace(f":{self.ref.identity}/", " | ")
-            msg = msg.replace(f":{self.ref.identity}", " | Protocol")
+            msg = msg.replace(f"_{self.ref.identity}/", " | ")
+            msg = msg.replace(f"_{self.ref.identity}", " | Protocol")
             msg = msg.replace(f"end |", "e |")
             msg = msg.replace(f"start |", "s |")
             print(msg)
