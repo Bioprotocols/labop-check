@@ -99,7 +99,8 @@ class Protocol:
             uml.ForkNode: self._insert_fork,
             uml.FlowFinalNode: self._insert_final,
             uml.InitialNode: self._insert_initial,
-            uml.CallBehaviorAction: self._insert_call_behavior_action
+            uml.CallBehaviorAction: self._insert_call_behavior_action,
+            uml.ActivityParameterNode: self._insert_activity_parameter
         }
         self.edge_func_map = {
             uml.ControlFlow: self._insert_control_flow,
@@ -304,6 +305,10 @@ class Protocol:
 
     def _insert_call_behavior_action(self, node):
         pass # We currently don't use these for anything type specific
+
+    def _insert_activity_parameter(self, node):
+        pass # We currently don't use these for anything type specific
+
 
     def _make_protocol_constraints(self):
         protocol_start = self.time_variables.start.symbol

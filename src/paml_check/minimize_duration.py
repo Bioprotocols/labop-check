@@ -23,7 +23,7 @@ class MinimizeDuration():
         self.threshold = threshold
         self.end_time_point_var = self.graph.get_end_time_var(self.protocol)
 
-    def minimize(self, supremum_duration, infimum_duration=0.0):
+    def minimize(self, supremum_duration, infimum_duration=0.0, incumbent_result=None):
         """
         Recursive search for minimum duration of a protocol
         :param infimum_duration:
@@ -40,15 +40,18 @@ class MinimizeDuration():
             if left_duration:
                 # Found a smaller duration, update suprememum
                 supremum_duration = left_duration
+                incumbent_result = result
             else:
                 # Did not find a smaller duration, so update infimum
                 infimum_duration = mid_duration
 
             # Recurse on the half that has a possible minimum
-            duration = self.minimize(supremum_duration, infimum_duration=infimum_duration)
+            duration, result = self.minimize(supremum_duration,
+                                             infimum_duration=infimum_duration,
+                                             incumbent_result=incumbent_result)
         else:
             duration = supremum_duration
-            result = None
+            result = incumbent_result
 
         return duration, result
 

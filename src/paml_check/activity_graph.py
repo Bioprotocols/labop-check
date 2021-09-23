@@ -165,7 +165,9 @@ class ActivityGraph:
             for protocol_id, protocol in self.protocols.items():
                 # TODO push Protocol object through
                 supremum_duration = self.get_duration(result, protocol.ref)
-                minimum_duration, minimum_result = MinimizeDuration(base_formula, self, protocol.ref).minimize(supremum_duration)
+                minimum_duration, minimum_result = \
+                    MinimizeDuration(base_formula, self, protocol.ref) \
+                        .minimize(supremum_duration, incumbent_result=result)
                 min_duration[protocol_id] = { "duration" : minimum_duration, "result" : minimum_result }
 
 
