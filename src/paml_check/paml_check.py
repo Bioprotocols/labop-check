@@ -7,6 +7,9 @@ from paml_check.activity_graph import ActivityGraph
 from paml_check.utils import print_debug
 from paml_check.schedule import Schedule
 
+__all__ = ['check_doc']
+
+
 def check_doc(doc):
     """
     Check a paml document for temporal consistency
