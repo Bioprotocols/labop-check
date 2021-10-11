@@ -1,5 +1,3 @@
-from logging import warning
-
 import paml
 import paml_time as pamlt  # May be unused but is required to access paml_time values
 import pysmt
@@ -8,6 +6,12 @@ import sbol3
 from paml_check.minimize_duration import MinimizeDuration
 from paml_check.protocol import Protocol, TimeConstraints
 import graphviz
+
+import logging
+
+l = logging.getLogger(__file__)
+l.setLevel(logging.ERROR)
+
 
 class ActivityGraph:
 
@@ -37,9 +41,9 @@ class ActivityGraph:
         p_count = len(protocols)
         protocols = list(set(protocols))
         if p_count != len(protocols):
-            warning(("Removed duplicate protocols returned from find_all"))
+            l.warning(("Removed duplicate protocols returned from find_all"))
         for protocol in protocols:
-            print(f"Initializing protocol: {protocol.identity}")
+            l.info(f"Initializing protocol: {protocol.identity}")
             self.protocols[protocol.identity] = Protocol(protocol, self.epsilon, self.infinity)
 
         ## The protocols will reference each other, but won't be linked in the
@@ -47,26 +51,26 @@ class ActivityGraph:
         self.link_protocols()
 
         for time_constraint in time_constraints:
-            print(f"Initializing time constraints: {time_constraint.identity}")
+            l.info(f"Initializing time constraints: {time_constraint.identity}")
             self.time_constraints[time_constraint.identity] = TimeConstraints(time_constraint, self)
 
     def print_debug(self):
         try:
             for _, protocol in self.protocols.items():
-                print(f"Protocol: {protocol.identity}")
+                l.debug(f"Protocol: {protocol.identity}")
                 protocol.print_debug()
         except Exception as e:
-            print(f"Error during print_debug: {e}")
+            l.error(f"Error during print_debug: {e}")
 
     def print_variables(self, model):
         try:
-            print("Protocols")
+            l.debug("Protocols")
             for _, protocol in self.protocols.items():
-                print(f"Protocol: {protocol.identity}")
+                l.debug(f"Protocol: {protocol.identity}")
                 protocol.print_variables(model)
-            print("----------------")
+            l.debug("----------------")
         except Exception as e:
-            print(f"Error during print_variables: {e}")
+            l.error(f"Error during print_variables: {e}")
 
     def to_dot(self):
         dot = graphviz.Digraph(comment=self.name,

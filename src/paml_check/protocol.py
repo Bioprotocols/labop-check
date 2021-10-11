@@ -1,4 +1,3 @@
-from logging import warning
 import math
 import paml
 import uml
@@ -16,6 +15,12 @@ from paml_check.convert_constraints import ConstraintConverter
 import paml_time as pamlt # May be unused but is required to access paml_time values
 
 import pysmt
+
+import logging
+
+l = logging.getLogger(__file__)
+l.setLevel(logging.ERROR)
+
 
 class TimeVariable:
     def __init__(self, prefix, ref):
@@ -191,7 +196,7 @@ class Protocol:
                     subgraph = tvg.to_dot()
                     dot.subgraph(subgraph)
         except Exception as e:
-            print(f"Cannot translate to graphviz: {e}")
+            l.error(f"Cannot translate to graphviz: {e}")
         return dot
 
     def collect_time_symbols(self):
@@ -240,7 +245,7 @@ class Protocol:
         # Handle any type specific inserts
         t = type(node)
         if t not in self.node_func_map:
-            warning(f"Skipping processing of node {node.identity}. No handler function found.")
+            l.warning(f"Skipping processing of node {node.identity}. No handler function found.")
             return
         self.node_func_map[t](node)
 
@@ -255,7 +260,7 @@ class Protocol:
         # Handle any type specific inserts
         t = type(edge)
         if t not in self.edge_func_map:
-            warning(f"Skipping processing of edge {edge.identity}. No handler function found.")
+            l.warning(f"Skipping processing of edge {edge.identity}. No handler function found.")
             return
         self.edge_func_map[t](edge)
 
@@ -364,13 +369,13 @@ class Protocol:
             if found is False:
                 results.append(self.identity_to_time_variables(node.identity))
         if len(results) > 0:
-            warning("Repairing out flow")
+            l.warning("Repairing out flow")
             for result in results:
                 if isinstance(result.end.ref, uml.InitialNode):
                     continue
                 if isinstance(result.end.ref, uml.FlowFinalNode):
                     continue
-                warning(f"  {result.end.ref.identity}--->{final.start.ref.identity}")
+                l.warning(f"  {result.end.ref.identity}--->{final.start.ref.identity}")
                 self._insert_time_edge(result.end, final.start, 0)
                 if final.start in self.join_groups:
                     self.join_groups[final.start].append(result.end)
@@ -391,13 +396,13 @@ class Protocol:
             if found is False:
                 results.append(self.identity_to_time_variables(node.identity))
         if len(results) > 0:
-            warning("Repairing in flow")
+            l.warning("Repairing in flow")
             for result in results:
                 if isinstance(result.start.ref, uml.InitialNode):
                     continue
                 if isinstance(result.start.ref, uml.FlowFinalNode):
                     continue
-                warning(f"  {initial.end.ref.identity}--->{result.start.ref.identity}")
+                l.warning(f"  {initial.end.ref.identity}--->{result.start.ref.identity}")
                 self._insert_time_edge(initial.end, result.start, 0)
                 if result.start in self.join_groups:
                     self.join_groups[result.start].append(initial.end)
@@ -430,7 +435,7 @@ class Protocol:
             msg = msg.replace(f"_{self.ref.identity}", " | Protocol")
             msg = msg.replace(f"end |", "e |")
             msg = msg.replace(f"start |", "s |")
-            print(msg)
+            l.debug(msg)
         try:
             # dprint("Control Flow")
             # for edge in self.control_flow:
@@ -446,36 +451,36 @@ class Protocol:
             for edge in self.time_edges:
                 dprint(f"    | {edge[0].name}")
                 dprint(f"    v {edge[2].name}\n")
-            print("  ----------------")
+            l.debug("  ----------------")
 
             dprint("  Joins")
             for j, grp in self.join_groups.items():
                 dprint(f"    {j.name}")
                 for v in grp:
                     dprint(f"      - {v.name}")
-            print("  ----------------")
+            l.debug("  ----------------")
 
             dprint("  Forks")
             for f, grp in self.fork_groups.items():
                 dprint(f"    {f.name}")
                 for v in grp:
                     dprint(f"      - {v.name}")
-            print("  ----------------")
+            l.debug("  ----------------")
         except Exception as e:
-            print(f"Error during print_debug: {e}")
+            l.error(f"Error during print_debug: {e}")
     
 
     def print_variables(self, model):
         def dprint(msg):
             msg = msg.replace(f"{self.ref.identity}/", "")
-            print(msg)
+            l.debug(msg)
         dprint("  Time Variables")
         for name, grp in self.time_variable_groups.items():
             dprint(f"    {name}")
             for _, var in grp.items():
                 dprint(f"      {var.prefix} = {float(model[var.symbol].constant_value())}")
-            print("")
-        print("  ----------------")
+            l.debug("")
+        l.debug("  ----------------")
 
 class TimeConstraints(object):
 
@@ -500,7 +505,7 @@ class TimeConstraints(object):
 
         # more than one constraint was specified
         # so fallback to an implicit And
-        warning(f"Time Constraints with identity '{time_constraints.indentity}' provided multiple top level constraints."
+        l.warning(f"Time Constraints with identity '{time_constraints.indentity}' provided multiple top level constraints."
                 + "\n  These will be treated as an implicit And operation. This is not recommended.")
         clauses = [ cc.convert_constraint(tc_ref)
                     for tc_ref in time_constraints.constraints ]

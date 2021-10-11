@@ -55,10 +55,15 @@ class Schedule(object):
         f_val = float(val.constant_value())
         return self.start_time + timedelta(seconds=f_val)
 
-    def to_df(self):
+    def to_df(self, only_activities=True):
         df = pd.DataFrame([
-            dict(Task=self.activity_pretty_strings[activity], Start=self.start_times[activity], Finish=self.end_times[activity])
+            dict(Task=self.activity_pretty_strings[activity],
+                 Start=self.start_times[activity],
+                 Finish=self.end_times[activity],
+
+                 Activity=activity)
             for activity in self.activities
+            if not only_activities or isinstance(self.activity_graph.doc.find(activity), uml.CallBehaviorAction)
         ])
         df = df.sort_values(by="Start")
         return df

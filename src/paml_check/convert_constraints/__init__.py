@@ -1,9 +1,13 @@
-from logging import warning
 import uml
 import paml_time as pamlt
 import pysmt
 import tyto
 import sbol3
+
+import logging
+
+l = logging.getLogger(__file__)
+l.setLevel(logging.ERROR)
 
 # from paml_check.constraints import \
 #     binary_temporal_constraint, \
@@ -67,7 +71,7 @@ class ConstraintConverter:
         if isinstance(constraint, list) or isinstance(constraint, sbol3.ownedobject.OwnedObjectListProperty):
             if len(constraint) > 1:
                 identities = ','.join([c.indentity for c in constraint])
-                warning(f"Treating list of constraints as an implicit And (for [{identities}])."
+                l.warning(f"Treating list of constraints as an implicit And (for [{identities}])."
                         + "\n  This is not recommended.")
                 clauses = [self._convert_constraint_by_type(c)
                            for c in constraint]
@@ -75,7 +79,7 @@ class ConstraintConverter:
             else:
                 # FIXME this may just be fine to leave as real functionality but for now print a warning
                 constraint = constraint[0]
-                warning(f"Treating list of constraints of length one as a single constraint (for {constraint.identity}).")
+                l.warning(f"Treating list of constraints of length one as a single constraint (for {constraint.identity}).")
         return self._convert_constraint_by_type(constraint)
 
     def convert_expression(self, expression):
