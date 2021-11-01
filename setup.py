@@ -29,7 +29,7 @@ setup(name='paml_check',
           "pysmt",
           "sbol3",
           "z3-solver",
-          "plotly",
+          "plotly>=5.3.1",
           "pandas",
           "graphviz",
           "kaleido"
