@@ -15,3 +15,6 @@
 *.gv.pdf
 *schedule.pdf
 plot_data.csv
+.DS_Store
+tmp.png
+**/__pycache__
