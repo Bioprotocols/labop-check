@@ -12,12 +12,12 @@ def _post_install():
     os.system("pysmt-install --z3 --confirm-agreement")
     os.system("export PYSMT_CYTHON=0")
 
-setup(name='paml_check',
+setup(name='labop_check',
       version='0.1.3',
-      description='PAML Checker',
+      description='LabOP Checker',
       long_description=long_description,
       long_description_content_type='text/markdown',
-      url='https://github.com/SD2E/paml-check',
+      url='https://github.com/SD2E/labop-check',
       author='Dan Bryce',
       author_email='dbryce@sift.net',
       license='MIT',
