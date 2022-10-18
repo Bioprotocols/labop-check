@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+paml-check = {editable = true, path = "."}
+paml = {ref = "f0102179c2494d6f2b785aa9b32b1c6a80604c2f", git = "https://github.com/SD2E/paml.git"}
+pyparsing = "==2.4.7"
+pyshacl = "==0.14.0"
+rdflib = "==5.0.0"
+tyto = "==1.0a5"
+setuptools = "<=57.5.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"

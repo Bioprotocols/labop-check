@@ -29,10 +29,9 @@ setup(name='paml_check',
           "pysmt",
           "sbol3",
           "z3-solver",
-          "plotly>=5.3.1",
+          # "plotly>=5.3.1",
           "pandas",
-          "graphviz",
-          "kaleido"
+          "graphviz"
       ],
       tests_require=["pytest"],
       zip_safe=False

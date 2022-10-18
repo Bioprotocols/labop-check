@@ -1,8 +1,8 @@
 import datetime
 from ast import literal_eval
 import pandas as pd
-from datetime import date, timedelta
-import plotly.express as px
+from datetime import timedelta
+# import plotly.express as px
 import uml
 
 class Schedule(object):
@@ -70,13 +70,13 @@ class Schedule(object):
 
     def plot(self, filename=None, show=False):
         df = self.to_df()
-        #df.to_csv("plot_data.csv")
-        fig = px.timeline(df, x_start="Start", x_end="Finish", y="Task")
-        fig.update_yaxes(autorange="reversed")  # otherwise tasks are listed from the bottom up
-        if filename:
-            with open(filename, "wb") as f:
-                f.write(fig.to_image("pdf", scale=4))
-        if show:
-            fig.show()
+        return df
+        # fig = px.timeline(df, x_start="Start", x_end="Finish", y="Task")
+        # fig.update_yaxes(autorange="reversed")  # otherwise tasks are listed from the bottom up
+        # if filename:
+        #     with open(filename, "wb") as f:
+        #         f.write(fig.to_image("pdf", scale=4))
+        # if show:
+        #     fig.show()
 
-        return fig
+        # return fig
