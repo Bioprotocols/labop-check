@@ -3,63 +3,71 @@ import tempfile
 import unittest
 import filecmp
 import sbol3
-import paml
+import labop
 import tyto
 
-class TestLUDOXDual(unittest.TestCase):
-    paml_file = os.path.join(os.getcwd(), 'test/resources/paml', 'igem_ludox_dual_draft.ttl')
-    paml_format = sbol3.TURTLE
 
-    # @unittest.skipIf(os.path.isfile(paml_file),
+class TestLUDOXDual(unittest.TestCase):
+    labop_file = os.path.join(
+        os.getcwd(), "test/resources/labop", "igem_ludox_dual_draft.ttl"
+    )
+    labop_format = sbol3.TURTLE
+
+    # @unittest.skipIf(os.path.isfile(labop_file),
     #                  "skipped due to local cache")
     def test_create_dual_protocol(self):
         #############################################
         # set up the document
-        print('Setting up document')
+        print("Setting up document")
         doc = sbol3.Document()
-        sbol3.set_namespace('https://bbn.com/scratch/')
+        sbol3.set_namespace("https://bbn.com/scratch/")
 
         #############################################
         # Import the primitive libraries
-        print('Importing libraries')
-        paml.import_library('liquid_handling')
-        print('... Imported liquid handling')
-        paml.import_library('plate_handling')
-        print('... Imported plate handling')
-        paml.import_library('spectrophotometry')
-        print('... Imported spectrophotometry')
-        paml.import_library('sample_arrays')
-        print('... Imported sample arrays')
+        print("Importing libraries")
+        labop.import_library("liquid_handling")
+        print("... Imported liquid handling")
+        labop.import_library("plate_handling")
+        print("... Imported plate handling")
+        labop.import_library("spectrophotometry")
+        print("... Imported spectrophotometry")
+        labop.import_library("sample_arrays")
+        print("... Imported sample arrays")
 
         # create the materials to be provisioned
-        ddh2o = sbol3.Component('ddH2O', 'https://identifiers.org/pubchem.substance:24901740')
-        ddh2o.name = 'Water, sterile-filtered, BioReagent, suitable for cell culture'  # TODO get via tyto
+        ddh2o = sbol3.Component(
+            "ddH2O", "https://identifiers.org/pubchem.substance:24901740"
+        )
+        ddh2o.name = "Water, sterile-filtered, BioReagent, suitable for cell culture"  # TODO get via tyto
         doc.add(ddh2o)
 
-        ludox = sbol3.Component('LUDOX', 'https://identifiers.org/pubchem.substance:24866361')
-        ludox.name = 'LUDOX(R) CL-X colloidal silica, 45 wt. % suspension in H2O'
+        ludox = sbol3.Component(
+            "LUDOX", "https://identifiers.org/pubchem.substance:24866361"
+        )
+        ludox.name = (
+            "LUDOX(R) CL-X colloidal silica, 45 wt. % suspension in H2O"
+        )
         doc.add(ludox)
-
 
         self.create_protocol_a(doc, ddh2o, ludox)
         self.create_protocol_b(doc, ddh2o, ludox)
 
         ########################################
         # Validate and write the document
-        print('Validating and writing protocol')
+        print("Validating and writing protocol")
         v = doc.validate()
-        assert len(v) == 0, "".join(f'\n {e}' for e in v)
+        assert len(v) == 0, "".join(f"\n {e}" for e in v)
 
-        doc.write(self.paml_file, self.paml_format)
-        print(f'Wrote file as {self.paml_file}')
+        doc.write(self.labop_file, self.labop_format)
+        print(f"Wrote file as {self.labop_file}")
 
     def create_protocol_a(self, doc, ddh2o, ludox):
         #############################################
         # Create the protocol
-        print('Creating protocol')
-        protocol = paml.Protocol('iGEM_LUDOX_OD_calibration_2018_A')
+        print("Creating protocol")
+        protocol = labop.Protocol("iGEM_LUDOX_OD_calibration_2018_A")
         protocol.name = "iGEM 2018 LUDOX OD calibration protocol A"
-        protocol.description = '''
+        protocol.description = """
 With this protocol you will use LUDOX CL-X (a 45% colloidal silica suspension) as a single point reference to
 obtain a conversion factor to transform absorbance (OD600) data from your plate reader into a comparable
 OD600 measurement as would be obtained in a spectrophotometer. This conversion is necessary because plate
@@ -69,35 +77,61 @@ spectrophotometer, the path length is fixed and is defined by the width of the c
 Therefore this conversion calculation can transform OD600 measurements from a plate reader (i.e. absorbance
 at 600 nm, the basic output of most instruments) into comparable OD600 measurements. The LUDOX solution
 is only weakly scattering and so will give a low absorbance value.
-        '''
+        """
         doc.add(protocol)
         # actual steps of the protocol
         # get a plate
-        plate = protocol.primitive_step('EmptyContainer', specification=tyto.NCIT.get_uri_by_term('Microplate'))  # replace with container ontology
+        plate = protocol.primitive_step(
+            "EmptyContainer",
+            specification=tyto.NCIT.get_uri_by_term("Microplate"),
+        )  # replace with container ontology
 
         # put ludox and water in selected wells
-        c_ddh2o = protocol.primitive_step('PlateCoordinates', source=plate.output_pin('samples'), coordinates='A1:D1')
-        protocol.primitive_step('Provision', resource=ludox, destination=c_ddh2o.output_pin('samples'),
-                                amount=sbol3.Measure(100, tyto.OM.microliter))
+        c_ddh2o = protocol.primitive_step(
+            "PlateCoordinates",
+            source=plate.output_pin("samples"),
+            coordinates="A1:D1",
+        )
+        protocol.primitive_step(
+            "Provision",
+            resource=ludox,
+            destination=c_ddh2o.output_pin("samples"),
+            amount=sbol3.Measure(100, tyto.OM.microliter),
+        )
 
-        c_ludox = protocol.primitive_step('PlateCoordinates', source=plate.output_pin('samples'), coordinates='A2:D2')
-        protocol.primitive_step('Provision', resource=ddh2o, destination=c_ludox.output_pin('samples'),
-                                amount=sbol3.Measure(100, tyto.OM.microliter))
+        c_ludox = protocol.primitive_step(
+            "PlateCoordinates",
+            source=plate.output_pin("samples"),
+            coordinates="A2:D2",
+        )
+        protocol.primitive_step(
+            "Provision",
+            resource=ddh2o,
+            destination=c_ludox.output_pin("samples"),
+            amount=sbol3.Measure(100, tyto.OM.microliter),
+        )
 
         # measure the absorbance
-        c_measure = protocol.primitive_step('PlateCoordinates', source=plate.output_pin('samples'), coordinates='A1:D2')
-        measure = protocol.primitive_step('MeasureAbsorbance', samples=c_measure.output_pin('samples'),
-                                          wavelength=sbol3.Measure(600, tyto.OM.nanometer))
+        c_measure = protocol.primitive_step(
+            "PlateCoordinates",
+            source=plate.output_pin("samples"),
+            coordinates="A1:D2",
+        )
+        measure = protocol.primitive_step(
+            "MeasureAbsorbance",
+            samples=c_measure.output_pin("samples"),
+            wavelength=sbol3.Measure(600, tyto.OM.nanometer),
+        )
 
-        protocol.add_output('absorbance', measure.output_pin('measurements'))
+        protocol.add_output("absorbance", measure.output_pin("measurements"))
 
     def create_protocol_b(self, doc, ddh2o, ludox):
         #############################################
         # Create the protocol
-        print('Creating protocol')
-        protocol = paml.Protocol('iGEM_LUDOX_OD_calibration_2018_B')
+        print("Creating protocol")
+        protocol = labop.Protocol("iGEM_LUDOX_OD_calibration_2018_B")
         protocol.name = "iGEM 2018 LUDOX OD calibration protocol B"
-        protocol.description = '''
+        protocol.description = """
 With this protocol you will use LUDOX CL-X (a 45% colloidal silica suspension) as a single point reference to
 obtain a conversion factor to transform absorbance (OD600) data from your plate reader into a comparable
 OD600 measurement as would be obtained in a spectrophotometer. This conversion is necessary because plate
@@ -107,29 +141,55 @@ spectrophotometer, the path length is fixed and is defined by the width of the c
 Therefore this conversion calculation can transform OD600 measurements from a plate reader (i.e. absorbance
 at 600 nm, the basic output of most instruments) into comparable OD600 measurements. The LUDOX solution
 is only weakly scattering and so will give a low absorbance value.
-        '''
+        """
         doc.add(protocol)
 
         # actual steps of the protocol
         # get a plate
-        plate = protocol.primitive_step('EmptyContainer', specification=tyto.NCIT.get_uri_by_term('Microplate'))  # replace with container ontology
+        plate = protocol.primitive_step(
+            "EmptyContainer",
+            specification=tyto.NCIT.get_uri_by_term("Microplate"),
+        )  # replace with container ontology
 
         # put ludox and water in selected wells
-        c_ddh2o = protocol.primitive_step('PlateCoordinates', source=plate.output_pin('samples'), coordinates='A1:D1')
-        protocol.primitive_step('Provision', resource=ludox, destination=c_ddh2o.output_pin('samples'),
-                                amount=sbol3.Measure(100, tyto.OM.microliter))
+        c_ddh2o = protocol.primitive_step(
+            "PlateCoordinates",
+            source=plate.output_pin("samples"),
+            coordinates="A1:D1",
+        )
+        protocol.primitive_step(
+            "Provision",
+            resource=ludox,
+            destination=c_ddh2o.output_pin("samples"),
+            amount=sbol3.Measure(100, tyto.OM.microliter),
+        )
 
-        c_ludox = protocol.primitive_step('PlateCoordinates', source=plate.output_pin('samples'), coordinates='A2:D2')
-        protocol.primitive_step('Provision', resource=ddh2o, destination=c_ludox.output_pin('samples'),
-                                amount=sbol3.Measure(100, tyto.OM.microliter))
+        c_ludox = protocol.primitive_step(
+            "PlateCoordinates",
+            source=plate.output_pin("samples"),
+            coordinates="A2:D2",
+        )
+        protocol.primitive_step(
+            "Provision",
+            resource=ddh2o,
+            destination=c_ludox.output_pin("samples"),
+            amount=sbol3.Measure(100, tyto.OM.microliter),
+        )
 
         # measure the absorbance
-        c_measure = protocol.primitive_step('PlateCoordinates', source=plate.output_pin('samples'), coordinates='A1:D2')
-        measure = protocol.primitive_step('MeasureAbsorbance', samples=c_measure.output_pin('samples'),
-                                          wavelength=sbol3.Measure(600, tyto.OM.nanometer))
+        c_measure = protocol.primitive_step(
+            "PlateCoordinates",
+            source=plate.output_pin("samples"),
+            coordinates="A1:D2",
+        )
+        measure = protocol.primitive_step(
+            "MeasureAbsorbance",
+            samples=c_measure.output_pin("samples"),
+            wavelength=sbol3.Measure(600, tyto.OM.nanometer),
+        )
 
-        protocol.add_output('absorbance', measure.output_pin('measurements'))
+        protocol.add_output("absorbance", measure.output_pin("measurements"))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
-    

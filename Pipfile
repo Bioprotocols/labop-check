@@ -4,8 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-paml-check = {editable = true, path = "."}
-paml = {ref = "f0102179c2494d6f2b785aa9b32b1c6a80604c2f", git = "https://github.com/SD2E/paml.git"}
+labop-check = {editable = true, path = "."}
+labop = {ref = "f0102179c2494d6f2b785aa9b32b1c6a80604c2f", git = "https://github.com/SD2E/labop.git"}
 pyparsing = "==2.4.7"
 pyshacl = "==0.14.0"
 rdflib = "==5.0.0"

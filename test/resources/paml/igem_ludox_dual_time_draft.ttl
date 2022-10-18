@@ -1,5 +1,5 @@
 @prefix ns1: <http://bioprotocols.org/uml#> .
-@prefix ns2: <http://bioprotocols.org/paml-time#> .
+@prefix ns2: <http://bioprotocols.org/labop-time#> .
 @prefix om: <http://www.ontology-of-units-of-measure.org/resource/om-2/> .
 @prefix sbol: <http://sbols.org/v3#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -1218,275 +1218,275 @@
     ns1:indexValue 1 ;
     sbol:displayId "ReferencedOrderedPropertyValue2" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1> a ns1:Parameter,
+<https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter1> a ns1:Parameter,
         sbol:Identified ;
     ns1:direction ns1:in ;
     ns1:isOrdered true ;
     ns1:isUnique true ;
-    ns1:lowerValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1/LiteralInteger2> ;
+    ns1:lowerValue <https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter1/LiteralInteger2> ;
     ns1:type sbol:Component ;
-    ns1:upperValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1/LiteralInteger1> ;
+    ns1:upperValue <https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter1/LiteralInteger1> ;
     sbol:displayId "Parameter1" ;
     sbol:name "resource" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1/LiteralInteger1> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter1/LiteralInteger1> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger1" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1/LiteralInteger2> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter1/LiteralInteger2> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2> a ns1:Parameter,
+<https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter2> a ns1:Parameter,
         sbol:Identified ;
     ns1:direction ns1:in ;
     ns1:isOrdered true ;
     ns1:isUnique true ;
-    ns1:lowerValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2/LiteralInteger2> ;
-    ns1:type <http://bioprotocols.org/paml#SampleCollection> ;
-    ns1:upperValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2/LiteralInteger1> ;
+    ns1:lowerValue <https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter2/LiteralInteger2> ;
+    ns1:type <http://bioprotocols.org/labop#SampleCollection> ;
+    ns1:upperValue <https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter2/LiteralInteger1> ;
     sbol:displayId "Parameter2" ;
     sbol:name "destination" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2/LiteralInteger1> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter2/LiteralInteger1> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger1" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2/LiteralInteger2> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter2/LiteralInteger2> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter3> a ns1:Parameter,
+<https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter3> a ns1:Parameter,
         sbol:Identified ;
     ns1:direction ns1:in ;
     ns1:isOrdered true ;
     ns1:isUnique true ;
-    ns1:lowerValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter3/LiteralInteger2> ;
+    ns1:lowerValue <https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter3/LiteralInteger2> ;
     ns1:type om:Measure ;
-    ns1:upperValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter3/LiteralInteger1> ;
+    ns1:upperValue <https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter3/LiteralInteger1> ;
     sbol:displayId "Parameter3" ;
     sbol:name "amount" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter3/LiteralInteger1> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter3/LiteralInteger1> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger1" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter3/LiteralInteger2> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter3/LiteralInteger2> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter4> a ns1:Parameter,
+<https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter4> a ns1:Parameter,
         sbol:Identified ;
     ns1:direction ns1:in ;
     ns1:isOrdered true ;
     ns1:isUnique true ;
-    ns1:lowerValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter4/LiteralInteger2> ;
+    ns1:lowerValue <https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter4/LiteralInteger2> ;
     ns1:type om:Measure ;
-    ns1:upperValue <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter4/LiteralInteger1> ;
+    ns1:upperValue <https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter4/LiteralInteger1> ;
     sbol:displayId "Parameter4" ;
     sbol:name "dispenseVelocity" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter4/LiteralInteger1> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter4/LiteralInteger1> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger1" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter4/LiteralInteger2> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter4/LiteralInteger2> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 0 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1> a ns1:Parameter,
+<https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer/Parameter1> a ns1:Parameter,
         sbol:Identified ;
     ns1:direction ns1:in ;
     ns1:isOrdered true ;
     ns1:isUnique true ;
-    ns1:lowerValue <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1/LiteralInteger2> ;
+    ns1:lowerValue <https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer/Parameter1/LiteralInteger2> ;
     ns1:type sbol:Identified ;
-    ns1:upperValue <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1/LiteralInteger1> ;
+    ns1:upperValue <https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer/Parameter1/LiteralInteger1> ;
     sbol:displayId "Parameter1" ;
     sbol:name "specification" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1/LiteralInteger1> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer/Parameter1/LiteralInteger1> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger1" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1/LiteralInteger2> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer/Parameter1/LiteralInteger2> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter2> a ns1:Parameter,
+<https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer/Parameter2> a ns1:Parameter,
         sbol:Identified ;
     ns1:direction ns1:out ;
     ns1:isOrdered true ;
     ns1:isUnique true ;
-    ns1:lowerValue <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter2/LiteralInteger2> ;
-    ns1:type <http://bioprotocols.org/paml#SampleArray> ;
-    ns1:upperValue <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter2/LiteralInteger1> ;
+    ns1:lowerValue <https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer/Parameter2/LiteralInteger2> ;
+    ns1:type <http://bioprotocols.org/labop#SampleArray> ;
+    ns1:upperValue <https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer/Parameter2/LiteralInteger1> ;
     sbol:displayId "Parameter2" ;
     sbol:name "samples" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter2/LiteralInteger1> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer/Parameter2/LiteralInteger1> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger1" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter2/LiteralInteger2> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer/Parameter2/LiteralInteger2> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1> a ns1:Parameter,
+<https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter1> a ns1:Parameter,
         sbol:Identified ;
     ns1:direction ns1:in ;
     ns1:isOrdered true ;
     ns1:isUnique true ;
-    ns1:lowerValue <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1/LiteralInteger2> ;
-    ns1:type <http://bioprotocols.org/paml#SampleCollection> ;
-    ns1:upperValue <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1/LiteralInteger1> ;
+    ns1:lowerValue <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter1/LiteralInteger2> ;
+    ns1:type <http://bioprotocols.org/labop#SampleCollection> ;
+    ns1:upperValue <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter1/LiteralInteger1> ;
     sbol:displayId "Parameter1" ;
     sbol:name "source" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1/LiteralInteger1> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter1/LiteralInteger1> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger1" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1/LiteralInteger2> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter1/LiteralInteger2> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter2> a ns1:Parameter,
+<https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter2> a ns1:Parameter,
         sbol:Identified ;
     ns1:direction ns1:in ;
     ns1:isOrdered true ;
     ns1:isUnique true ;
-    ns1:lowerValue <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter2/LiteralInteger2> ;
+    ns1:lowerValue <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter2/LiteralInteger2> ;
     ns1:type ns1:ValueSpecification ;
-    ns1:upperValue <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter2/LiteralInteger1> ;
+    ns1:upperValue <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter2/LiteralInteger1> ;
     sbol:displayId "Parameter2" ;
     sbol:name "coordinates" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter2/LiteralInteger1> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter2/LiteralInteger1> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger1" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter2/LiteralInteger2> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter2/LiteralInteger2> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter3> a ns1:Parameter,
+<https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter3> a ns1:Parameter,
         sbol:Identified ;
     ns1:direction ns1:out ;
     ns1:isOrdered true ;
     ns1:isUnique true ;
-    ns1:lowerValue <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter3/LiteralInteger2> ;
-    ns1:type <http://bioprotocols.org/paml#SampleCollection> ;
-    ns1:upperValue <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter3/LiteralInteger1> ;
+    ns1:lowerValue <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter3/LiteralInteger2> ;
+    ns1:type <http://bioprotocols.org/labop#SampleCollection> ;
+    ns1:upperValue <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter3/LiteralInteger1> ;
     sbol:displayId "Parameter3" ;
     sbol:name "samples" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter3/LiteralInteger1> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter3/LiteralInteger1> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger1" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter3/LiteralInteger2> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter3/LiteralInteger2> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1> a ns1:Parameter,
+<https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter1> a ns1:Parameter,
         sbol:Identified ;
     ns1:direction ns1:in ;
     ns1:isOrdered true ;
     ns1:isUnique true ;
-    ns1:lowerValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1/LiteralInteger2> ;
-    ns1:type <http://bioprotocols.org/paml#SampleCollection> ;
-    ns1:upperValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1/LiteralInteger1> ;
+    ns1:lowerValue <https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter1/LiteralInteger2> ;
+    ns1:type <http://bioprotocols.org/labop#SampleCollection> ;
+    ns1:upperValue <https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter1/LiteralInteger1> ;
     sbol:displayId "Parameter1" ;
     sbol:name "samples" .
 
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1/LiteralInteger1> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter1/LiteralInteger1> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger1" .
 
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1/LiteralInteger2> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter1/LiteralInteger2> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter2> a ns1:Parameter,
+<https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter2> a ns1:Parameter,
         sbol:Identified ;
     ns1:direction ns1:in ;
     ns1:isOrdered true ;
     ns1:isUnique true ;
-    ns1:lowerValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter2/LiteralInteger2> ;
+    ns1:lowerValue <https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter2/LiteralInteger2> ;
     ns1:type om:Measure ;
-    ns1:upperValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter2/LiteralInteger1> ;
+    ns1:upperValue <https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter2/LiteralInteger1> ;
     sbol:displayId "Parameter2" ;
     sbol:name "wavelength" .
 
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter2/LiteralInteger1> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter2/LiteralInteger1> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger1" .
 
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter2/LiteralInteger2> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter2/LiteralInteger2> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter3> a ns1:Parameter,
+<https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter3> a ns1:Parameter,
         sbol:Identified ;
     ns1:direction ns1:in ;
     ns1:isOrdered true ;
     ns1:isUnique true ;
-    ns1:lowerValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter3/LiteralInteger2> ;
+    ns1:lowerValue <https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter3/LiteralInteger2> ;
     ns1:type xsd:integer ;
-    ns1:upperValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter3/LiteralInteger1> ;
+    ns1:upperValue <https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter3/LiteralInteger1> ;
     sbol:displayId "Parameter3" ;
     sbol:name "numFlashes" .
 
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter3/LiteralInteger1> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter3/LiteralInteger1> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger1" .
 
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter3/LiteralInteger2> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter3/LiteralInteger2> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 0 ;
     sbol:displayId "LiteralInteger2" .
 
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4> a ns1:Parameter,
+<https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter4> a ns1:Parameter,
         sbol:Identified ;
     ns1:direction ns1:out ;
     ns1:isOrdered true ;
     ns1:isUnique true ;
-    ns1:lowerValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4/LiteralInteger2> ;
-    ns1:type <http://bioprotocols.org/paml#SampleData> ;
-    ns1:upperValue <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4/LiteralInteger1> ;
+    ns1:lowerValue <https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter4/LiteralInteger2> ;
+    ns1:type <http://bioprotocols.org/labop#SampleData> ;
+    ns1:upperValue <https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter4/LiteralInteger1> ;
     sbol:displayId "Parameter4" ;
     sbol:name "measurements" .
 
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4/LiteralInteger1> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter4/LiteralInteger1> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger1" .
 
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4/LiteralInteger2> a ns1:LiteralInteger,
+<https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter4/LiteralInteger2> a ns1:LiteralInteger,
         sbol:Identified ;
     ns1:integerValue 1 ;
     sbol:displayId "LiteralInteger2" .
@@ -1503,7 +1503,7 @@
     sbol:name "Water, sterile-filtered, BioReagent, suitable for cell culture" ;
     sbol:type <https://identifiers.org/pubchem.substance:24901740> .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A> a <http://bioprotocols.org/paml#Protocol>,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A> a <http://bioprotocols.org/labop#Protocol>,
         sbol:TopLevel ;
     ns1:edge <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/ControlFlow1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/ControlFlow2>,
@@ -1618,7 +1618,7 @@ is only weakly scattering and so will give a low absorbance value.
         sbol:Identified ;
     sbol:displayId "InitialNode1" .
 
-<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B> a <http://bioprotocols.org/paml#Protocol>,
+<https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B> a <http://bioprotocols.org/labop#Protocol>,
         sbol:TopLevel ;
     ns1:edge <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/ControlFlow1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/ControlFlow2>,
@@ -1733,34 +1733,34 @@ is only weakly scattering and so will give a low absorbance value.
         sbol:Identified ;
     sbol:displayId "InitialNode1" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer> a <http://bioprotocols.org/paml#Primitive>,
+<https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer> a <http://bioprotocols.org/labop#Primitive>,
         sbol:TopLevel ;
-    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter1>,
-        <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer/Parameter2> ;
+    ns1:ownedParameter <https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer/Parameter1>,
+        <https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer/Parameter2> ;
     sbol:description "Allocate a sample array with size and type based on an empty container" ;
     sbol:displayId "EmptyContainer" ;
-    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/sample_arrays> .
+    sbol:hasNamespace <https://bioprotocols.org/labop/primitives/sample_arrays> .
 
-<https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance> a <http://bioprotocols.org/paml#Primitive>,
+<https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance> a <http://bioprotocols.org/labop#Primitive>,
         sbol:TopLevel ;
-    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter1>,
-        <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter2>,
-        <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter3>,
-        <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance/Parameter4> ;
+    ns1:ownedParameter <https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter1>,
+        <https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter2>,
+        <https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter3>,
+        <https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance/Parameter4> ;
     sbol:description "Measure absorbance at a given wavelength from a set of samples" ;
     sbol:displayId "MeasureAbsorbance" ;
-    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/spectrophotometry> .
+    sbol:hasNamespace <https://bioprotocols.org/labop/primitives/spectrophotometry> .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction1> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer> ;
+    ns1:behavior <https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction1/ValuePin1> ;
     ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction1/OutputPin1> ;
     sbol:displayId "CallBehaviorAction1" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction2> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
+    ns1:behavior <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction2/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction2/ValuePin1> ;
     ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction2/OutputPin1> ;
@@ -1768,7 +1768,7 @@ is only weakly scattering and so will give a low absorbance value.
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction4> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
+    ns1:behavior <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction4/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction4/ValuePin1> ;
     ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction4/OutputPin1> ;
@@ -1776,7 +1776,7 @@ is only weakly scattering and so will give a low absorbance value.
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction6> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
+    ns1:behavior <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction6/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction6/ValuePin1> ;
     ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction6/OutputPin1> ;
@@ -1784,7 +1784,7 @@ is only weakly scattering and so will give a low absorbance value.
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction7> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance> ;
+    ns1:behavior <https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction7/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction7/InputPin2>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction7/ValuePin1> ;
@@ -1793,14 +1793,14 @@ is only weakly scattering and so will give a low absorbance value.
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction1> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/EmptyContainer> ;
+    ns1:behavior <https://bioprotocols.org/labop/primitives/sample_arrays/EmptyContainer> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction1/ValuePin1> ;
     ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction1/OutputPin1> ;
     sbol:displayId "CallBehaviorAction1" .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction2> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
+    ns1:behavior <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction2/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction2/ValuePin1> ;
     ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction2/OutputPin1> ;
@@ -1808,7 +1808,7 @@ is only weakly scattering and so will give a low absorbance value.
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction4> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
+    ns1:behavior <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction4/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction4/ValuePin1> ;
     ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction4/OutputPin1> ;
@@ -1816,7 +1816,7 @@ is only weakly scattering and so will give a low absorbance value.
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction6> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> ;
+    ns1:behavior <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction6/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction6/ValuePin1> ;
     ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction6/OutputPin1> ;
@@ -1824,26 +1824,26 @@ is only weakly scattering and so will give a low absorbance value.
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction7> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/spectrophotometry/MeasureAbsorbance> ;
+    ns1:behavior <https://bioprotocols.org/labop/primitives/spectrophotometry/MeasureAbsorbance> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction7/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction7/InputPin2>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction7/ValuePin1> ;
     ns1:output <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction7/OutputPin1> ;
     sbol:displayId "CallBehaviorAction7" .
 
-<https://bioprotocols.org/paml/primitives/liquid_handling/Provision> a <http://bioprotocols.org/paml#Primitive>,
+<https://bioprotocols.org/labop/primitives/liquid_handling/Provision> a <http://bioprotocols.org/labop#Primitive>,
         sbol:TopLevel ;
-    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter1>,
-        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter2>,
-        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter3>,
-        <https://bioprotocols.org/paml/primitives/liquid_handling/Provision/Parameter4> ;
+    ns1:ownedParameter <https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter1>,
+        <https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter2>,
+        <https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter3>,
+        <https://bioprotocols.org/labop/primitives/liquid_handling/Provision/Parameter4> ;
     sbol:description "Place a measured amount (mass or volume) of a specified component into a location, where it may then be used in executing the protocol." ;
     sbol:displayId "Provision" ;
-    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/liquid_handling> .
+    sbol:hasNamespace <https://bioprotocols.org/labop/primitives/liquid_handling> .
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction3> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/liquid_handling/Provision> ;
+    ns1:behavior <https://bioprotocols.org/labop/primitives/liquid_handling/Provision> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction3/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction3/InputPin2>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction3/ValuePin1>,
@@ -1852,7 +1852,7 @@ is only weakly scattering and so will give a low absorbance value.
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction5> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/liquid_handling/Provision> ;
+    ns1:behavior <https://bioprotocols.org/labop/primitives/liquid_handling/Provision> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction5/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction5/InputPin2>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_A/CallBehaviorAction5/ValuePin1>,
@@ -1865,7 +1865,7 @@ is only weakly scattering and so will give a low absorbance value.
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction3> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/liquid_handling/Provision> ;
+    ns1:behavior <https://bioprotocols.org/labop/primitives/liquid_handling/Provision> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction3/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction3/InputPin2>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction3/ValuePin1>,
@@ -1874,7 +1874,7 @@ is only weakly scattering and so will give a low absorbance value.
 
 <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction5> a ns1:CallBehaviorAction,
         sbol:Identified ;
-    ns1:behavior <https://bioprotocols.org/paml/primitives/liquid_handling/Provision> ;
+    ns1:behavior <https://bioprotocols.org/labop/primitives/liquid_handling/Provision> ;
     ns1:input <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction5/InputPin1>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction5/InputPin2>,
         <https://bbn.com/scratch/iGEM_LUDOX_OD_calibration_2018_B/CallBehaviorAction5/ValuePin1>,
@@ -1885,12 +1885,12 @@ is only weakly scattering and so will give a low absorbance value.
         sbol:Identified ;
     sbol:displayId "ForkNode1" .
 
-<https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates> a <http://bioprotocols.org/paml#Primitive>,
+<https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates> a <http://bioprotocols.org/labop#Primitive>,
         sbol:TopLevel ;
-    ns1:ownedParameter <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter1>,
-        <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter2>,
-        <https://bioprotocols.org/paml/primitives/sample_arrays/PlateCoordinates/Parameter3> ;
+    ns1:ownedParameter <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter1>,
+        <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter2>,
+        <https://bioprotocols.org/labop/primitives/sample_arrays/PlateCoordinates/Parameter3> ;
     sbol:description "Select only the samples with specified row/column combination from a sample collection" ;
     sbol:displayId "PlateCoordinates" ;
-    sbol:hasNamespace <https://bioprotocols.org/paml/primitives/sample_arrays> .
+    sbol:hasNamespace <https://bioprotocols.org/labop/primitives/sample_arrays> .
 
