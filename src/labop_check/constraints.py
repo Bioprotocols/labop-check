@@ -39,7 +39,7 @@ def unary_temporal_constaint(t_p, disjunctive_distance):
 
 def join_constraint(t_join, joined_times):
     """
-    A join step must be equal to one of the preceding timepoints
+    A join step must be after all of the preceding timepoints
     :param t_join:
     :param joined_times:
     :return:
@@ -66,3 +66,15 @@ def time_points_happen_once_constraint(timepoint_vars, happenings):
         for _, t in timepoint_vars.items()
     ])
     return constraint
+
+def duration_constraint(start, end, duration):
+    #constraint = pysmt.shortcuts.Equals(duration,
+    #                              pysmt.shortcuts.Minus(end, start))
+    constraint = pysmt.shortcuts.And(pysmt.shortcuts.LE(duration,
+                                                            pysmt.shortcuts.Minus(end, start)),
+                                     pysmt.shortcuts.GE(duration,
+                                                             pysmt.shortcuts.Minus(end, start)))
+
+    return constraint
+
+
